@@ -5,6 +5,7 @@ import type { Identifier, ImportDeclaration, Program, StringLiteral } from "@bab
 import { declare } from "@babel/helper-plugin-utils";
 
 export default declare<{}, Babel.PluginObj>((api) => {
+  api.assertVersion("^7.0.0 || ^8.0.0");
   return {
     visitor: {
       ImportDeclaration(path) {
