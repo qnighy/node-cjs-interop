@@ -5,6 +5,64 @@ exports[`babel-plugin-import-interop-only doesn't wrap named imports 1`] = `
 console.log(f);"
 `;
 
+exports[`babel-plugin-import-interop-only source filtering allows specifying scoped packages 1`] = `
+"const _bar = _interopRequireDefault(bar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+import foo from \\"@foo/foo\\";
+import bar from \\"@foo/bar\\";
+import baz from \\"baz\\";
+console.log(foo, _bar.default, baz);"
+`;
+
+exports[`babel-plugin-import-interop-only source filtering doesn't match non-subdirectory prefixes 1`] = `
+"const _foo = _interopRequireDefault(foo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+import foo from \\"foo\\";
+import bar from \\"foobar\\";
+import baz from \\"baz\\";
+console.log(_foo.default, bar, baz);"
+`;
+
+exports[`babel-plugin-import-interop-only source filtering filters multiple sources 1`] = `
+"const _bar = _interopRequireDefault(bar);
+
+const _foo = _interopRequireDefault(foo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+import foo from \\"foo\\";
+import bar from \\"bar\\";
+import baz from \\"baz\\";
+console.log(_foo.default, _bar.default, baz);"
+`;
+
+exports[`babel-plugin-import-interop-only source filtering filters sources 1`] = `
+"const _foo = _interopRequireDefault(foo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+import foo from \\"foo\\";
+import bar from \\"bar\\";
+console.log(_foo.default, bar);"
+`;
+
+exports[`babel-plugin-import-interop-only source filtering matches subdirectories 1`] = `
+"const _bar = _interopRequireDefault(bar);
+
+const _foo = _interopRequireDefault(foo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+import foo from \\"foo\\";
+import bar from \\"foo/bar\\";
+import baz from \\"baz\\";
+console.log(_foo.default, _bar.default, baz);"
+`;
+
 exports[`babel-plugin-import-interop-only with typescript doesn't wrap named imports 1`] = `
 "import { f } from \\"mod\\";
 console.log(f);"

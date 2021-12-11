@@ -77,4 +77,46 @@ describe("babel-plugin-import-interop-only", () => {
       expect(result?.code).toMatchSnapshot();
     });
   });
+
+  describe("source filtering", () => {
+    it("filters sources", () => {
+      const result = transform(`import foo from "foo";\nimport bar from "bar";\nconsole.log(foo, bar)\n`, {
+        ...defaultOptions,
+        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+      });
+      expect(result?.code).toMatchSnapshot();
+    });
+
+    it("filters multiple sources", () => {
+      const result = transform(`import foo from "foo";\nimport bar from "bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
+        ...defaultOptions,
+        plugins: [[plugin, { modulePrefixes: ["foo", "bar"] }]],
+      });
+      expect(result?.code).toMatchSnapshot();
+    });
+
+    it("matches subdirectories", () => {
+      const result = transform(`import foo from "foo";\nimport bar from "foo/bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
+        ...defaultOptions,
+        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+      });
+      expect(result?.code).toMatchSnapshot();
+    });
+
+    it("doesn't match non-subdirectory prefixes", () => {
+      const result = transform(`import foo from "foo";\nimport bar from "foobar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
+        ...defaultOptions,
+        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+      });
+      expect(result?.code).toMatchSnapshot();
+    });
+
+    it("allows specifying scoped packages", () => {
+      const result = transform(`import foo from "@foo/foo";\nimport bar from "@foo/bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
+        ...defaultOptions,
+        plugins: [[plugin, { modulePrefixes: ["@foo/bar"] }]],
+      });
+      expect(result?.code).toMatchSnapshot();
+    });
+  });
 })
