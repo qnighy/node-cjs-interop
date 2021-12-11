@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "packageManager": "yarn@3.1.1",
   "scripts": {
-    "build": "tsc --build"
+    "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
+    "build:babel": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
+    "build:tsc": "tsc --build"
   },
   "devDependencies": {
+    "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
     "@yarnpkg/sdks": "^2.5.1-rc.5",
     "babel-jest": "^27.4.4",
     "eslint": "^8.4.1",
