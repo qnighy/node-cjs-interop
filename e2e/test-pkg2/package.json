@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "test-pkg2",
+  "type": "module",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "babel -d dist src"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4"
+  }
+}
