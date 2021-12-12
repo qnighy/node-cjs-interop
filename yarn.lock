@@ -3294,6 +3294,7 @@ __metadata:
     jest: ^27.4.4
     test-pkg1: "workspace:*"
     test-pkg2: "workspace:*"
+    test-pkg3: "workspace:*"
   languageName: unknown
   linkType: soft
 
@@ -6425,7 +6426,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"test-pkg3@workspace:e2e/test-pkg3":
+"test-pkg3@workspace:*, test-pkg3@workspace:e2e/test-pkg3":
   version: 0.0.0-use.local
   resolution: "test-pkg3@workspace:e2e/test-pkg3"
   languageName: unknown
