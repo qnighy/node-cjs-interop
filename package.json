@@ -2,6 +2,7 @@
   "name": "babel-plugin-import-interop-only",
   "version": "0.1.0",
   "packageManager": "yarn@3.1.1",
+  "main": "dist/index.js",
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
     "build:babel": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
