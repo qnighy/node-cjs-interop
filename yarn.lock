@@ -2338,9 +2338,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-node-cjs-interop@workspace:*, babel-plugin-node-cjs-interop@workspace:.":
+"babel-plugin-node-cjs-interop@workspace:*, babel-plugin-node-cjs-interop@workspace:packages/babel-plugin-node-cjs-interop":
   version: 0.0.0-use.local
-  resolution: "babel-plugin-node-cjs-interop@workspace:."
+  resolution: "babel-plugin-node-cjs-interop@workspace:packages/babel-plugin-node-cjs-interop"
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
@@ -5987,6 +5987,12 @@ __metadata:
   checksum: 87f4164e396f0171b0a3386cc1877a817f572148ee13a7e113b238e48e8a9f2f31d009a92ec38a591ff1567d9662c6b67fd8818a2dbbaed74bc26a87a2a4a9a0
   languageName: node
   linkType: hard
+
+"root-workspace-0b6124@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "root-workspace-0b6124@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
