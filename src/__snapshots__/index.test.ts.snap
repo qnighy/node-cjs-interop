@@ -1,71 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`babel-plugin-import-interop-only doesn't wrap named imports 1`] = `
-"import { f } from \\"mod\\";
-console.log(f);"
+"const _ns = _interopImportCJSNamespace(_nsOrig);
+
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
+
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.f);"
 `;
 
 exports[`babel-plugin-import-interop-only source filtering allows specifying scoped packages 1`] = `
-"const _bar = _interopRequireDefault(bar);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
 import foo from \\"@foo/foo\\";
-import bar from \\"@foo/bar\\";
+
+/*#__CJS__*/
+import * as _nsOrig from \\"@foo/bar\\";
 import baz from \\"baz\\";
-console.log(foo, _bar.default, baz);"
+console.log(foo, _ns.default, baz);"
 `;
 
 exports[`babel-plugin-import-interop-only source filtering doesn't match non-subdirectory prefixes 1`] = `
-"const _foo = _interopRequireDefault(foo);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import foo from \\"foo\\";
+/*#__CJS__*/
+import * as _nsOrig from \\"foo\\";
 import bar from \\"foobar\\";
 import baz from \\"baz\\";
-console.log(_foo.default, bar, baz);"
+console.log(_ns.default, bar, baz);"
 `;
 
 exports[`babel-plugin-import-interop-only source filtering filters multiple sources 1`] = `
-"const _bar = _interopRequireDefault(bar);
+"const _ns2 = _interopImportCJSNamespace2(_nsOrig2);
 
-const _foo = _interopRequireDefault(foo);
+function _interopImportCJSNamespace2(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const _ns = _interopImportCJSNamespace(_nsOrig);
 
-import foo from \\"foo\\";
-import bar from \\"bar\\";
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
+
+/*#__CJS__*/
+import * as _nsOrig from \\"foo\\";
+
+/*#__CJS__*/
+import * as _nsOrig2 from \\"bar\\";
 import baz from \\"baz\\";
-console.log(_foo.default, _bar.default, baz);"
+console.log(_ns.default, _ns2.default, baz);"
 `;
 
 exports[`babel-plugin-import-interop-only source filtering filters sources 1`] = `
-"const _foo = _interopRequireDefault(foo);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import foo from \\"foo\\";
+/*#__CJS__*/
+import * as _nsOrig from \\"foo\\";
 import bar from \\"bar\\";
-console.log(_foo.default, bar);"
+console.log(_ns.default, bar);"
 `;
 
 exports[`babel-plugin-import-interop-only source filtering matches subdirectories 1`] = `
-"const _bar = _interopRequireDefault(bar);
+"const _ns2 = _interopImportCJSNamespace2(_nsOrig2);
 
-const _foo = _interopRequireDefault(foo);
+function _interopImportCJSNamespace2(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+const _ns = _interopImportCJSNamespace(_nsOrig);
 
-import foo from \\"foo\\";
-import bar from \\"foo/bar\\";
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
+
+/*#__CJS__*/
+import * as _nsOrig from \\"foo\\";
+
+/*#__CJS__*/
+import * as _nsOrig2 from \\"foo/bar\\";
 import baz from \\"baz\\";
-console.log(_foo.default, _bar.default, baz);"
+console.log(_ns.default, _ns2.default, baz);"
 `;
 
 exports[`babel-plugin-import-interop-only with typescript doesn't wrap named imports 1`] = `
-"import { f } from \\"mod\\";
-console.log(f);"
+"const _ns = _interopImportCJSNamespace(_nsOrig);
+
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
+
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.f);"
 `;
 
 exports[`babel-plugin-import-interop-only with typescript doesn't wrap type imports (default imports) 1`] = `"export {};"`;
@@ -77,55 +119,73 @@ exports[`babel-plugin-import-interop-only with typescript doesn't wrap type impo
 exports[`babel-plugin-import-interop-only with typescript doesn't wrap type imports (namespace imports) 1`] = `"export {};"`;
 
 exports[`babel-plugin-import-interop-only with typescript wraps default imports 1`] = `
-"const _f = _interopRequireDefault(f);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import f from \\"mod\\";
-console.log(_f.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.default);"
 `;
 
 exports[`babel-plugin-import-interop-only with typescript wraps named default imports 1`] = `
-"const _f = _interopRequireDefault(f);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import { default as f } from \\"mod\\";
-console.log(_f.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.default);"
 `;
 
 exports[`babel-plugin-import-interop-only with typescript wraps namespace imports 1`] = `
-"const _M = _interopRequireDefault(M);
+"const M = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import * as M from \\"mod\\";
-console.log(_M.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(M);"
 `;
 
 exports[`babel-plugin-import-interop-only wraps default imports 1`] = `
-"const _f = _interopRequireDefault(f);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import f from \\"mod\\";
-console.log(_f.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.default);"
 `;
 
 exports[`babel-plugin-import-interop-only wraps named default imports 1`] = `
-"const _f = _interopRequireDefault(f);
+"const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import { default as f } from \\"mod\\";
-console.log(_f.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(_ns.default);"
 `;
 
 exports[`babel-plugin-import-interop-only wraps namespace imports 1`] = `
-"const _M = _interopRequireDefault(M);
+"const M = _interopImportCJSNamespace(_nsOrig);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopImportCJSNamespace(ns) {
+  return ns.default && ns.default.__esModule ? ns.default : ns;
+}
 
-import * as M from \\"mod\\";
-console.log(_M.default);"
+/*#__CJS__*/
+import * as _nsOrig from \\"mod\\";
+console.log(M);"
 `;

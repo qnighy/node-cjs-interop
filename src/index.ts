@@ -1,8 +1,10 @@
 /// <reference types="@babel/helper-plugin-utils" />
 
 import type * as Babel from "@babel/core";
-import type { Identifier, ImportDeclaration, Program, StringLiteral } from "@babel/types";
+import type { Expression, Identifier, Node, Program } from "@babel/types";
 import { declare } from "@babel/helper-plugin-utils";
+
+const statePrefix = "import-interop";
 
 export type Options = {
   modulePrefixes?: string[];
@@ -10,47 +12,143 @@ export type Options = {
 
 export default declare<Options, Babel.PluginObj>((api, options) => {
   api.assertVersion("^7.0.0 || ^8.0.0");
+  const { types: t } = api;
+
   return {
     visitor: {
-      ImportDeclaration(path) {
-        if (path.node.importKind === "type") return;
+      ImportDeclaration(path, state) {
         if (!hasApplicableSource(path.node.source.value, options)) return;
-        for (const specifier of path.get("specifiers")) {
-          if (specifier.isImportDefaultSpecifier()) {
-            wrapImportInterop(api.types, path, specifier.node.local.name);
-          } else if (specifier.isImportSpecifier()) {
-            if (importName(specifier.node.imported) !== "default") return;
-            if (specifier.node.importKind === "type") continue;
-            wrapImportInterop(api.types, path, specifier.node.local.name);
-          } else if (specifier.isImportNamespaceSpecifier()) {
-            wrapImportInterop(api.types, path, specifier.node.local.name);
+        // Should have been removed by transform-typescript. Just in case.
+        if (path.node.importKind === "type") return;
+        if (isCjsAnnotated(path.node)) return;
+        if (path.node.specifiers.length === 0) return;
+
+        const replaceMap = new Map<string, Replacement>();
+
+        const existingNsImport = path.node.specifiers.find((specifier) => specifier.type === "ImportNamespaceSpecifier")?.local;
+
+        const nsImport = existingNsImport ?? path.scope.generateUidIdentifier("ns");
+
+        for (const specifier of path.node.specifiers) {
+          let expr: Expression;
+          if (specifier.type === "ImportDefaultSpecifier") {
+            // ns.defalut
+            expr = t.memberExpression(t.cloneNode(nsImport), t.identifier("default"));
+          } else if (specifier.type === "ImportSpecifier") {
+            if (specifier.imported.type === "StringLiteral") {
+              // ns["named"]
+              expr = t.memberExpression(t.cloneNode(nsImport), t.cloneNode(specifier.imported), true);
+            } else {
+              // ns.named
+              expr = t.memberExpression(t.cloneNode(nsImport), t.cloneNode(specifier.imported));
+            }
+          } else if (specifier.type === "ImportNamespaceSpecifier") {
+            // No need to replace
+            continue;
+          } else {
+            const { type }: never = specifier;
+            throw new Error(`Unknown specifier type: ${type}`);
           }
+          replaceMap.set(specifier.local.name, { scope: path.scope, expr })
+        }
+
+        const importHelper = getImportHelper(t, path, state);
+
+        // import ... from "source";
+        // ->
+        // import * as moduleOrig from "source";
+        // const module = _interopImportCJSNamespace(moduleOrig);
+        const importOriginalName = path.scope.generateUidIdentifier("nsOrig");
+        const program = path.scope.getProgramParent().path as Babel.NodePath<Program>;
+        program.unshiftContainer(
+          "body",
+          t.variableDeclaration(
+            "const",
+            [
+              t.variableDeclarator(nsImport, t.callExpression(t.cloneNode(importHelper), [t.cloneNode(importOriginalName)])),
+            ],
+          ),
+        );
+
+        const newImport = t.cloneNode(path.node);
+        newImport.specifiers = [t.importNamespaceSpecifier(importOriginalName)];
+        path.replaceWith(newImport);
+        annotateAsCjs(t, path.node);
+
+        if (replaceMap.size > 0) {
+          path.parentPath.traverse({
+            Identifier(path) {
+              const replacement = replaceMap.get(path.node.name);
+              if (!replacement) return;
+
+              if (!path.isReferencedIdentifier()) return;
+
+              const binding = path.scope.getBinding(path.node.name);
+              if (!binding || binding.scope === replacement.scope) {
+                path.replaceWith(t.cloneNode(replacement.expr));
+              }
+            },
+          });
         }
       },
     },
   };
 });
 
-function wrapImportInterop(t: typeof Babel.types, path: Babel.NodePath<ImportDeclaration>, name: string) {
-  const wrapper = path.scope.generateUidIdentifier(name);
-  const program = path.scope.getProgramParent().path as Babel.NodePath<Program>;
-  const localBinding = program.scope.getBinding(name);
-  const helper: Identifier = path.scope.hub.addHelper("interopRequireDefault");
-  program.traverse({
-    Identifier(path) {
-      if (!path.isReferencedIdentifier()) return;
-      const referencedBinding = path.scope.getBinding(path.node.name);
-      if (referencedBinding === localBinding || (!referencedBinding && path.node.name === name)) {
-        path.replaceWith(t.memberExpression(t.cloneNode(wrapper), t.identifier("default")));
-      }
-    },
-  });
-  program.unshiftContainer("body", t.variableDeclaration("const", [t.variableDeclarator(wrapper, t.callExpression(t.cloneNode(helper), [t.identifier(name)]))]));
+type Replacement = {
+  scope: Babel.NodePath["scope"],
+  expr: Expression,
+};
+
+function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Babel.PluginPass): Identifier {
+  const key = `${statePrefix}/importHelper`;
+  let helper: Identifier | undefined = state.get(key);
+  if (helper) return helper;
+
+  const scope = path.scope.getProgramParent();
+  helper = scope.generateUidIdentifier("interopImportCJSNamespace");
+  const ns = t.identifier("ns");
+  const nsDefault = t.memberExpression(t.cloneNode(ns), t.identifier("default"));
+  // function interopImportCJSNamespace(ns) {
+  //   return ns.default && ns.default.__esModule ? ns.default : ns;
+  // }
+  (scope.path as Babel.NodePath<Program>).unshiftContainer(
+    "body",
+    t.functionDeclaration(
+      t.cloneNode(helper),
+      [t.cloneNode(ns)],
+      t.blockStatement([
+        t.returnStatement(
+          t.conditionalExpression(
+            t.logicalExpression(
+              "&&",
+              t.cloneNode(nsDefault),
+              t.memberExpression(t.cloneNode(nsDefault), t.identifier("__esModule")),
+            ),
+            t.cloneNode(nsDefault),
+            t.cloneNode(ns),
+          ),
+        ),
+      ]),
+    ),
+  );
+  return helper;
 }
 
-function importName(node: Identifier | StringLiteral) {
-  if (node.type === "StringLiteral") return node.value;
-  return node.name;
+const CJS_ANNOTATION = "#__CJS__";
+
+const isCjsAnnotated = ({ leadingComments }: Node): boolean =>
+  !!leadingComments &&
+  leadingComments.some(comment => /#__CJS__/.test(comment.value));
+
+function annotateAsCjs(
+  t: typeof Babel.types,
+  node: Node,
+): void {
+  if (isCjsAnnotated(node)) {
+    return;
+  }
+  t.addComment(node, "leading", CJS_ANNOTATION);
 }
 
 function hasApplicableSource(source: string, options: Options): boolean {
