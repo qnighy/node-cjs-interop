@@ -4,7 +4,7 @@ import value1, { A as A1 } from "test-pkg1";
 import value2, { A as A2 } from "test-pkg2";
 import value3, { A as A3 } from "test-pkg3";
 
-describe("babel-plugin-import-interop-only + jest", () => {
+describe("babel-plugin-node-cjs-interop + jest", () => {
   it("interoperates with simulated ESM defaults", async () => {
     expect(value1).toBe("default-value");
     expect(A1).toBe("A");

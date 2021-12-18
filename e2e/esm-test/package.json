@@ -8,7 +8,7 @@
     "test": "yarn build && yarn jest"
   },
   "dependencies": {
-    "babel-plugin-import-interop-only": "workspace:*",
+    "babel-plugin-node-cjs-interop": "workspace:*",
     "test-pkg1": "workspace:*",
     "test-pkg2": "workspace:*",
     "test-pkg3": "workspace:*"

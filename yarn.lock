@@ -2313,27 +2313,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-import-interop-only@workspace:*, babel-plugin-import-interop-only@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "babel-plugin-import-interop-only@workspace:."
-  dependencies:
-    "@babel/cli": ^7.16.0
-    "@babel/core": ^7.16.0
-    "@babel/helper-plugin-utils": ^7.14.5
-    "@babel/preset-env": ^7.16.4
-    "@babel/preset-typescript": ^7.16.0
-    "@babel/types": ^7.16.0
-    "@jest/globals": ^27.4.4
-    "@types/babel__core": ^7.1.17
-    "@types/babel__helper-plugin-utils": ^7.10.0
-    "@yarnpkg/sdks": ^2.5.1-rc.5
-    babel-jest: ^27.4.4
-    eslint: ^8.4.1
-    jest: ^27.4.4
-    typescript: ^4.5.3
-  languageName: unknown
-  linkType: soft
-
 "babel-plugin-istanbul@npm:^6.0.0":
   version: 6.1.1
   resolution: "babel-plugin-istanbul@npm:6.1.1"
@@ -2358,6 +2337,27 @@ __metadata:
   checksum: 48f216f286f2fb3b1d571b4ba4ccffdb0c11a2fb1117e4c355b26c8cef09603abd96a5c1f8442866830a7da5accdd9ae4805f3e977b606a596b4a259f2ff5a67
   languageName: node
   linkType: hard
+
+"babel-plugin-node-cjs-interop@workspace:*, babel-plugin-node-cjs-interop@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "babel-plugin-node-cjs-interop@workspace:."
+  dependencies:
+    "@babel/cli": ^7.16.0
+    "@babel/core": ^7.16.0
+    "@babel/helper-plugin-utils": ^7.14.5
+    "@babel/preset-env": ^7.16.4
+    "@babel/preset-typescript": ^7.16.0
+    "@babel/types": ^7.16.0
+    "@jest/globals": ^27.4.4
+    "@types/babel__core": ^7.1.17
+    "@types/babel__helper-plugin-utils": ^7.10.0
+    "@yarnpkg/sdks": ^2.5.1-rc.5
+    babel-jest: ^27.4.4
+    eslint: ^8.4.1
+    jest: ^27.4.4
+    typescript: ^4.5.3
+  languageName: unknown
+  linkType: soft
 
 "babel-plugin-polyfill-corejs2@npm:^0.3.0":
   version: 0.3.0
@@ -3290,7 +3290,7 @@ __metadata:
     "@jest/globals": ^27.4.4
     "@node-loader/babel": ^2.0.0
     babel-jest: ^27.4.4
-    babel-plugin-import-interop-only: "workspace:*"
+    babel-plugin-node-cjs-interop: "workspace:*"
     jest: ^27.4.4
     test-pkg1: "workspace:*"
     test-pkg2: "workspace:*"

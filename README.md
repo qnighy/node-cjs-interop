@@ -50,7 +50,7 @@ export default {
   ],
   plugins: [
     [
-      "babel-plugin-import-interop-only",
+      "babel-plugin-node-cjs-interop",
       {
         // Only apply the workaround to specific packages
         modulePrefixes: [

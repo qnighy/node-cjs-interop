@@ -1,3 +1,3 @@
 export default {
-  plugins: [["babel-plugin-import-interop-only", { modulePrefixes: ["test-pkg1"] }]],
+  plugins: [["babel-plugin-node-cjs-interop", { modulePrefixes: ["test-pkg1"] }]],
 };

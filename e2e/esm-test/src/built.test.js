@@ -9,7 +9,7 @@ const filename = new URL(import.meta.url).pathname;
 const dirname = path.dirname(filename);
 const root = path.resolve(dirname, "..");
 
-describe("babel-plugin-import-interop-only + babel-cli", () => {
+describe("babel-plugin-node-cjs-interop + babel-cli", () => {
   it("interoperates with simulated ESM defaults", async () => {
     const source = path.resolve(root, "dist/test1.js");
     const { stdout } = await execFile("node", [source]);

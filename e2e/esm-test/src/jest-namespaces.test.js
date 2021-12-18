@@ -4,7 +4,7 @@ import { describe, expect, it } from "@jest/globals";
 import * as ns2 from "test-pkg2";
 import * as ns3 from "test-pkg3";
 
-describe("babel-plugin-import-interop-only + jest", () => {
+describe("babel-plugin-node-cjs-interop + jest", () => {
   // it("interoperates with simulated ESM namespace imports", async () => {
   //   expect(ns1.default).toBe("default-value");
   //   expect(ns1.A).toBe("A");

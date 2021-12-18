@@ -9,7 +9,7 @@ const defaultOptions: TransformOptions = {
   babelrc: false,
 };
 
-describe("babel-plugin-import-interop-only", () => {
+describe("babel-plugin-node-cjs-interop", () => {
   it("wraps default imports", () => {
     const result = transform(`import f from "mod";\nconsole.log(f);\n`, defaultOptions);
     expect(result?.code).toMatchSnapshot();
