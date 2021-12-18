@@ -4,5 +4,9 @@
   "workspaces": [
     "packages/*",
     "e2e/*"
-  ]
+  ],
+  "scripts": {
+    "build": "yarn workspaces foreach -pt run build",
+    "test": "yarn build && yarn workspaces foreach -p run test"
+  }
 }
