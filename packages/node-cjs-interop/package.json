@@ -24,7 +24,8 @@
   },
   "jest": {
     "extensionsToTreatAsEsm": [
-      ".ts"
+      ".ts",
+      ".mts"
     ]
   }
 }
