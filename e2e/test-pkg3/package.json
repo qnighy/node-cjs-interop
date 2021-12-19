@@ -1,5 +1,0 @@
-{
-  "private": true,
-  "name": "test-pkg3",
-  "main": "./src/index.js"
-}

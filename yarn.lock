@@ -2925,24 +2925,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"esm-test@workspace:e2e/esm-test":
-  version: 0.0.0-use.local
-  resolution: "esm-test@workspace:e2e/esm-test"
-  dependencies:
-    "@babel/cli": ^7.16.0
-    "@babel/core": ^7.16.0
-    "@babel/node": ^7.16.0
-    "@jest/globals": ^27.4.4
-    "@node-loader/babel": ^2.0.0
-    babel-jest: ^27.4.4
-    babel-plugin-node-cjs-interop: "workspace:*"
-    jest: ^27.4.4
-    test-pkg1: "workspace:*"
-    test-pkg2: "workspace:*"
-    test-pkg3: "workspace:*"
-  languageName: unknown
-  linkType: soft
-
 "espree@npm:^9.2.0":
   version: 9.2.0
   resolution: "espree@npm:9.2.0"
@@ -5715,32 +5697,6 @@ __metadata:
   checksum: 3b34a3d77165a2cb82b34014b3aba93b1c4637a5011807557dc2f3da826c59975a5ccad765721c4648b39817e3472789f9b0fa98fc854c5c1c7a1e632aacdc28
   languageName: node
   linkType: hard
-
-"test-pkg1@workspace:*, test-pkg1@workspace:e2e/test-pkg1":
-  version: 0.0.0-use.local
-  resolution: "test-pkg1@workspace:e2e/test-pkg1"
-  dependencies:
-    "@babel/cli": ^7.16.0
-    "@babel/core": ^7.16.0
-    "@babel/preset-env": ^7.16.4
-  languageName: unknown
-  linkType: soft
-
-"test-pkg2@workspace:*, test-pkg2@workspace:e2e/test-pkg2":
-  version: 0.0.0-use.local
-  resolution: "test-pkg2@workspace:e2e/test-pkg2"
-  dependencies:
-    "@babel/cli": ^7.16.0
-    "@babel/core": ^7.16.0
-    "@babel/preset-env": ^7.16.4
-  languageName: unknown
-  linkType: soft
-
-"test-pkg3@workspace:*, test-pkg3@workspace:e2e/test-pkg3":
-  version: 0.0.0-use.local
-  resolution: "test-pkg3@workspace:e2e/test-pkg3"
-  languageName: unknown
-  linkType: soft
 
 "text-table@npm:^0.2.0":
   version: 0.2.0
