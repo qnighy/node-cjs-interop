@@ -1,26 +1,10 @@
-const ns2b = _interopImportCJSNamespace5(_nsOrig5);
+const ns2b = _interopImportCJSNamespace(_nsOrig5);
 
-function _interopImportCJSNamespace5(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
+const ns2 = _interopImportCJSNamespace(_nsOrig4);
 
-const ns2 = _interopImportCJSNamespace4(_nsOrig4);
+const _ns3 = _interopImportCJSNamespace(_nsOrig3);
 
-function _interopImportCJSNamespace4(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
-
-const _ns3 = _interopImportCJSNamespace3(_nsOrig3);
-
-function _interopImportCJSNamespace3(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
-
-const _ns2 = _interopImportCJSNamespace2(_nsOrig2);
-
-function _interopImportCJSNamespace2(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
+const _ns2 = _interopImportCJSNamespace(_nsOrig2);
 
 const _ns = _interopImportCJSNamespace(_nsOrig);
 

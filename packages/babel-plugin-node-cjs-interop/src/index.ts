@@ -132,6 +132,7 @@ function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Bab
       ]),
     ),
   );
+  state.set(key, helper);
   return helper;
 }
 

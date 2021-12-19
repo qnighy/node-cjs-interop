@@ -42,11 +42,7 @@ console.log(_ns.default, bar, baz);"
 `;
 
 exports[`babel-plugin-node-cjs-interop source filtering filters multiple sources 1`] = `
-"const _ns2 = _interopImportCJSNamespace2(_nsOrig2);
-
-function _interopImportCJSNamespace2(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
+"const _ns2 = _interopImportCJSNamespace(_nsOrig2);
 
 const _ns = _interopImportCJSNamespace(_nsOrig);
 
@@ -77,11 +73,7 @@ console.log(_ns.default, bar);"
 `;
 
 exports[`babel-plugin-node-cjs-interop source filtering matches subdirectories 1`] = `
-"const _ns2 = _interopImportCJSNamespace2(_nsOrig2);
-
-function _interopImportCJSNamespace2(ns) {
-  return ns.default && ns.default.__esModule ? ns.default : ns;
-}
+"const _ns2 = _interopImportCJSNamespace(_nsOrig2);
 
 const _ns = _interopImportCJSNamespace(_nsOrig);
 
