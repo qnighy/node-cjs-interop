@@ -267,6 +267,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-plugin-utils@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@babel/helper-plugin-utils@npm:7.16.5"
+  checksum: 3ff605f879a9ed287952b538a8334bb16e6cf7cf441f205713b1cf8043b047a965773b66e50575018504f349e16368acfe4702a2f376e16263733e2c7c6c3e39
+  languageName: node
+  linkType: hard
+
 "@babel/helper-remap-async-to-generator@npm:^7.16.0, @babel/helper-remap-async-to-generator@npm:^7.16.4":
   version: 7.16.4
   resolution: "@babel/helper-remap-async-to-generator@npm:7.16.4"
@@ -1159,7 +1166,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-typescript@npm:^7.16.0":
+"@babel/plugin-transform-typescript@npm:^7.16.0, @babel/plugin-transform-typescript@npm:^7.16.1":
   version: 7.16.1
   resolution: "@babel/plugin-transform-typescript@npm:7.16.1"
   dependencies:
@@ -1304,6 +1311,19 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 9b22316e96a34836c113f60c49d58023c8ba4219bcb0843a7685c04511486cf7c610e0d30551a1417809e2fd039884c847f6ede46abe2b8d520140e15fb36aaf
+  languageName: node
+  linkType: hard
+
+"@babel/preset-typescript@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@babel/preset-typescript@npm:7.16.5"
+  dependencies:
+    "@babel/helper-plugin-utils": ^7.16.5
+    "@babel/helper-validator-option": ^7.14.5
+    "@babel/plugin-transform-typescript": ^7.16.1
+  peerDependencies:
+    "@babel/core": ^7.0.0-0
+  checksum: 56274462ea7c43245f88e412b60c676f472f70d851bb896bed8f4ef14eb8defc3e7d01097db8461a18c4aa8ce2b7004b61cdf021f7bd0eb23e4e832a893550ca
   languageName: node
   linkType: hard
 
@@ -2886,6 +2906,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm-test-new@workspace:e2e/esm-test-new":
+  version: 0.0.0-use.local
+  resolution: "esm-test-new@workspace:e2e/esm-test-new"
+  dependencies:
+    "@babel/cli": ^7.16.0
+    "@babel/core": ^7.16.0
+    "@babel/node": ^7.16.0
+    "@babel/preset-typescript": ^7.16.5
+    "@jest/globals": ^27.4.4
+    "@node-loader/babel": ^2.0.0
+    babel-jest: ^27.4.4
+    babel-plugin-node-cjs-interop: "workspace:*"
+    fixture-package-babel-esm: "workspace:*"
+    fixture-package-native-esm: "workspace:*"
+    fixture-package-pure-cjs: "workspace:*"
+    jest: ^27.4.4
+  languageName: unknown
+  linkType: soft
+
 "esm-test@workspace:e2e/esm-test":
   version: 0.0.0-use.local
   resolution: "esm-test@workspace:e2e/esm-test"
@@ -3072,6 +3111,24 @@ __metadata:
   checksum: 4c172680e8f8c1f78839486e14a43ef82e9decd0e74145f40707cc42e7420506d5ec92d9a11c22bd2c48fb0c384ea05dd30e10dd152fefeec6f2f75282a8b844
   languageName: node
   linkType: hard
+
+"fixture-package-babel-esm@workspace:*, fixture-package-babel-esm@workspace:e2e/fixture-package-babel-esm":
+  version: 0.0.0-use.local
+  resolution: "fixture-package-babel-esm@workspace:e2e/fixture-package-babel-esm"
+  languageName: unknown
+  linkType: soft
+
+"fixture-package-native-esm@workspace:*, fixture-package-native-esm@workspace:e2e/fixture-package-native-esm":
+  version: 0.0.0-use.local
+  resolution: "fixture-package-native-esm@workspace:e2e/fixture-package-native-esm"
+  languageName: unknown
+  linkType: soft
+
+"fixture-package-pure-cjs@workspace:*, fixture-package-pure-cjs@workspace:e2e/fixture-package-pure-cjs":
+  version: 0.0.0-use.local
+  resolution: "fixture-package-pure-cjs@workspace:e2e/fixture-package-pure-cjs"
+  languageName: unknown
+  linkType: soft
 
 "flat-cache@npm:^3.0.4":
   version: 3.0.4

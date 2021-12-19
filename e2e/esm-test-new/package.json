@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "name": "esm-test-new",
+  "type": "module",
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "babel-plugin-node-cjs-interop": "workspace:*",
+    "fixture-package-babel-esm": "workspace:*",
+    "fixture-package-native-esm": "workspace:*",
+    "fixture-package-pure-cjs": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.5",
+    "@jest/globals": "^27.4.4",
+    "@node-loader/babel": "^2.0.0",
+    "babel-jest": "^27.4.4",
+    "jest": "^27.4.4"
+  },
+  "jest": {
+    "extensionsToTreatAsEsm": [
+      ".ts",
+      ".mts"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/",
+      "\\.pnp\\.[^\\/]+$",
+      "fixture-package",
+      "babel-plugin-node-cjs-interop"
+    ]
+  }
+}
