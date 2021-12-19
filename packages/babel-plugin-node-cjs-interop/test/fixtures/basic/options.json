@@ -1,0 +1,5 @@
+{
+  "babelrc": false,
+  "configFile": false,
+  "plugins": ["babel-plugin-node-cjs-interop"]
+}

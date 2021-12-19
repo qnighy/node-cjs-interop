@@ -170,6 +170,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-fixtures@npm:^7.16.0":
+  version: 7.16.5
+  resolution: "@babel/helper-fixtures@npm:7.16.5"
+  dependencies:
+    semver: ^6.3.0
+  checksum: fd87af80b78416fb03bc160df1c1c39136871fb03a785dc0f498ea7af9a62560d81596fd89f11d77f13e1d8b2c9d3462d17d72f61a31b1ee958dde46669e38f6
+  languageName: node
+  linkType: hard
+
 "@babel/helper-function-name@npm:^7.16.0":
   version: 7.16.0
   resolution: "@babel/helper-function-name@npm:7.16.0"
@@ -242,6 +251,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/helper-plugin-test-runner@npm:^7.16.5":
+  version: 7.16.5
+  resolution: "@babel/helper-plugin-test-runner@npm:7.16.5"
+  dependencies:
+    "@babel/helper-transform-fixture-test-runner": ^7.16.0
+  checksum: 4b48cf9f4cac14f446a5134056873015bdadd63770c30fbcbb56502d891f2eb20e27fdd2c3e3d6baeffe60ef6054f444622216588ec5d8ce35d40c10e2fee811
+  languageName: node
+  linkType: hard
+
 "@babel/helper-plugin-utils@npm:^7.0.0, @babel/helper-plugin-utils@npm:^7.10.4, @babel/helper-plugin-utils@npm:^7.12.13, @babel/helper-plugin-utils@npm:^7.13.0, @babel/helper-plugin-utils@npm:^7.14.5, @babel/helper-plugin-utils@npm:^7.8.0, @babel/helper-plugin-utils@npm:^7.8.3":
   version: 7.14.5
   resolution: "@babel/helper-plugin-utils@npm:7.14.5"
@@ -296,6 +314,21 @@ __metadata:
   dependencies:
     "@babel/types": ^7.16.0
   checksum: 8bd87b5ea2046b145f0f55bc75cbdb6df69eaeb32919ee3c1c758757025aebca03e567a4d48389eb4f16a55021adb6ed8fa58aa771e164b15fa5e0a0722f771d
+  languageName: node
+  linkType: hard
+
+"@babel/helper-transform-fixture-test-runner@npm:^7.16.0":
+  version: 7.16.0
+  resolution: "@babel/helper-transform-fixture-test-runner@npm:7.16.0"
+  dependencies:
+    "@babel/code-frame": ^7.16.0
+    "@babel/core": ^7.16.0
+    "@babel/helper-fixtures": ^7.16.0
+    babel-check-duplicated-nodes: ^1.0.0
+    quick-lru: 5.1.0
+    regenerator-runtime: ^0.13.7
+    source-map: ^0.5.0
+  checksum: 8ed980fee1e1355fd9f3b21a2283afb9ee8cc4d5f64f3d6d049176ed150fc5c2d8150709c569c68753175ce2d0c9ca57a9454e548686e689fae47d8952526366
   languageName: node
   linkType: hard
 
@@ -1984,6 +2017,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-check-duplicated-nodes@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "babel-check-duplicated-nodes@npm:1.0.0"
+  checksum: 7765f55d309ba72a85583e96a2606e7af4e2ec19e66ba7316bed6995a0d2cd27ce54225c6ee7b723c81978b7505f6b51b0b62298241d89a4ca46efbd5510ee59
+  languageName: node
+  linkType: hard
+
 "babel-jest@npm:^27.4.4":
   version: 27.4.4
   resolution: "babel-jest@npm:27.4.4"
@@ -2042,6 +2082,7 @@ __metadata:
   dependencies:
     "@babel/cli": ^7.16.0
     "@babel/core": ^7.16.0
+    "@babel/helper-plugin-test-runner": ^7.16.5
     "@babel/helper-plugin-utils": ^7.14.5
     "@babel/preset-env": ^7.16.4
     "@babel/preset-typescript": ^7.16.0
@@ -5050,6 +5091,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"quick-lru@npm:5.1.0":
+  version: 5.1.0
+  resolution: "quick-lru@npm:5.1.0"
+  checksum: 48e42823990a274764f611800debe3024d93685039b2becbbe824f7841658e13462b1138ab72d664de1754f0636761b607e6b5b392cc286b8322ee563c5ed33b
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^17.0.1":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -5093,7 +5141,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regenerator-runtime@npm:^0.13.4":
+"regenerator-runtime@npm:^0.13.4, regenerator-runtime@npm:^0.13.7":
   version: 0.13.9
   resolution: "regenerator-runtime@npm:0.13.9"
   checksum: 65ed455fe5afd799e2897baf691ca21c2772e1a969d19bb0c4695757c2d96249eb74ee3553ea34a91062b2a676beedf630b4c1551cc6299afb937be1426ec55e
