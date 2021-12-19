@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "esm-test-new",
+  "name": "tests-e2e",
   "type": "module",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
