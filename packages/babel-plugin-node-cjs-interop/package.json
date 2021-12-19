@@ -1,8 +1,9 @@
 {
   "name": "babel-plugin-node-cjs-interop",
   "version": "0.1.0",
-  "packageManager": "yarn@3.1.1",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
     "build:babel": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
@@ -18,7 +19,6 @@
     "@jest/globals": "^27.4.4",
     "@types/babel__core": "^7.1.17",
     "@types/babel__helper-plugin-utils": "^7.10.0",
-    "@yarnpkg/sdks": "^2.5.1-rc.5",
     "babel-jest": "^27.4.4",
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
