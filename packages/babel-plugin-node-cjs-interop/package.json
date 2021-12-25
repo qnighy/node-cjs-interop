@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": "./dist/index.js",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "default": "./dist/index.js"
+  },
   "scripts": {
-    "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
-    "build:babel": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
+    "build": "$npm_execpath build:tsc && $npm_execpath build:babel:esm && $npm_execpath build:babel:cjs",
+    "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
+    "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .mjs",
     "build:tsc": "tsc --build",
     "test": "jest"
   },
@@ -24,8 +28,14 @@
     "@types/babel__core": "^7.1.17",
     "@types/babel__helper-plugin-utils": "^7.10.0",
     "babel-jest": "^27.4.4",
+    "babel-plugin-replace-import-extension": "^1.1.2",
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
     "typescript": "^4.5.3"
+  },
+  "jest": {
+    "extensionsToTreatAsEsm": [
+      ".mts"
+    ]
   }
 }
