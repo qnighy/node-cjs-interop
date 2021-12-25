@@ -3,6 +3,7 @@
 import type * as Babel from "@babel/core";
 import type { Expression, Identifier, JSXIdentifier, JSXMemberExpression, Node, Program } from "@babel/types";
 import { declare } from "@babel/helper-plugin-utils";
+import { getPackageName } from "./package-name.js";
 
 const statePrefix = "import-interop";
 
@@ -166,17 +167,10 @@ function annotateAsCjs(
 function hasApplicableSource(source: string, options: Options): boolean {
   const { packages = [] } = options;
 
-  for (const allowedPrefix of packages) {
-    if (source === allowedPrefix) return true;
-  }
+  const sourcePackage = getPackageName(source);
+  if (sourcePackage === undefined) return false;
 
-  const sourceSlash = `${source}/`;
-  for (const allowedPrefix of packages) {
-    const allowedPrefixSlash = allowedPrefix.endsWith("/") ? allowedPrefix : `${allowedPrefix}/`;
-    if (sourceSlash.startsWith(allowedPrefixSlash)) return true;
-  }
-
-  return false;
+  return packages.includes(sourcePackage);
 }
 
 function replaceIdentifier(t: typeof Babel.types, path: Babel.NodePath<Identifier> | Babel.NodePath<JSXIdentifier>, replacement: Expression) {

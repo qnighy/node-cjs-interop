@@ -2074,6 +2074,7 @@ __metadata:
     babel-plugin-replace-import-extension: ^1.1.2
     eslint: ^8.4.1
     jest: ^27.4.4
+    jest-ts-webcompat-resolver: ^1.0.0
     typescript: ^4.5.3
   languageName: unknown
   linkType: soft
@@ -3935,6 +3936,15 @@ __metadata:
     pretty-format: ^27.4.2
     semver: ^7.3.2
   checksum: 4339cfa7725a0eb0b368af7e348dba07a03fc418c931d127843f8a933287c01cc880c5e32272a736c4c5ad1ba53fd96b789c30f9809258f515c77f3c140f91de
+  languageName: node
+  linkType: hard
+
+"jest-ts-webcompat-resolver@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "jest-ts-webcompat-resolver@npm:1.0.0"
+  peerDependencies:
+    jest-resolve: "*"
+  checksum: 649984e6b38afe96783316993d75d7385520158ef4bcca67941fe1e96589aa4d612254e3da4046f44df8d067d6a913c0b71daa26b363d560787778d7458d9563
   languageName: node
   linkType: hard
 

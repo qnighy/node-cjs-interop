@@ -33,11 +33,13 @@
     "babel-plugin-replace-import-extension": "^1.1.2",
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
+    "jest-ts-webcompat-resolver": "^1.0.0",
     "typescript": "^4.5.3"
   },
   "jest": {
     "extensionsToTreatAsEsm": [
       ".mts"
-    ]
+    ],
+    "resolver": "jest-ts-webcompat-resolver"
   }
 }
