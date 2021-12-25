@@ -4,6 +4,7 @@ import type * as Babel from "@babel/core";
 import type { Expression, Identifier, JSXIdentifier, JSXMemberExpression, Node, Program } from "@babel/types";
 import { declare } from "@babel/helper-plugin-utils";
 import { getPackageName } from "./package-name.js";
+import { validateOptions } from "./options.js";
 
 const statePrefix = "import-interop";
 
@@ -14,6 +15,8 @@ export type Options = {
 export default declare<Options, Babel.PluginObj>((api, options) => {
   api.assertVersion("^7.0.0 || ^8.0.0");
   const { types: t } = api;
+
+  validateOptions(options);
 
   return {
     visitor: {
