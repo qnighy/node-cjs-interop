@@ -1,4 +1,4 @@
-# `node-cjs-interop`: fix the default import interoperability issue in Node.js
+# `babel-plugin-node-cjs-interop` and `node-cjs-interop`: fix the default import interoperability issue in Node.js
 
 ## The problem to solve
 
