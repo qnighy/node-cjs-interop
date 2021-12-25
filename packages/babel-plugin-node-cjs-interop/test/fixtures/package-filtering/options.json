@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-node-cjs-interop",
+      {
+        "packages": [
+          "foo",
+          "bar",
+          "@scoped/foo",
+          "@scoped/bar"
+        ]
+      }
+    ]
+  ]
+}
