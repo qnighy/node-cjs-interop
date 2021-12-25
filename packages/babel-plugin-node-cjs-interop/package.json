@@ -12,7 +12,7 @@
     "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .mjs",
     "build:tsc": "tsc --build",
-    "jest": "jest",
+    "jest": "BUILD_TARGET=cjs jest",
     "test": "yarn build:babel:cjs && yarn jest"
   },
   "dependencies": {
