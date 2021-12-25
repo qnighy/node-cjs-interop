@@ -1,7 +1,4 @@
 {
-  "babelrc": false,
-  "configFile": false,
-  "sourceType": "unambiguous",
   "parserOpts": {
     "plugins": ["jsx"]
   },
