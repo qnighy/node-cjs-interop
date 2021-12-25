@@ -88,6 +88,17 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
                 replaceIdentifier(t, path, t.cloneNode(replacement.expr));
               }
             },
+            JSXIdentifier(path) {
+              const replacement = replaceMap.get(path.node.name);
+              if (!replacement) return;
+
+              if (!path.isReferencedIdentifier()) return;
+
+              const binding = path.scope.getBinding(path.node.name);
+              if (!binding || binding.scope === replacement.scope) {
+                replaceIdentifier(t, path, t.cloneNode(replacement.expr));
+              }
+            }
           });
         }
       },

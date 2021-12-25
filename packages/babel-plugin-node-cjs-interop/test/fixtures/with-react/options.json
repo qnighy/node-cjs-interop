@@ -1,0 +1,9 @@
+{
+  "babelrc": false,
+  "configFile": false,
+  "sourceType": "unambiguous",
+  "parserOpts": {
+    "plugins": ["jsx"]
+  },
+  "plugins": ["babel-plugin-node-cjs-interop"]
+}
