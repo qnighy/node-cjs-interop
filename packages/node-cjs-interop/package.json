@@ -13,6 +13,7 @@
     "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .cjs",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
+    "prepack": "$npm_execpath build",
     "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
   },
   "devDependencies": {
