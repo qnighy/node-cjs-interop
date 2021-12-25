@@ -164,14 +164,14 @@ function annotateAsCjs(
 }
 
 function hasApplicableSource(source: string, options: Options): boolean {
-  if (!options.modulePrefixes) return true;
+  const { modulePrefixes = [] } = options;
 
-  for (const allowedPrefix of options.modulePrefixes) {
+  for (const allowedPrefix of modulePrefixes) {
     if (source === allowedPrefix) return true;
   }
 
   const sourceSlash = `${source}/`;
-  for (const allowedPrefix of options.modulePrefixes) {
+  for (const allowedPrefix of modulePrefixes) {
     const allowedPrefixSlash = allowedPrefix.endsWith("/") ? allowedPrefix : `${allowedPrefix}/`;
     if (sourceSlash.startsWith(allowedPrefixSlash)) return true;
   }

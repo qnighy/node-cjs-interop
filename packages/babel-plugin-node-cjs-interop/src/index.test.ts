@@ -4,7 +4,7 @@ import plugin from ".";
 
 const defaultOptions: TransformOptions = {
   presets: [],
-  plugins: [plugin],
+  plugins: [[plugin, { modulePrefixes: ["mod"] }]],
   configFile: false,
   babelrc: false,
 };
