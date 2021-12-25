@@ -7,7 +7,7 @@ import { declare } from "@babel/helper-plugin-utils";
 const statePrefix = "import-interop";
 
 export type Options = {
-  modulePrefixes?: string[];
+  packages?: string[];
 };
 
 export default declare<Options, Babel.PluginObj>((api, options) => {
@@ -164,14 +164,14 @@ function annotateAsCjs(
 }
 
 function hasApplicableSource(source: string, options: Options): boolean {
-  const { modulePrefixes = [] } = options;
+  const { packages = [] } = options;
 
-  for (const allowedPrefix of modulePrefixes) {
+  for (const allowedPrefix of packages) {
     if (source === allowedPrefix) return true;
   }
 
   const sourceSlash = `${source}/`;
-  for (const allowedPrefix of modulePrefixes) {
+  for (const allowedPrefix of packages) {
     const allowedPrefixSlash = allowedPrefix.endsWith("/") ? allowedPrefix : `${allowedPrefix}/`;
     if (sourceSlash.startsWith(allowedPrefixSlash)) return true;
   }

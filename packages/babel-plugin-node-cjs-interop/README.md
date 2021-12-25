@@ -53,7 +53,7 @@ export default {
       "babel-plugin-node-cjs-interop",
       {
         // Only apply the workaround to specific packages
-        modulePrefixes: [
+        packages: [
           "styled-components",
           // ...
         ],
@@ -163,13 +163,14 @@ Interestingly, it also works because `__esModule` is also exposed as a named exp
 
 ## Caveats
 
-If the `default` export changes over time, this plugin may break the existing semantics. I strongly recommend configuring the `modulePrefixes` option to only apply the transformation to modules known to be simulated ESMs.
+If the `default` export changes over time, this plugin may break the existing semantics.
+That is why you need to explicitly configure the `packages` option.
 
 ## Options
 
-### `modulePrefixes`
+### `packages`
 
-Undefined or an array of string. If present, the plugin only transforms imports containing one of the specified prefixes.
+Undefined or an array of string. The plugin only transforms imports containing one of the specified prefixes.
 
 The match is based on path components; the `foo` matches `foo` and `foo/bar` but not `foobar`.
 

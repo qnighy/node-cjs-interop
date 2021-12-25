@@ -3,7 +3,7 @@ export default {
     [
       "babel-plugin-node-cjs-interop",
       {
-        modulePrefixes: ["fixture-package-babel-esm"],
+        packages: ["fixture-package-babel-esm"],
       },
     ],
   ],

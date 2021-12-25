@@ -4,7 +4,7 @@ import plugin from ".";
 
 const defaultOptions: TransformOptions = {
   presets: [],
-  plugins: [[plugin, { modulePrefixes: ["mod"] }]],
+  plugins: [[plugin, { packages: ["mod"] }]],
   configFile: false,
   babelrc: false,
 };
@@ -82,7 +82,7 @@ describe("babel-plugin-node-cjs-interop", () => {
     it("filters sources", () => {
       const result = transform(`import foo from "foo";\nimport bar from "bar";\nconsole.log(foo, bar)\n`, {
         ...defaultOptions,
-        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+        plugins: [[plugin, { packages: ["foo"] }]],
       });
       expect(result?.code).toMatchSnapshot();
     });
@@ -90,7 +90,7 @@ describe("babel-plugin-node-cjs-interop", () => {
     it("filters multiple sources", () => {
       const result = transform(`import foo from "foo";\nimport bar from "bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
         ...defaultOptions,
-        plugins: [[plugin, { modulePrefixes: ["foo", "bar"] }]],
+        plugins: [[plugin, { packages: ["foo", "bar"] }]],
       });
       expect(result?.code).toMatchSnapshot();
     });
@@ -98,7 +98,7 @@ describe("babel-plugin-node-cjs-interop", () => {
     it("matches subdirectories", () => {
       const result = transform(`import foo from "foo";\nimport bar from "foo/bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
         ...defaultOptions,
-        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+        plugins: [[plugin, { packages: ["foo"] }]],
       });
       expect(result?.code).toMatchSnapshot();
     });
@@ -106,7 +106,7 @@ describe("babel-plugin-node-cjs-interop", () => {
     it("doesn't match non-subdirectory prefixes", () => {
       const result = transform(`import foo from "foo";\nimport bar from "foobar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
         ...defaultOptions,
-        plugins: [[plugin, { modulePrefixes: ["foo"] }]],
+        plugins: [[plugin, { packages: ["foo"] }]],
       });
       expect(result?.code).toMatchSnapshot();
     });
@@ -114,7 +114,7 @@ describe("babel-plugin-node-cjs-interop", () => {
     it("allows specifying scoped packages", () => {
       const result = transform(`import foo from "@foo/foo";\nimport bar from "@foo/bar";\nimport baz from "baz";\nconsole.log(foo, bar, baz)\n`, {
         ...defaultOptions,
-        plugins: [[plugin, { modulePrefixes: ["@foo/bar"] }]],
+        plugins: [[plugin, { packages: ["@foo/bar"] }]],
       });
       expect(result?.code).toMatchSnapshot();
     });
