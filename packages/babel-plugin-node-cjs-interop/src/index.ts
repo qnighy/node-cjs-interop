@@ -1,7 +1,7 @@
 /// <reference types="@babel/helper-plugin-utils" />
 
 import type * as Babel from "@babel/core";
-import type { Expression, Identifier, Node, Program } from "@babel/types";
+import type { Expression, Identifier, JSXIdentifier, JSXMemberExpression, Node, Program } from "@babel/types";
 import { declare } from "@babel/helper-plugin-utils";
 
 const statePrefix = "import-interop";
@@ -85,7 +85,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
 
               const binding = path.scope.getBinding(path.node.name);
               if (!binding || binding.scope === replacement.scope) {
-                path.replaceWith(t.cloneNode(replacement.expr));
+                replaceIdentifier(t, path, t.cloneNode(replacement.expr));
               }
             },
           });
@@ -166,4 +166,34 @@ function hasApplicableSource(source: string, options: Options): boolean {
   }
 
   return false;
+}
+
+function replaceIdentifier(t: typeof Babel.types, path: Babel.NodePath<Identifier> | Babel.NodePath<JSXIdentifier>, replacement: Expression) {
+  if (path.isJSXIdentifier()) {
+    path.replaceWith(toJSXReference(t, replacement));
+    return;
+  }
+
+  if (
+    (path.parentPath.isCallExpression({ callee: path.node }) ||
+      path.parentPath.isOptionalCallExpression({ callee: path.node }) ||
+      path.parentPath.isTaggedTemplateExpression({ tag: path.node })) &&
+    t.isMemberExpression(replacement)
+  ) {
+    path.replaceWith(t.sequenceExpression([t.numericLiteral(0), replacement]));
+  } else {
+    path.replaceWith(replacement);
+  }
+}
+
+function toJSXReference(t: typeof Babel.types, expr: Expression): JSXIdentifier | JSXMemberExpression {
+  if (t.isIdentifier(expr)) {
+    return t.inherits(t.jsxIdentifier(expr.name), expr);
+  } else if (t.isMemberExpression(expr)) {
+    if (!t.isIdentifier(expr.property) || expr.computed) throw new Error("Not an identifier reference");
+    const property = t.inherits(t.jsxIdentifier(expr.property.name), expr.property);
+    return t.inherits(t.jsxMemberExpression(toJSXReference(t, expr.object), property), expr);
+  } else {
+    throw new Error("Not a chain of identifiers");
+  }
 }

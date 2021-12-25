@@ -1,4 +1,4 @@
-import { describe, expect, it, xit } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import square1,
 {
   version as version1,
@@ -34,7 +34,7 @@ describe("Transform all with named imports", () => {
       countUp1();
       expect(counter1).toBe(oldValue + 1);
     });
-    xit("doesn't attach the module as this value", () => {
+    it("doesn't attach the module as this value", () => {
       expect(getThis1()).toBe(undefined);
     });
   });
@@ -50,7 +50,7 @@ describe("Transform all with named imports", () => {
       countUp2();
       expect(counter2).toBe(oldValue + 1);
     });
-    xit("doesn't attach the module as this value", () => {
+    it("doesn't attach the module as this value", () => {
       expect(getThis2()).toBe(undefined);
     });
   });
@@ -66,7 +66,7 @@ describe("Transform all with named imports", () => {
       countUp3();
       expect(counter3).toBe(oldValue);
     });
-    xit("doesn't attach the module as this value", () => {
+    it("doesn't attach the module as this value", () => {
       expect(getThis3()).toBe(undefined);
     });
   });
