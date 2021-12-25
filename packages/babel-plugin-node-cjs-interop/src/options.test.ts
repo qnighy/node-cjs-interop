@@ -26,4 +26,9 @@ describe("validateOptions", () => {
     const options = { packages: ["foo", 42] };
     expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: packages should be an array of strings");
   });
+
+  it("forbids non-package names in packages option", () => {
+    const options = { packages: ["foo/bar", "foo"] };
+    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: not a package name: foo/bar");
+  });
 });

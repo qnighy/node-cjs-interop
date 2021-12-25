@@ -25,3 +25,7 @@ export function getPackageName(modulePath: string): string | undefined {
     }
   }
 }
+
+export function isPackageName(name: string): boolean {
+  return name === getPackageName(name);
+}
