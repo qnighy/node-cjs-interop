@@ -22,8 +22,8 @@ greet();
 
 They usually work, unless the following conditions are met:
 
-- `a.js` (the module being imported) has been transpiled as a CommonJS module (by Babel or TypeScript) before execution. And,
-- `b.js` (the importing module) is being directly run on Node.js' native ES Module support.
+- `a.js` (the module being imported) is a **simulated ESM**. That is, the module is transpiled as a CommonJS module (by Babel or TypeScript) before execution. And,
+- `b.js` (the importing module) is a **native ESM**, That is, the module is run on Node.js' native ES Module support.
 
 You can reproduce the above condition by placing the following files:
 
@@ -94,6 +94,7 @@ export default {
       {
         // List the packages you're experiencing problems
         // importing from Node.js' native ESM.
+        // I.e. list the packages in the simulated ESM format.
         packages: [
           "styled-components",
           "@babel/helper-plugin-test-runner",
@@ -109,6 +110,10 @@ export default {
 ### re-exports
 
 `export ... from` is not detected yet.
+
+### Effects to tree-shaking
+
+It may negatively affect tree-shaking because the wrapper function makes it difficult to analyze unused imports.
 
 ### Observing the export's newest value
 
@@ -129,13 +134,13 @@ countUp();
 console.log(counter); // => 1
 ```
 
-The incompatibility between Node.js and Babel extends to this semantics too; if the module being imported has been transpiled to a CommonJS module and the importing module has not, the value of the named export is never updated.
+Here the semantics is also not preserved when importing a simulated ESM module from a native ESM; the importing module always observes the initial value.
 
-This plugin also restores the intended behavior of variable updates.
+This plugin also restores the intended behavior of updating exported variables. Therefore, in rare cases, you may find your program behaving differently regarding named imports other than `default`.
 
 ### Accesses to missing named exports
 
-When using native ES Modules, it is an error to import a non-existent named export:
+When using native ESM, it is an error to import a non-existent named export:
 
 ```javascript
 // Error
@@ -146,10 +151,10 @@ With `babel-plugin-node-cjs-interop`, it silently returns `undefined`.
 
 ### False positives
 
-This plugin uses the `__esModule` flag to detect Babel's ES Module support. Technically speaking, it may lead to false positives in a rare situation. Consider the following code:
+This plugin uses the `__esModule` flag to detect Babel's ES Modules support. Technically speaking, it may lead to false positives in a rare situation. Consider the following code:
 
 ```javascript
-// a.js (will be transpiled to CommonJS)
+// a.js (simulated ESM)
 export const val = 42;
 ```
 
@@ -173,7 +178,7 @@ When this plugin is applied to the last import, the import will return an uninte
 - type: `string[]`
 - default: `[]`
 
-List of packages to apply the transformation.
+List of packages to apply the transformation. If empty, no transformation is applied.
 
 Currently there is no way to apply the transformation to all imports.
 
@@ -190,23 +195,23 @@ Imports helpers from the `node-cjs-interop` package. You need to add `node-cjs-i
 
 ES Modules and CommonJS Modules use different models for module exports:
 
-- In **ES Modules**, a module exports **multiple values**, each having a name in string.
-- In **CommonJS Modules**, a module exports a **single unnamed value**.
+- In **ES Modules** (ESM), a module exports **multiple values**, each having a name in string.
+- In **CommonJS Modules** (CJS), a module exports a **single unnamed value**.
 
 For this reason, exports are mapped differently in each direction:
 
-- ES Modules' named imports are mapped to CommonJS exports in the following ways:
+- Named imports in ESM are mapped to exports in CJS in the following ways:
   - The import named `default` is mapped to the single exported value.
   - Other named imports are mapped to each property of the single exported value.
-- CommonJS Modules' imports are mapped to ES Modules' exported namespace (the record containing all exported values).
+- Imports in CJS are mapped to the exported namespaces (the record containing all exported values) from ESM.
 
-And it has a big downside: **ES Modules' `default` exports don't round-trip** when shipped through CommonJS Modules. This is problematic for transpilers like Babel, which needs to embed the semantics of ES Modules to CommonJS Modules. Therefore Babel implements the additional rule to the above:
+And it has a big downside: **`default` exports from ESM don't round-trip** when shipped through CJS. This is problematic for transpilers like Babel, which needs to embed the semantics of ESM into CJS. Therefore Babel implements the additional rule to the above:
 
-- If a CommonJS module defines `exports.__esModule` as a truthy value, ES Modules' importing rule is modified so that the `default` import is treated uniformly with other named imports (i.e. mapped to `exports.default` rather than `exports`).
+- If a CJS module defines `exports.__esModule` as a truthy value, ESM's importing rule is modified so that the `default` import is treated uniformly with other named imports (i.e. mapped to `exports.default` rather than `exports`).
 
-And Babel defines `exports.__esModule` when transpiling modules in ES Modules to CommonJS Modules format.
+And Babel defines `exports.__esModule` when transpiling modules in ESM to CJS format.
 
-However, Node.js didn't implement the rule for `__esModule`. It's [a result of careful consideration](https://github.com/nodejs/node/pull/40892#issuecomment-974654787), but is still problematic to gradual migration from CommonJS Modules to ES Modules.
+However, Node.js didn't implement the rule for `__esModule`. It's [a result of careful consideration](https://github.com/nodejs/node/pull/40892#issuecomment-974654787), but is still problematic to gradual migration from CJS to ESM.
 
 ### node-cjs-interop
 
@@ -238,7 +243,7 @@ import * as ns from "mod";
 console.log({ f: ns.default, a: ns.a });
 ```
 
-and then wrap the namespace object by the aforementioned function:
+and then wraps the namespace object by the aforementioned function:
 
 ```javascript
 import * as nsOrig from "mod";

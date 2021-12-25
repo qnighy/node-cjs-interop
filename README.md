@@ -22,8 +22,8 @@ greet();
 
 They usually work, unless the following conditions are met:
 
-- `a.js` (the module being imported) has been transpiled as a CommonJS module (by Babel or TypeScript) before execution. And,
-- `b.js` (the importing module) is being directly run on Node.js' native ES Module support.
+- `a.js` (the module being imported) is a **simulated ESM**. That is, the module is transpiled as a CommonJS module (by Babel or TypeScript) before execution. And,
+- `b.js` (the importing module) is a **native ESM**, That is, the module is run on Node.js' native ES Module support.
 
 You can reproduce the above condition by placing the following files:
 
