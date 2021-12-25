@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "babel-plugin-node-cjs-interop",
+      {
+        "packages": ["mod", "mod1", "mod2"],
+        "useRuntime": true
+      }
+    ]
+  ]
+}

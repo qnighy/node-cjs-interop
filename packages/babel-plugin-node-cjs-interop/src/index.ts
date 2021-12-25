@@ -5,12 +5,11 @@ import type { Expression, Identifier, JSXIdentifier, JSXMemberExpression, Node, 
 import { declare } from "@babel/helper-plugin-utils";
 import { getPackageName } from "./package-name.js";
 import { validateOptions } from "./options.js";
+import type { Options } from "./options.js";
+
+export type { Options } from "./options.js";
 
 const statePrefix = "import-interop";
-
-export type Options = {
-  packages?: string[];
-};
 
 export default declare<Options, Babel.PluginObj>((api, options) => {
   api.assertVersion("^7.0.0 || ^8.0.0");
@@ -56,7 +55,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           replaceMap.set(specifier.local.name, { scope: path.scope, expr })
         }
 
-        const importHelper = getImportHelper(t, path, state);
+        const importHelper = getImportHelper(t, path, state, options.useRuntime ?? false);
 
         // import ... from "source";
         // ->
@@ -115,13 +114,34 @@ type Replacement = {
   expr: Expression,
 };
 
-function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Babel.PluginPass): Identifier {
+function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Babel.PluginPass, useRuntime: boolean): Identifier {
   const key = `${statePrefix}/importHelper`;
   let helper: Identifier | undefined = state.get(key);
   if (helper) return helper;
 
   const scope = path.scope.getProgramParent();
   helper = scope.generateUidIdentifier("interopImportCJSNamespace");
+
+  if (useRuntime) {
+    // import {
+    //   interopImportCJSNamespace as _interopImportCJSNamespace,
+    // } from "node-cjs-interop";
+    (scope.path as Babel.NodePath<Program>).unshiftContainer(
+      "body",
+      t.importDeclaration(
+        [
+          t.importSpecifier(
+            t.cloneNode(helper),
+            t.identifier("interopImportCJSNamespace"),
+          ),
+        ],
+        t.stringLiteral("node-cjs-interop"),
+      ),
+    );
+    state.set(key, helper);
+    return helper;
+  }
+
   const ns = t.identifier("ns");
   const nsDefault = t.memberExpression(t.cloneNode(ns), t.identifier("default"));
   // function interopImportCJSNamespace(ns) {

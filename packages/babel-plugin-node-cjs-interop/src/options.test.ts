@@ -31,4 +31,19 @@ describe("validateOptions", () => {
     const options = { packages: ["foo/bar", "foo"] };
     expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: not a package name: foo/bar");
   });
+
+  it("allows useRuntime as false", () => {
+    const options = { useRuntime: false };
+    expect(() => validateOptions(options)).not.toThrow();
+  });
+
+  it("allows useRuntime as true", () => {
+    const options = { useRuntime: true };
+    expect(() => validateOptions(options)).not.toThrow();
+  });
+
+  it("forbids invalid useRuntime value", () => {
+    const options = { useRuntime: 10 };
+    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: 'useRuntime' option must be a boolean.");
+  });
 });

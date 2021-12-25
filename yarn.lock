@@ -4422,7 +4422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-cjs-interop@workspace:packages/node-cjs-interop":
+"node-cjs-interop@workspace:*, node-cjs-interop@workspace:packages/node-cjs-interop":
   version: 0.0.0-use.local
   resolution: "node-cjs-interop@workspace:packages/node-cjs-interop"
   dependencies:
@@ -5314,6 +5314,7 @@ __metadata:
     fixture-package-native-esm: "workspace:*"
     fixture-package-pure-cjs: "workspace:*"
     jest: ^27.4.4
+    node-cjs-interop: "workspace:*"
   languageName: unknown
   linkType: soft
 

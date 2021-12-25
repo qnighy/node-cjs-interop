@@ -5,15 +5,18 @@ const v: OptionValidator = new OptionValidator("babel-plugin-node-cjs-interop");
 
 export type Options = {
   packages?: string[] | undefined;
+  useRuntime?: boolean;
 };
 
 const optionShape = {
   packages: "string[]",
+  useRuntime: "boolean",
 } as const;
 
 export function validateOptions(options: object): asserts options is Options {
   v.validateTopLevelOptions(options, optionShape);
   validatePackages(options.packages);
+  v.validateBooleanOption("useRuntime", options.useRuntime as any);
   validatePackagesSemantics(options.packages ?? []);
 }
 

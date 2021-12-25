@@ -9,7 +9,8 @@
     "babel-plugin-node-cjs-interop": "workspace:*",
     "fixture-package-babel-esm": "workspace:*",
     "fixture-package-native-esm": "workspace:*",
-    "fixture-package-pure-cjs": "workspace:*"
+    "fixture-package-pure-cjs": "workspace:*",
+    "node-cjs-interop": "workspace:*"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
