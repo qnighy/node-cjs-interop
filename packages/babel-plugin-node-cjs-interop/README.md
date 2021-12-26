@@ -105,6 +105,12 @@ export default {
 };
 ```
 
+If you're unsure what packages to specify in the configuration, [`node-cjs-interop-finder`](https://npmjs.com/package/node-cjs-interop-finder) might be useful:
+
+```javascript
+npx node-cjs-interop-finder
+```
+
 ## Caveats
 
 ### re-exports
@@ -181,6 +187,12 @@ When this plugin is applied to the last import, the import will return an uninte
 List of packages to apply the transformation. If empty, no transformation is applied.
 
 Currently there is no way to apply the transformation to all imports.
+
+You can use [`node-cjs-interop-finder`](https://npmjs.com/package/node-cjs-interop-finder) to figure out packages that might suit in the option:
+
+```javascript
+npx node-cjs-interop-finder
+```
 
 ### useRuntime
 
