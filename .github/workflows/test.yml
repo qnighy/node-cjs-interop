@@ -1,0 +1,22 @@
+name: build and test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - uses: actions/setup-node@v2.5.0
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - run: yarn install --immutable
+    - run: yarn build
+    - run: yarn test
+    - run: yarn lint
+    - run: yarn fmt:check
