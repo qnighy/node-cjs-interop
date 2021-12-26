@@ -1,9 +1,19 @@
 {
   "name": "node-cjs-interop",
   "description": "A library to fix the default import interoperability issue in Node.js",
-  "keywords": ["runtime", "commonjs", "node", "esm", "mjs", "cjs", "default import"],
+  "keywords": [
+    "runtime",
+    "commonjs",
+    "node",
+    "esm",
+    "mjs",
+    "cjs",
+    "default import"
+  ],
   "homepage": "https://github.com/qnighy/node-cjs-interop#readme",
-  "bugs": { "url": "https://github.com/qnighy/node-cjs-interop/issues" },
+  "bugs": {
+    "url": "https://github.com/qnighy/node-cjs-interop/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/qnighy/node-cjs-interop.git",
@@ -27,6 +37,8 @@
     "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .cjs",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
+    "fmt": "prettier -w .",
+    "fmt:check": "prettier -c .",
     "prepack": "$npm_execpath build",
     "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
   },
@@ -39,6 +51,7 @@
     "babel-jest": "^27.4.4",
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
+    "prettier": "^2.5.1",
     "typescript": "^4.5.3"
   },
   "jest": {

@@ -11,24 +11,23 @@ declare module "@babel/helper-validator-option" {
      *   An object with all the valid key names that `options` should be allowed to have
      *   The property values of `TopLevelOptionShape` can be arbitrary
      */
-    validateTopLevelOptions<
-      T extends object,
-      U extends object
-    >(
+    validateTopLevelOptions<T extends object, U extends object>(
       options: T,
       TopLevelOptionShape: U
-    ): asserts options is Record<keyof U, unknown> & { [K in keyof T]?: K extends keyof U ? unknown : undefined };
+    ): asserts options is Record<keyof U, unknown> & {
+      [K in keyof T]?: K extends keyof U ? unknown : undefined;
+    };
 
     validateBooleanOption<T>(
       name: string,
       value?: boolean,
-      defaultValue?: T,
+      defaultValue?: T
     ): boolean | T;
 
     validateStringOption<T>(
       name: string,
       value?: string,
-      defaultValue?: T,
+      defaultValue?: T
     ): string | T;
 
     /**

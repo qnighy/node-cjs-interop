@@ -3,12 +3,7 @@
     [
       "babel-plugin-node-cjs-interop",
       {
-        "packages": [
-          "foo",
-          "bar",
-          "@scoped/foo",
-          "@scoped/bar"
-        ]
+        "packages": ["foo", "bar", "@scoped/foo", "@scoped/bar"]
       }
     ]
   ]

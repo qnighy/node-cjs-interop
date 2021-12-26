@@ -9,7 +9,9 @@ describe("validateOptions", () => {
 
   it("forbids unknown option keys", () => {
     const options = { foo: 42 };
-    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: 'foo' is not a valid top-level option.\n- Did you mean 'packages'?");
+    expect(() => validateOptions(options)).toThrow(
+      "babel-plugin-node-cjs-interop: 'foo' is not a valid top-level option.\n- Did you mean 'packages'?"
+    );
   });
 
   it("allows packages as an empty array", () => {
@@ -24,12 +26,16 @@ describe("validateOptions", () => {
 
   it("forbids packages with non-string elements", () => {
     const options = { packages: ["foo", 42] };
-    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: packages should be an array of strings");
+    expect(() => validateOptions(options)).toThrow(
+      "babel-plugin-node-cjs-interop: packages should be an array of strings"
+    );
   });
 
   it("forbids non-package names in packages option", () => {
     const options = { packages: ["foo/bar", "foo"] };
-    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: not a package name: foo/bar");
+    expect(() => validateOptions(options)).toThrow(
+      "babel-plugin-node-cjs-interop: not a package name: foo/bar"
+    );
   });
 
   it("allows useRuntime as false", () => {
@@ -44,6 +50,8 @@ describe("validateOptions", () => {
 
   it("forbids invalid useRuntime value", () => {
     const options = { useRuntime: 10 };
-    expect(() => validateOptions(options)).toThrow("babel-plugin-node-cjs-interop: 'useRuntime' option must be a boolean.");
+    expect(() => validateOptions(options)).toThrow(
+      "babel-plugin-node-cjs-interop: 'useRuntime' option must be a boolean."
+    );
   });
 });

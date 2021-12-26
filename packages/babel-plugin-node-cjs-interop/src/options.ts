@@ -20,21 +20,29 @@ export function validateOptions(options: object): asserts options is Options {
   validatePackagesSemantics(options.packages ?? []);
 }
 
-function validatePackages(packages: unknown): asserts packages is string[] | undefined {
+function validatePackages(
+  packages: unknown
+): asserts packages is string[] | undefined {
   if (packages === undefined) return;
   if (!Array.isArray(packages)) {
-    throw new Error("babel-plugin-node-cjs-interop: packages should be an array");
+    throw new Error(
+      "babel-plugin-node-cjs-interop: packages should be an array"
+    );
   }
 
   if (!packages.every((p): p is string => typeof p === "string")) {
-    throw new Error("babel-plugin-node-cjs-interop: packages should be an array of strings");
+    throw new Error(
+      "babel-plugin-node-cjs-interop: packages should be an array of strings"
+    );
   }
 }
 
 function validatePackagesSemantics(packages: string[]) {
   for (const name of packages) {
     if (!isPackageName(name)) {
-      throw new Error(`babel-plugin-node-cjs-interop: not a package name: ${name}`)
+      throw new Error(
+        `babel-plugin-node-cjs-interop: not a package name: ${name}`
+      );
     }
   }
 }

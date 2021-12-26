@@ -5,11 +5,15 @@ import { listTargetPackages } from "./list-packages";
 
 function filePath(url: string) {
   const urlObj = new URL(url);
-  if (urlObj.protocol !== "file:") throw new Error(`Not a file protocol: ${url}`);
+  if (urlObj.protocol !== "file:")
+    throw new Error(`Not a file protocol: ${url}`);
   return urlObj.pathname;
 }
 
-const fixtures = path.resolve(path.dirname(filePath(import.meta.url)), "./__fixtures__");
+const fixtures = path.resolve(
+  path.dirname(filePath(import.meta.url)),
+  "./__fixtures__"
+);
 
 describe("listTargetPackges", () => {
   it("Lists simulated ESM packages for Node.js", async () => {

@@ -12,7 +12,9 @@
  *   ```
  */
 export function interopImportCJSNamespace<T>(ns: T): T {
-  return (ns as any).default && (ns as any).default.__esModule ? (ns as any).default : ns;
+  return (ns as any).default && (ns as any).default.__esModule
+    ? (ns as any).default
+    : ns;
 }
 
 /**

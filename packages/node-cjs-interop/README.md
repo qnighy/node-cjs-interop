@@ -33,7 +33,7 @@ You can reproduce the above condition by placing the following files:
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.default = greet;
 

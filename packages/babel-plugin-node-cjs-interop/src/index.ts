@@ -1,7 +1,14 @@
 /// <reference types="@babel/helper-plugin-utils" />
 
 import type * as Babel from "@babel/core";
-import type { Expression, Identifier, JSXIdentifier, JSXMemberExpression, Node, Program } from "@babel/types";
+import type {
+  Expression,
+  Identifier,
+  JSXIdentifier,
+  JSXMemberExpression,
+  Node,
+  Program,
+} from "@babel/types";
 import { declare } from "@babel/helper-plugin-utils";
 import { getPackageName } from "./package-name.js";
 import { validateOptions } from "./options.js";
@@ -28,22 +35,35 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
 
         const replaceMap = new Map<string, Replacement>();
 
-        const existingNsImport = path.node.specifiers.find((specifier) => specifier.type === "ImportNamespaceSpecifier")?.local;
+        const existingNsImport = path.node.specifiers.find(
+          (specifier) => specifier.type === "ImportNamespaceSpecifier"
+        )?.local;
 
-        const nsImport = existingNsImport ?? path.scope.generateUidIdentifier("ns");
+        const nsImport =
+          existingNsImport ?? path.scope.generateUidIdentifier("ns");
 
         for (const specifier of path.node.specifiers) {
           let expr: Expression;
           if (specifier.type === "ImportDefaultSpecifier") {
             // ns.defalut
-            expr = t.memberExpression(t.cloneNode(nsImport), t.identifier("default"));
+            expr = t.memberExpression(
+              t.cloneNode(nsImport),
+              t.identifier("default")
+            );
           } else if (specifier.type === "ImportSpecifier") {
             if (specifier.imported.type === "StringLiteral") {
               // ns["named"]
-              expr = t.memberExpression(t.cloneNode(nsImport), t.cloneNode(specifier.imported), true);
+              expr = t.memberExpression(
+                t.cloneNode(nsImport),
+                t.cloneNode(specifier.imported),
+                true
+              );
             } else {
               // ns.named
-              expr = t.memberExpression(t.cloneNode(nsImport), t.cloneNode(specifier.imported));
+              expr = t.memberExpression(
+                t.cloneNode(nsImport),
+                t.cloneNode(specifier.imported)
+              );
             }
           } else if (specifier.type === "ImportNamespaceSpecifier") {
             // No need to replace
@@ -52,25 +72,33 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
             const { type }: never = specifier;
             throw new Error(`Unknown specifier type: ${type}`);
           }
-          replaceMap.set(specifier.local.name, { scope: path.scope, expr })
+          replaceMap.set(specifier.local.name, { scope: path.scope, expr });
         }
 
-        const importHelper = getImportHelper(t, path, state, options.useRuntime ?? false);
+        const importHelper = getImportHelper(
+          t,
+          path,
+          state,
+          options.useRuntime ?? false
+        );
 
         // import ... from "source";
         // ->
         // import * as moduleOrig from "source";
         // const module = _interopImportCJSNamespace(moduleOrig);
         const importOriginalName = path.scope.generateUidIdentifier("nsOrig");
-        const program = path.scope.getProgramParent().path as Babel.NodePath<Program>;
+        const program = path.scope.getProgramParent()
+          .path as Babel.NodePath<Program>;
         program.unshiftContainer(
           "body",
-          t.variableDeclaration(
-            "const",
-            [
-              t.variableDeclarator(nsImport, t.callExpression(t.cloneNode(importHelper), [t.cloneNode(importOriginalName)])),
-            ],
-          ),
+          t.variableDeclaration("const", [
+            t.variableDeclarator(
+              nsImport,
+              t.callExpression(t.cloneNode(importHelper), [
+                t.cloneNode(importOriginalName),
+              ])
+            ),
+          ])
         );
 
         const newImport = t.cloneNode(path.node);
@@ -101,7 +129,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               if (!binding || binding.scope === replacement.scope) {
                 replaceIdentifier(t, path, t.cloneNode(replacement.expr));
               }
-            }
+            },
           });
         }
       },
@@ -110,11 +138,16 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
 });
 
 type Replacement = {
-  scope: Babel.NodePath["scope"],
-  expr: Expression,
+  scope: Babel.NodePath["scope"];
+  expr: Expression;
 };
 
-function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Babel.PluginPass, useRuntime: boolean): Identifier {
+function getImportHelper(
+  t: typeof Babel.types,
+  path: Babel.NodePath,
+  state: Babel.PluginPass,
+  useRuntime: boolean
+): Identifier {
   const key = `${statePrefix}/importHelper`;
   let helper: Identifier | undefined = state.get(key);
   if (helper) return helper;
@@ -132,18 +165,21 @@ function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Bab
         [
           t.importSpecifier(
             t.cloneNode(helper),
-            t.identifier("interopImportCJSNamespace"),
+            t.identifier("interopImportCJSNamespace")
           ),
         ],
-        t.stringLiteral("node-cjs-interop"),
-      ),
+        t.stringLiteral("node-cjs-interop")
+      )
     );
     state.set(key, helper);
     return helper;
   }
 
   const ns = t.identifier("ns");
-  const nsDefault = t.memberExpression(t.cloneNode(ns), t.identifier("default"));
+  const nsDefault = t.memberExpression(
+    t.cloneNode(ns),
+    t.identifier("default")
+  );
   // function interopImportCJSNamespace(ns) {
   //   return ns.default && ns.default.__esModule ? ns.default : ns;
   // }
@@ -158,14 +194,17 @@ function getImportHelper(t: typeof Babel.types, path: Babel.NodePath, state: Bab
             t.logicalExpression(
               "&&",
               t.cloneNode(nsDefault),
-              t.memberExpression(t.cloneNode(nsDefault), t.identifier("__esModule")),
+              t.memberExpression(
+                t.cloneNode(nsDefault),
+                t.identifier("__esModule")
+              )
             ),
             t.cloneNode(nsDefault),
-            t.cloneNode(ns),
-          ),
+            t.cloneNode(ns)
+          )
         ),
-      ]),
-    ),
+      ])
+    )
   );
   state.set(key, helper);
   return helper;
@@ -175,12 +214,9 @@ const CJS_ANNOTATION = "#__CJS__";
 
 const isCjsAnnotated = ({ leadingComments }: Node): boolean =>
   !!leadingComments &&
-  leadingComments.some(comment => /#__CJS__/.test(comment.value));
+  leadingComments.some((comment) => /#__CJS__/.test(comment.value));
 
-function annotateAsCjs(
-  t: typeof Babel.types,
-  node: Node,
-): void {
+function annotateAsCjs(t: typeof Babel.types, node: Node): void {
   if (isCjsAnnotated(node)) {
     return;
   }
@@ -196,7 +232,11 @@ function hasApplicableSource(source: string, options: Options): boolean {
   return packages.includes(sourcePackage);
 }
 
-function replaceIdentifier(t: typeof Babel.types, path: Babel.NodePath<Identifier> | Babel.NodePath<JSXIdentifier>, replacement: Expression) {
+function replaceIdentifier(
+  t: typeof Babel.types,
+  path: Babel.NodePath<Identifier> | Babel.NodePath<JSXIdentifier>,
+  replacement: Expression
+) {
   if (path.isJSXIdentifier()) {
     path.replaceWith(toJSXReference(t, replacement));
     return;
@@ -214,13 +254,23 @@ function replaceIdentifier(t: typeof Babel.types, path: Babel.NodePath<Identifie
   }
 }
 
-function toJSXReference(t: typeof Babel.types, expr: Expression): JSXIdentifier | JSXMemberExpression {
+function toJSXReference(
+  t: typeof Babel.types,
+  expr: Expression
+): JSXIdentifier | JSXMemberExpression {
   if (t.isIdentifier(expr)) {
     return t.inherits(t.jsxIdentifier(expr.name), expr);
   } else if (t.isMemberExpression(expr)) {
-    if (!t.isIdentifier(expr.property) || expr.computed) throw new Error("Not an identifier reference");
-    const property = t.inherits(t.jsxIdentifier(expr.property.name), expr.property);
-    return t.inherits(t.jsxMemberExpression(toJSXReference(t, expr.object), property), expr);
+    if (!t.isIdentifier(expr.property) || expr.computed)
+      throw new Error("Not an identifier reference");
+    const property = t.inherits(
+      t.jsxIdentifier(expr.property.name),
+      expr.property
+    );
+    return t.inherits(
+      t.jsxMemberExpression(toJSXReference(t, expr.object), property),
+      expr
+    );
   } else {
     throw new Error("Not a chain of identifiers");
   }

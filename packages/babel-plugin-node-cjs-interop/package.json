@@ -1,9 +1,20 @@
 {
   "name": "babel-plugin-node-cjs-interop",
   "description": "A babel plugin to fix the default import interoperability issue in Node.js",
-  "keywords": ["babel", "babel-plugin", "commonjs", "node", "esm", "mjs", "cjs", "default import"],
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "commonjs",
+    "node",
+    "esm",
+    "mjs",
+    "cjs",
+    "default import"
+  ],
   "homepage": "https://github.com/qnighy/node-cjs-interop#readme",
-  "bugs": { "url": "https://github.com/qnighy/node-cjs-interop/issues" },
+  "bugs": {
+    "url": "https://github.com/qnighy/node-cjs-interop/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/qnighy/node-cjs-interop.git",
@@ -26,6 +37,8 @@
     "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts' --out-file-extension .mjs",
     "build:tsc": "tsc --build",
+    "fmt": "prettier -w .",
+    "fmt:check": "prettier -c .",
     "jest": "BUILD_TARGET=cjs jest",
     "prepack": "$npm_execpath build",
     "test": "yarn build:babel:cjs && yarn jest"
@@ -49,6 +62,7 @@
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
     "jest-ts-webcompat-resolver": "^1.0.0",
+    "prettier": "^2.5.1",
     "typescript": "^4.5.3"
   },
   "jest": {

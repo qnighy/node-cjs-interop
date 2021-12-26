@@ -33,7 +33,7 @@ You can reproduce the above condition by placing the following files:
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.default = greet;
 
@@ -86,7 +86,9 @@ Configure it in your Babel configuration:
 // .babelrc.js or babel.config.js
 
 export default {
-  presets: [/* ... */],
+  presets: [
+    /* ... */
+  ],
   plugins: [
     // ...
     [
@@ -95,10 +97,7 @@ export default {
         // List the packages you're experiencing problems
         // importing from Node.js' native ESM.
         // I.e. list the packages in the simulated ESM format.
-        packages: [
-          "styled-components",
-          "@babel/helper-plugin-test-runner",
-        ],
+        packages: ["styled-components", "@babel/helper-plugin-test-runner"],
       },
     ],
   ],
@@ -231,13 +230,13 @@ node-cjs-interop works around the problem by **replacing the namespace object** 
 
 ```javascript
 function interopImportCJSNamespace(ns) {
-  return
-    ns.default && ns.default.__esModule ?
-    // `ns.default` likely comes from Babel's ESM emulation.
-    // In this case `ns.default` works as the namespace object.
-    ns.default :
-    // Original namespace object
-    ns;
+  return;
+  ns.default && ns.default.__esModule
+    ? // `ns.default` likely comes from Babel's ESM emulation.
+      // In this case `ns.default` works as the namespace object.
+      ns.default
+    : // Original namespace object
+      ns;
 }
 ```
 

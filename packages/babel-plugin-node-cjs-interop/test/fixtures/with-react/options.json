@@ -2,5 +2,7 @@
   "parserOpts": {
     "plugins": ["jsx"]
   },
-  "plugins": [["babel-plugin-node-cjs-interop", { "packages": ["mod", "mod2"] }]]
+  "plugins": [
+    ["babel-plugin-node-cjs-interop", { "packages": ["mod", "mod2"] }]
+  ]
 }

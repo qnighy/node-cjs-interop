@@ -3,23 +3,28 @@ import { classifyModule } from "./classify-module";
 
 describe("classifyModule", () => {
   it("Detects pure CJS", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       module.exports = function() {
         console.log("Hello, world!");
       };
-    `)).toBe("commonjs");
+    `)
+    ).toBe("commonjs");
   });
 
   it("Detects ESM", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       export default function() {
         console.log("Hello, world!");
       }
-    `)).toBe("module");
+    `)
+    ).toBe("module");
   });
 
   it("Detects exports.__esModule with Object.defineProperty", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -30,11 +35,13 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)).toBe("commonjs-babel");
+    `)
+    ).toBe("commonjs-babel");
   });
 
   it("Detects module.exports.__esModule with Object.defineProperty", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       "use strict";
 
       Object.defineProperty(module.exports, "__esModule", {
@@ -45,11 +52,13 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)).toBe("commonjs-babel");
+    `)
+    ).toBe("commonjs-babel");
   });
 
   it("Detects exports.__esModule with assignment", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       "use strict";
 
       exports.__esModule = true;
@@ -58,11 +67,13 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)).toBe("commonjs-babel");
+    `)
+    ).toBe("commonjs-babel");
   });
 
   it("Detects module.exports.__esModule with assignment", () => {
-    expect(classifyModule(`
+    expect(
+      classifyModule(`
       "use strict";
 
       module.exports.__esModule = true;
@@ -71,6 +82,7 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)).toBe("commonjs-babel");
+    `)
+    ).toBe("commonjs-babel");
   });
 });

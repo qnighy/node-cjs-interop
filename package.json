@@ -7,6 +7,8 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach -pt run build",
+    "fmt": "yarn workspaces foreach -p run fmt",
+    "fmt:check": "yarn workspaces foreach -p run fmt:check",
     "test": "yarn build && yarn workspaces foreach -p run test"
   }
 }

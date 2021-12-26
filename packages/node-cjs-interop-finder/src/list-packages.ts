@@ -26,16 +26,22 @@ async function findPackageJson(basePath: string): Promise<any> {
   while (true) {
     const pjsonPath = path.resolve(currentPath, "package.json");
     if (fs.existsSync(pjsonPath)) {
-      return JSON.parse(await fs.promises.readFile(pjsonPath, { encoding: "utf-8" }));
+      return JSON.parse(
+        await fs.promises.readFile(pjsonPath, { encoding: "utf-8" })
+      );
     }
 
     const nextPath = path.resolve(currentPath, "..");
-    if (nextPath === currentPath) throw new Error(`Cannot find package.json in ${basePath}`);
+    if (nextPath === currentPath)
+      throw new Error(`Cannot find package.json in ${basePath}`);
     currentPath = nextPath;
   }
 }
 
-export async function listTargetPackagesFrom(options: Options, packageNames: string[]): Promise<string[]> {
+export async function listTargetPackagesFrom(
+  options: Options,
+  packageNames: string[]
+): Promise<string[]> {
   const ret: string[] = [];
   for (const packageName of packageNames) {
     let moduleType: ModuleType | undefined = undefined;
@@ -51,22 +57,32 @@ export async function listTargetPackagesFrom(options: Options, packageNames: str
   return ret;
 }
 
-async function classifyPackage(options: Options, packageName: string): Promise<ModuleType> {
-  const [spec] = await new Promise<[string | undefined, any | undefined]>((resolvePromise, reject) => {
-    resolve(packageName, {
-      basedir: options.basePath,
-      packageFilter(pkg) {
-        for (const mainField of options.mainFields) {
-          if (pkg[mainField]) return { ...pkg, main: pkg[mainField] };
+async function classifyPackage(
+  options: Options,
+  packageName: string
+): Promise<ModuleType> {
+  const [spec] = await new Promise<[string | undefined, any | undefined]>(
+    (resolvePromise, reject) => {
+      resolve(
+        packageName,
+        {
+          basedir: options.basePath,
+          packageFilter(pkg) {
+            for (const mainField of options.mainFields) {
+              if (pkg[mainField]) return { ...pkg, main: pkg[mainField] };
+            }
+            return pkg;
+          },
+        },
+        (err, spec, meta) => {
+          if (err) reject(err);
+          else resolvePromise([spec, meta]);
         }
-        return pkg;
-      },
-    }, (err, spec, meta) => {
-      if (err) reject(err);
-      else resolvePromise([spec, meta]);
-    });
-  });
-  if (!spec) throw new Error(`Cannot find ${packageName}: resolve returned nothing`);
+      );
+    }
+  );
+  if (!spec)
+    throw new Error(`Cannot find ${packageName}: resolve returned nothing`);
   const code = await fs.promises.readFile(spec, { encoding: "utf-8" });
   return classifyModule(code);
 }

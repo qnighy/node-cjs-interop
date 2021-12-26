@@ -1,9 +1,19 @@
 {
   "name": "node-cjs-interop-finder",
   "description": "A helper command for babel-plugin-node-cjs-interop",
-  "keywords": ["cli", "commonjs", "node", "esm", "mjs", "cjs", "default import"],
+  "keywords": [
+    "cli",
+    "commonjs",
+    "node",
+    "esm",
+    "mjs",
+    "cjs",
+    "default import"
+  ],
   "homepage": "https://github.com/qnighy/node-cjs-interop#readme",
-  "bugs": { "url": "https://github.com/qnighy/node-cjs-interop/issues" },
+  "bugs": {
+    "url": "https://github.com/qnighy/node-cjs-interop/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/qnighy/node-cjs-interop.git",
@@ -23,6 +33,8 @@
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
     "build:babel": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
+    "fmt": "prettier -w .",
+    "fmt:check": "prettier -c .",
     "prepack": "$npm_execpath build",
     "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
   },
@@ -43,6 +55,7 @@
     "eslint": "^8.4.1",
     "jest": "^27.4.4",
     "jest-ts-webcompat-resolver": "^1.0.0",
+    "prettier": "^2.5.1",
     "typescript": "^4.5.3"
   },
   "jest": {

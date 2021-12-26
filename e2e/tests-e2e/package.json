@@ -3,6 +3,8 @@
   "name": "tests-e2e",
   "type": "module",
   "scripts": {
+    "fmt": "prettier -w .",
+    "fmt:check": "prettier -c .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
@@ -18,7 +20,8 @@
     "@babel/preset-typescript": "^7.16.5",
     "@jest/globals": "^27.4.4",
     "babel-jest": "^27.4.4",
-    "jest": "^27.4.4"
+    "jest": "^27.4.4",
+    "prettier": "^2.5.1"
   },
   "jest": {
     "extensionsToTreatAsEsm": [

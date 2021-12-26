@@ -1,4 +1,18 @@
-import { isAssignmentExpression, isCallExpression, isExpressionStatement, isIdentifier, isMemberExpression, CallExpression, Expression, Node, isStringLiteral, isObjectExpression, isObjectProperty, isExpression, isBooleanLiteral } from "@babel/types";
+import {
+  isAssignmentExpression,
+  isCallExpression,
+  isExpressionStatement,
+  isIdentifier,
+  isMemberExpression,
+  CallExpression,
+  Expression,
+  Node,
+  isStringLiteral,
+  isObjectExpression,
+  isObjectProperty,
+  isExpression,
+  isBooleanLiteral,
+} from "@babel/types";
 import { parse } from "@babel/parser";
 
 export type ModuleType = "commonjs" | "commonjs-babel" | "module";
@@ -40,20 +54,16 @@ export function classifyModule(code: string): ModuleType {
 /** `exports` or `module.exports` */
 function isExportsObject(expr: Node): boolean {
   return (
-    isIdentifier(expr, { name: "exports" })
-  ) || (
-    isMemberExpression(expr, { computed: false }) &&
-    isIdentifier(expr.object, { name: "module" }) &&
-    isIdentifier(expr.property, { name: "exports" })
+    isIdentifier(expr, { name: "exports" }) ||
+    (isMemberExpression(expr, { computed: false }) &&
+      isIdentifier(expr.object, { name: "module" }) &&
+      isIdentifier(expr.property, { name: "exports" }))
   );
 }
 
 /** `Object.defineProperty(...)` */
 function isCallToDefineProperty(expr: Expression): expr is CallExpression {
-  return (
-    isCallExpression(expr) &&
-    isDefineProperty(expr.callee)
-  );
+  return isCallExpression(expr) && isDefineProperty(expr.callee);
 }
 
 /** `Object.defineProperty` */

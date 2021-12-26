@@ -1,20 +1,17 @@
 import { describe, expect, it } from "@jest/globals";
-import square1,
-{
+import square1, {
   version as version1,
   counter as counter1,
   countUp as countUp1,
   getThis as getThis1,
 } from "fixture-package-native-esm";
-import square2,
-{
+import square2, {
   version as version2,
   counter as counter2,
   countUp as countUp2,
   getThis as getThis2,
 } from "fixture-package-babel-esm";
-import square3,
-{
+import square3, {
   version as version3,
   counter as counter3,
   countUp as countUp3,

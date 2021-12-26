@@ -50,7 +50,7 @@ describe("No transform with namespace imports", () => {
       expect(ns3.counter).toBe(oldValue);
     });
     it("is not callable by itself", () => {
-        expect(typeof ns3).toBe("object");
+      expect(typeof ns3).toBe("object");
     });
     it("is not callable by itself", () => {
       expect(typeof ns3).toBe("object");
