@@ -2098,6 +2098,7 @@ __metadata:
     babel-plugin-replace-import-extension: ^1.1.2
     eslint: ^8.4.1
     jest: ^27.4.4
+    jest-resolve: ^27.4.5
     jest-ts-webcompat-resolver: ^1.0.0
     prettier: ^2.5.1
     typescript: ^4.5.3
@@ -3735,6 +3736,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-haste-map@npm:^27.4.5":
+  version: 27.4.5
+  resolution: "jest-haste-map@npm:27.4.5"
+  dependencies:
+    "@jest/types": ^27.4.2
+    "@types/graceful-fs": ^4.1.2
+    "@types/node": "*"
+    anymatch: ^3.0.3
+    fb-watchman: ^2.0.0
+    fsevents: ^2.3.2
+    graceful-fs: ^4.2.4
+    jest-regex-util: ^27.4.0
+    jest-serializer: ^27.4.0
+    jest-util: ^27.4.2
+    jest-worker: ^27.4.5
+    micromatch: ^4.0.4
+    walker: ^1.0.7
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  checksum: acd593ec33b028169c7bf753a5c92eabdb05f87ba9f14e33fe24a4adc1e0a1ff4be0c4757a57a82413263ebbb6b567708b4f3019cb4df899d2d07fcec64bd75a
+  languageName: node
+  linkType: hard
+
 "jest-jasmine2@npm:^27.4.4":
   version: 27.4.4
   resolution: "jest-jasmine2@npm:27.4.4"
@@ -3855,6 +3880,24 @@ __metadata:
     resolve.exports: ^1.1.0
     slash: ^3.0.0
   checksum: 2dd3b27cc018adb754ac059c0f90eae5d8a92b3b2e0a24f16a22c448456c2f025cebd324f2408a7db229f251da76526592bde81c5cf4a408f1403571a592b7b0
+  languageName: node
+  linkType: hard
+
+"jest-resolve@npm:^27.4.5":
+  version: 27.4.5
+  resolution: "jest-resolve@npm:27.4.5"
+  dependencies:
+    "@jest/types": ^27.4.2
+    chalk: ^4.0.0
+    graceful-fs: ^4.2.4
+    jest-haste-map: ^27.4.5
+    jest-pnp-resolver: ^1.2.2
+    jest-util: ^27.4.2
+    jest-validate: ^27.4.2
+    resolve: ^1.20.0
+    resolve.exports: ^1.1.0
+    slash: ^3.0.0
+  checksum: 57d619ed1ab4ba5d1b079f9ca3e93c7d9bcc9faa195b617fda6155cbce6eb48c234a957f41f7feee43740b4a5b50ebec8aea61023f766ac4b2eb6ff946c76025
   languageName: node
   linkType: hard
 
@@ -4024,6 +4067,17 @@ __metadata:
     merge-stream: ^2.0.0
     supports-color: ^8.0.0
   checksum: e4a383d587f9e0fbe247a6c2e3a0dbe7b5cc0f9fe8583d6ffdc9257591563e62ecd6ef4c987dc44ca43a97d430395e36221427325bc839312a7ea62a4b1baedd
+  languageName: node
+  linkType: hard
+
+"jest-worker@npm:^27.4.5":
+  version: 27.4.5
+  resolution: "jest-worker@npm:27.4.5"
+  dependencies:
+    "@types/node": "*"
+    merge-stream: ^2.0.0
+    supports-color: ^8.0.0
+  checksum: eb0b6be412103299c3d8643ad26daf862826ca841bd2a3ff47d2d931804ab7d7f0db2fcdea7dbf47ce8eacb7742b3f2586c2d6ebdaa8d0ac77c65f7b698e7683
   languageName: node
   linkType: hard
 
@@ -4462,6 +4516,7 @@ __metadata:
     babel-jest: ^27.4.4
     eslint: ^8.4.1
     jest: ^27.4.4
+    jest-resolve: ^27.4.5
     jest-ts-webcompat-resolver: ^1.0.0
     prettier: ^2.5.1
     resolve: ^1.20.0
