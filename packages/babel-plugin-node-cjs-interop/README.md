@@ -68,7 +68,7 @@ TypeError: greet is not a function
 The following packages solve the problem:
 
 - `babel-plugin-node-cjs-interop` (this package): automatically inserts the compatibility wrapper.
-- `node-cjs-interop`: allows manually wrapping the exported value.
+- [`node-cjs-interop`](https://npmjs.com/package/node-cjs-interop): allows manually wrapping the exported value.
 
 ## Getting started
 
