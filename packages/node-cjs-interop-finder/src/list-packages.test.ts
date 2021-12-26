@@ -20,7 +20,7 @@ describe("listTargetPackges", () => {
     const result = await listTargetPackages({
       basePath: path.resolve(fixtures, "package1"),
       mainFields: [],
-      console: {} as any,
+      console: {} as typeof console,
     });
     expect(result).toEqual(["dep2", "dep3"]);
   });
@@ -29,7 +29,7 @@ describe("listTargetPackges", () => {
     const result = await listTargetPackages({
       basePath: path.resolve(fixtures, "package1"),
       mainFields: ["browser", "module"],
-      console: {} as any,
+      console: {} as typeof console,
     });
     expect(result).toEqual(["dep2"]);
   });

@@ -37,7 +37,7 @@ describe("No transform with named imports", () => {
   });
   describe("Babel ESM", () => {
     it("imports namespace as default", () => {
-      expect((square2 as any).default(10)).toBe(100);
+      expect((square2 as Interop<typeof square2>).default(10)).toBe(100);
       expect(typeof square2).toBe("object");
     });
     it("imports named exports correctly", () => {
@@ -69,3 +69,5 @@ describe("No transform with named imports", () => {
     });
   });
 });
+
+type Interop<T> = T & { default: T };

@@ -16,7 +16,10 @@ const optionShape = {
 export function validateOptions(options: object): asserts options is Options {
   v.validateTopLevelOptions(options, optionShape);
   validatePackages(options.packages);
-  v.validateBooleanOption("useRuntime", options.useRuntime as any);
+  v.validateBooleanOption(
+    "useRuntime",
+    options.useRuntime as boolean | undefined
+  );
   validatePackagesSemantics(options.packages ?? []);
 }
 

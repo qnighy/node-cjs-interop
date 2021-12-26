@@ -36,6 +36,7 @@
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
     "prepack": "$npm_execpath build",
+    "lint": "eslint 'src/**/*'",
     "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
   },
   "dependencies": {
@@ -51,8 +52,12 @@
     "@jest/globals": "^27.4.4",
     "@types/node": "^17.0.4",
     "@types/resolve": "^1.20.1",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
     "babel-jest": "^27.4.4",
     "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.3.0",
     "jest": "^27.4.4",
     "jest-resolve": "^27.4.5",
     "jest-ts-webcompat-resolver": "^1.0.0",

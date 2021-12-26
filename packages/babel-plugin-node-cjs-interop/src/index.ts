@@ -1,5 +1,3 @@
-/// <reference types="@babel/helper-plugin-utils" />
-
 import type * as Babel from "@babel/core";
 import type {
   Expression,
@@ -25,6 +23,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
   validateOptions(options);
 
   return {
+    name: "babel-plugin-node-cjs-interop",
     visitor: {
       ImportDeclaration(path, state) {
         if (!hasApplicableSource(path.node.source.value, options)) return;
@@ -70,6 +69,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
             continue;
           } else {
             const { type }: never = specifier;
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             throw new Error(`Unknown specifier type: ${type}`);
           }
           replaceMap.set(specifier.local.name, { scope: path.scope, expr });
@@ -149,7 +149,7 @@ function getImportHelper(
   useRuntime: boolean
 ): Identifier {
   const key = `${statePrefix}/importHelper`;
-  let helper: Identifier | undefined = state.get(key);
+  let helper = state.get(key) as Identifier | undefined;
   if (helper) return helper;
 
   const scope = path.scope.getProgramParent();

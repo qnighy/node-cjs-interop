@@ -22,7 +22,7 @@ describe("No transform with namespace imports", () => {
   });
   describe("Babel ESM", () => {
     it("imports namespace as default", () => {
-      expect((ns2 as any).default.default(10)).toBe(100);
+      expect((ns2 as Interop<typeof ns3>).default.default(10)).toBe(100);
       expect(typeof ns2.default).toBe("object");
     });
     it("imports named exports correctly", () => {
@@ -39,7 +39,7 @@ describe("No transform with namespace imports", () => {
   });
   describe("Pure CJS", () => {
     it("imports default exports correctly", () => {
-      expect((ns3 as any).default(10)).toBe(100);
+      expect((ns3 as Interop<typeof ns3>).default(10)).toBe(100);
     });
     it("imports named exports correctly", () => {
       expect(ns3.version).toBe("0.1.2");
@@ -52,8 +52,7 @@ describe("No transform with namespace imports", () => {
     it("is not callable by itself", () => {
       expect(typeof ns3).toBe("object");
     });
-    it("is not callable by itself", () => {
-      expect(typeof ns3).toBe("object");
-    });
   });
 });
+
+type Interop<T> = T & { default: T };

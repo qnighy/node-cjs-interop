@@ -5,7 +5,9 @@
   "scripts": {
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "lint": "eslint 'src/**/*'",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "tsc": "tsc --build"
   },
   "dependencies": {
     "babel-plugin-node-cjs-interop": "workspace:*",
@@ -19,9 +21,15 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-typescript": "^7.16.5",
     "@jest/globals": "^27.4.4",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
     "babel-jest": "^27.4.4",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^25.3.0",
     "jest": "^27.4.4",
-    "prettier": "^2.5.1"
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
   },
   "jest": {
     "extensionsToTreatAsEsm": [

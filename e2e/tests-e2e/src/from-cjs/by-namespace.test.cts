@@ -38,7 +38,7 @@ describe("Basic CJS usage with namespace imports", () => {
   });
   describe("Pure CJS", () => {
     it("imports default exports correctly", () => {
-      expect((ns3 as any).default(10)).toBe(100);
+      expect((ns3 as Interop<typeof ns3>).default(10)).toBe(100);
     });
     it("imports named exports correctly", () => {
       expect(ns3.version).toBe("0.1.2");
@@ -53,3 +53,5 @@ describe("Basic CJS usage with namespace imports", () => {
     });
   });
 });
+
+type Interop<T> = T & { default: T };
