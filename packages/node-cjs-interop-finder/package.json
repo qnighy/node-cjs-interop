@@ -1,10 +1,24 @@
 {
   "name": "node-cjs-interop-finder",
+  "description": "A helper command for babel-plugin-node-cjs-interop",
+  "keywords": ["cli", "commonjs", "node", "esm", "mjs", "cjs", "default import"],
+  "homepage": "https://github.com/qnighy/node-cjs-interop#readme",
+  "bugs": { "url": "https://github.com/qnighy/node-cjs-interop/issues" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qnighy/node-cjs-interop.git",
+    "directory": "packages/node-cjs-interop-finder"
+  },
+  "license": "MIT",
+  "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
   "version": "0.1.0",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": "./dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
     "build:babel": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
