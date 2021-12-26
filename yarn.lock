@@ -396,6 +396,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/parser@npm:^7.16.6":
+  version: 7.16.6
+  resolution: "@babel/parser@npm:7.16.6"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: 5cbb01a7b2ba5d609945099bfadb01f54e11ef85201e1e0bf47010ee1b35c257eca6ff91606c6ce8adba82a95e180b583183e4dc076f4a70e706152075dd98ca
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:^7.16.2":
   version: 7.16.2
   resolution: "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@npm:7.16.2"
@@ -1773,6 +1782,13 @@ __metadata:
   version: 2.4.2
   resolution: "@types/prettier@npm:2.4.2"
   checksum: 76e230b2d11028af11fe12e09b2d5b10b03738e9abf819ae6ebb0f78cac13d39f860755ce05ac3855b608222518d956628f5d00322dc206cc6d1f2d8d1519f1e
+  languageName: node
+  linkType: hard
+
+"@types/resolve@npm:^1.20.1":
+  version: 1.20.1
+  resolution: "@types/resolve@npm:1.20.1"
+  checksum: d035d5aaadbd455027fa9457a4a263563d49647f088876aebd2b0388d4c35400b85c0382fdc2ec5253c35442abfc2d25431c989345b97fefe26a367811214343
   languageName: node
   linkType: hard
 
@@ -4421,6 +4437,26 @@ __metadata:
   checksum: dfddaff6c06792f1c4c3809e29a427b8daef8cd437c83b08dd51d7ee11bbd1c29d9512d66b801144d6c98e910ffd8723f2432e0cbf8b18d41d2a09599c975ab3
   languageName: node
   linkType: hard
+
+"node-cjs-interop-finder@workspace:packages/node-cjs-interop-finder":
+  version: 0.0.0-use.local
+  resolution: "node-cjs-interop-finder@workspace:packages/node-cjs-interop-finder"
+  dependencies:
+    "@babel/cli": ^7.16.0
+    "@babel/core": ^7.16.0
+    "@babel/parser": ^7.16.6
+    "@babel/preset-env": ^7.16.4
+    "@babel/preset-typescript": ^7.16.0
+    "@babel/types": ^7.16.0
+    "@jest/globals": ^27.4.4
+    "@types/resolve": ^1.20.1
+    babel-jest: ^27.4.4
+    eslint: ^8.4.1
+    jest: ^27.4.4
+    resolve: ^1.20.0
+    typescript: ^4.5.3
+  languageName: unknown
+  linkType: soft
 
 "node-cjs-interop@workspace:*, node-cjs-interop@workspace:packages/node-cjs-interop":
   version: 0.0.0-use.local
