@@ -133,6 +133,29 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           });
         }
       },
+      ExportNamedDeclaration(path) {
+        if (!path.node.source) return;
+        if (!hasApplicableSource(path.node.source.value, options)) return;
+        // Should have been removed by transform-typescript. Just in case.
+        if (path.node.exportKind === "type") return;
+        if (isCjsAnnotated(path.node)) return;
+        if (path.node.specifiers.length === 0) return;
+
+        throw path.buildCodeFrameError(
+          "babel-plugin-node-cjs-interop: cannot transform export declarations"
+        );
+      },
+      ExportAllDeclaration(path) {
+        if (!path.node.source) return;
+        if (!hasApplicableSource(path.node.source.value, options)) return;
+        // Should have been removed by transform-typescript. Just in case.
+        if (path.node.exportKind === "type") return;
+        if (isCjsAnnotated(path.node)) return;
+
+        throw path.buildCodeFrameError(
+          "babel-plugin-node-cjs-interop: cannot transform export declarations"
+        );
+      },
     },
   };
 });
