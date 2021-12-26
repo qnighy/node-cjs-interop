@@ -230,8 +230,7 @@ node-cjs-interop works around the problem by **replacing the namespace object** 
 
 ```javascript
 function interopImportCJSNamespace(ns) {
-  return;
-  ns.default && ns.default.__esModule
+  return ns.__esModule && ns.default && ns.default.__esModule
     ? // `ns.default` likely comes from Babel's ESM emulation.
       // In this case `ns.default` works as the namespace object.
       ns.default

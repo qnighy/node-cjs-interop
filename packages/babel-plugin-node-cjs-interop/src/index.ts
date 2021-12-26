@@ -181,7 +181,7 @@ function getImportHelper(
     t.identifier("default")
   );
   // function interopImportCJSNamespace(ns) {
-  //   return ns.default && ns.default.__esModule ? ns.default : ns;
+  //   return ns.__esModule && ns.default && ns.default.__esModule ? ns.default : ns;
   // }
   (scope.path as Babel.NodePath<Program>).unshiftContainer(
     "body",
@@ -193,7 +193,11 @@ function getImportHelper(
           t.conditionalExpression(
             t.logicalExpression(
               "&&",
-              t.cloneNode(nsDefault),
+              t.logicalExpression(
+                "&&",
+                t.memberExpression(t.cloneNode(ns), t.identifier("__esModule")),
+                t.cloneNode(nsDefault)
+              ),
               t.memberExpression(
                 t.cloneNode(nsDefault),
                 t.identifier("__esModule")

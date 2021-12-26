@@ -12,7 +12,8 @@
  *   ```
  */
 export function interopImportCJSNamespace<T>(ns: T): T {
-  return (ns as NamespaceWrapper<T>).default &&
+  return (ns as NamespaceWrapper<T>).__esModule &&
+    (ns as NamespaceWrapper<T>).default &&
     (ns as NamespaceWrapper<T>).default.__esModule
     ? (ns as NamespaceWrapper<T>).default
     : ns;
@@ -38,6 +39,7 @@ export function interopImportCJSDefault<T>(d: T): T {
 }
 
 type NamespaceWrapper<T> = T & {
+  __esModule?: boolean;
   default: T & { __esModule?: boolean };
 };
 
