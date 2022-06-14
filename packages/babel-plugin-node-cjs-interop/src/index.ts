@@ -112,7 +112,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               const replacement = replaceMap.get(path.node.name);
               if (!replacement) return;
 
-              if (!path.isReferencedIdentifier()) return;
+              if (!isReferencedValueIdentifier(path)) return;
 
               const binding = path.scope.getBinding(path.node.name);
               if (!binding || binding.scope === replacement.scope) {
@@ -123,7 +123,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               const replacement = replaceMap.get(path.node.name);
               if (!replacement) return;
 
-              if (!path.isReferencedIdentifier()) return;
+              if (!isReferencedValueIdentifier(path)) return;
 
               const binding = path.scope.getBinding(path.node.name);
               if (!binding || binding.scope === replacement.scope) {
@@ -301,4 +301,111 @@ function toJSXReference(
   } else {
     throw new Error("Not a chain of identifiers");
   }
+}
+
+function isReferencedValueIdentifier<T>(
+  path: Babel.NodePath<T>
+): path is Babel.NodePath<T> & Babel.NodePath<Identifier | JSXIdentifier> {
+  if (!path.isReferencedIdentifier()) return false;
+
+  const { node, parent } = path;
+
+  switch (parent.type) {
+    // Most usages in types fall into this category.
+    case "TSTypeReference":
+      return false;
+
+    // no: type T = typeof NODE;
+    case "TSTypeQuery":
+      return false;
+
+    // no: type T = NODE.T;
+    // no: type T = T.NODE;
+    case "TSQualifiedName":
+      return false;
+
+    // no: type T = (NODE) => void
+    // no: type T = new (NODE) => void
+    // no: type T = { (NODE): void; }
+    // no: type T = { new (NODE): void; }
+    case "TSFunctionType":
+    case "TSConstructorType":
+    case "TSCallSignatureDeclaration":
+    case "TSConstructSignatureDeclaration":
+      return false;
+
+    // no: type T = { NODE(): void; };
+    // perhaps: type T = { [NODE](): void; };
+    // perhaps: type T = { foo(NODE): void; };
+    case "TSMethodSignature":
+      return false;
+
+    // no: type T = { NODE };
+    // perhaps: type T = { [NODE] };
+    case "TSPropertySignature":
+      return false;
+
+    // Equivalent to FunctionDeclaration
+    // no: declare function NODE();
+    // no: declare function foo(NODE);
+    case "TSDeclareFunction":
+      return false;
+
+    // Equivalent to ClassMethod
+    // no: class C { NODE(); }
+    // perhaps: class C { [NODE](); }
+    // no: class C { foo(NODE); }
+    case "TSDeclareMethod":
+      return false;
+
+    // no: function foo(x): NODE is T;
+    case "TSTypePredicate":
+      return false;
+
+    // no: class C { constructor(readonly NODE) {} }
+    case "TSParameterProperty":
+      return false;
+
+    // no: type T = [NODE: T];
+    case "TSNamedTupleMember":
+      return false;
+
+    // no: interface I extends NODE {}
+    case "TSExpressionWithTypeArguments":
+      return false;
+
+    // no: import NODE = require("foo");
+    case "TSImportEqualsDeclaration":
+      return false;
+
+    // no: export as namespace NODE;
+    case "TSNamespaceExportDeclaration":
+      return false;
+
+    // no: type T = { [NODE: string]: T };
+    case "TSIndexSignature":
+      return false;
+
+    // no: type NODE = {};
+    case "TSTypeAliasDeclaration":
+      return false;
+
+    // no: interface NODE {}
+    case "TSInterfaceDeclaration":
+      return false;
+
+    // no: namespace NODE {}
+    case "TSModuleDeclaration":
+      return false;
+
+    // no: enum NODE {}
+    case "TSEnumDeclaration":
+      return false;
+
+    // no: enum E { NODE }
+    // yes: enum E { A = NODE }
+    case "TSEnumMember":
+      return parent.initializer === node;
+  }
+  return true;
 }
