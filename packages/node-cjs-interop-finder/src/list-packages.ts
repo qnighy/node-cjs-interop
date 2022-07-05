@@ -84,8 +84,15 @@ async function classifyPackage(
       {
         basedir: options.basePath,
         packageFilter(pkg: Record<string, unknown>) {
-          for (const mainField of options.mainFields) {
-            if (pkg[mainField]) return { ...pkg, main: pkg[mainField] };
+          pkg = { ...pkg };
+          for (const mainField of [...options.mainFields].reverse()) {
+            if (typeof pkg[mainField] === "string") {
+              pkg["main"] = pkg[mainField];
+            } else if (typeof pkg[mainField] === "object") {
+              const map = pkg[mainField] as Record<string, string>;
+              const relativePath = pkg["main"] as string;
+              if (typeof map[relativePath] === "string") pkg["main"] = map[relativePath];
+            }
           }
           return pkg;
         },

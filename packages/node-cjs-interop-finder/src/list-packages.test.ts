@@ -15,21 +15,34 @@ const fixtures = path.resolve(
   "./__fixtures__"
 );
 
+const consoleError: typeof console.error = (message) => {
+  if (message instanceof Error) {
+    throw message;
+  }
+  throw new Error(`console.error: ${message as string}`);
+}
+
 describe("listTargetPackges", () => {
   it("Lists simulated ESM packages for Node.js", async () => {
     const result = await listTargetPackages({
       basePath: path.resolve(fixtures, "package1"),
       mainFields: [],
-      console: {} as typeof console,
+      console: {
+        error: consoleError,
+        // log: console.log,
+      } as typeof console,
     });
-    expect(result).toEqual(["dep2", "dep3"]);
+    expect(result).toEqual(["dep2", "dep3", "dep5"]);
   });
 
   it("Lists simulated ESM packages for module bundlers", async () => {
     const result = await listTargetPackages({
       basePath: path.resolve(fixtures, "package1"),
       mainFields: ["browser", "module"],
-      console: {} as typeof console,
+      console: {
+        error: consoleError,
+        // log: console.log,
+      } as typeof console,
     });
     expect(result).toEqual(["dep2"]);
   });
