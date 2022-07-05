@@ -105,6 +105,8 @@ async function classifyPackage(
   });
   if (!spec)
     throw new Error(`Cannot find ${packageName}: resolve returned nothing`);
+  if (/\.css$/.test(spec))
+    throw new Error(`${packageName} resolved to CSS`);
   const code = await fs.promises.readFile(spec, { encoding: "utf-8" });
   return classifyModule(code);
 }
