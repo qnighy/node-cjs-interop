@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
-    "build:babel": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
+    "build:babel": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts,src/__fixtures__/**/*.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",

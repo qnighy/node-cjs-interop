@@ -3,6 +3,11 @@ import path from "node:path";
 import resolve from "resolve";
 import { classifyModule, ModuleType } from "./classify-module.js";
 
+const NON_JS_PACKAGES = [
+  /^@types\//,
+  "type-fest",
+];
+
 type Options = {
   basePath: string;
   mainFields: string[];
@@ -48,6 +53,8 @@ export async function listTargetPackagesFrom(
 ): Promise<string[]> {
   const ret: string[] = [];
   for (const packageName of packageNames) {
+    if (isNonJSPackage(packageName)) continue;
+
     let moduleType: ModuleType | undefined = undefined;
     try {
       moduleType = await classifyPackage(options, packageName);
@@ -59,6 +66,10 @@ export async function listTargetPackagesFrom(
     }
   }
   return ret;
+}
+
+function isNonJSPackage(packageName: string) {
+  return NON_JS_PACKAGES.some((condition) => typeof condition === "string" ? packageName === condition : condition.test(packageName));
 }
 
 async function classifyPackage(
