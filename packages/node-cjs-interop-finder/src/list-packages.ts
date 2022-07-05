@@ -3,10 +3,7 @@ import path from "node:path";
 import resolve from "resolve";
 import { classifyModule, ModuleType } from "./classify-module.js";
 
-const NON_JS_PACKAGES = [
-  /^@types\//,
-  "type-fest",
-];
+const NON_JS_PACKAGES = [/^@types\//, "type-fest"];
 
 type Options = {
   basePath: string;
@@ -69,7 +66,11 @@ export async function listTargetPackagesFrom(
 }
 
 function isNonJSPackage(packageName: string) {
-  return NON_JS_PACKAGES.some((condition) => typeof condition === "string" ? packageName === condition : condition.test(packageName));
+  return NON_JS_PACKAGES.some((condition) =>
+    typeof condition === "string"
+      ? packageName === condition
+      : condition.test(packageName)
+  );
 }
 
 async function classifyPackage(
@@ -91,7 +92,8 @@ async function classifyPackage(
             } else if (typeof pkg[mainField] === "object") {
               const map = pkg[mainField] as Record<string, string>;
               const relativePath = pkg["main"] as string;
-              if (typeof map[relativePath] === "string") pkg["main"] = map[relativePath];
+              if (typeof map[relativePath] === "string")
+                pkg["main"] = map[relativePath];
             }
           }
           return pkg;
@@ -105,8 +107,7 @@ async function classifyPackage(
   });
   if (!spec)
     throw new Error(`Cannot find ${packageName}: resolve returned nothing`);
-  if (/\.css$/.test(spec))
-    throw new Error(`${packageName} resolved to CSS`);
+  if (/\.css$/.test(spec)) throw new Error(`${packageName} resolved to CSS`);
   const code = await fs.promises.readFile(spec, { encoding: "utf-8" });
   return classifyModule(code);
 }

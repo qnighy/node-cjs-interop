@@ -20,7 +20,7 @@ const consoleError: typeof console.error = (message) => {
     throw message;
   }
   throw new Error(`console.error: ${message as string}`);
-}
+};
 
 describe("listTargetPackges", () => {
   it("Lists simulated ESM packages for Node.js", async () => {
