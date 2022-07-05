@@ -4830,6 +4830,8 @@ __metadata:
     prettier: ^2.5.1
     resolve: ^1.20.0
     typescript: ^4.5.3
+  bin:
+    node-cjs-interop-finder: ./bin/node-cjs-interop-finder.js
   languageName: unknown
   linkType: soft
 
