@@ -1,0 +1,4 @@
+[workspace]
+members = [
+    "packages/swc-plugin-node-cjs-interop",
+]

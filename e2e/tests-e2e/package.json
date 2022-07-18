@@ -6,7 +6,9 @@
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
     "lint": "eslint 'src/**/*'",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "yarn test:babel && yarn test:swc",
+    "test:babel": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:swc": "NODE_OPTIONS=--experimental-vm-modules jest --config jest-swc.config.js",
     "tsc": "tsc --build"
   },
   "dependencies": {
@@ -14,13 +16,16 @@
     "fixture-package-babel-esm": "workspace:*",
     "fixture-package-native-esm": "workspace:*",
     "fixture-package-pure-cjs": "workspace:*",
-    "node-cjs-interop": "workspace:*"
+    "node-cjs-interop": "workspace:*",
+    "swc-plugin-node-cjs-interop": "workspace:*"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/preset-typescript": "^7.16.5",
     "@jest/globals": "^27.4.4",
+    "@swc/core": "^1.2.218",
+    "@swc/jest": "^0.2.22",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
     "babel-jest": "^27.4.4",
