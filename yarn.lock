@@ -5715,6 +5715,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"swc-plugin-node-cjs-interop@workspace:packages/swc-plugin-node-cjs-interop":
+  version: 0.0.0-use.local
+  resolution: "swc-plugin-node-cjs-interop@workspace:packages/swc-plugin-node-cjs-interop"
+  languageName: unknown
+  linkType: soft
+
 "symbol-tree@npm:^3.2.4":
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"

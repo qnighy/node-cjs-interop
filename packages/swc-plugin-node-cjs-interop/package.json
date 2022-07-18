@@ -1,0 +1,40 @@
+{
+  "name": "swc-plugin-node-cjs-interop",
+  "description": "An SWC plugin to fix the default import interoperability issue in Node.js",
+  "keywords": [
+    "swc-plugin",
+    "commonjs",
+    "node",
+    "esm",
+    "mjs",
+    "cjs",
+    "default import"
+  ],
+  "homepage": "https://github.com/qnighy/node-cjs-interop#readme",
+  "bugs": {
+    "url": "https://github.com/qnighy/node-cjs-interop/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qnighy/node-cjs-interop.git",
+    "directory": "packages/swc-plugin-node-cjs-interop"
+  },
+  "license": "MIT",
+  "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
+  "version": "0.1.0",
+  "main": "./index.wasm",
+  "scripts": {
+    "build": "cargo build --target wasm32-unknown-unknown",
+    "build:release": "cargo build --release --target wasm32-unknown-unknown && cp ../../target/wasm32-unknown-unknown/release/swc_plugin_node_cjs_interop.wasm ./index.wasm",
+    "fmt": "cargo fmt",
+    "fmt:check": "cargo fmt --check",
+    "lint": "cargo clippy",
+    "test": "cargo test",
+    "prepack": "$npm_execpath build:release"
+  },
+  "files": [
+    "./src/**/*.rs",
+    "./Cargo.toml",
+    "./index.wasm"
+  ]
+}
