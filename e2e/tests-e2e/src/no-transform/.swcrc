@@ -1,0 +1,14 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "experimental": {
+      "plugins": [
+        ["swc-plugin-node-cjs-interop", {
+          "packages": []
+        }]
+      ]
+    }
+  }
+}
