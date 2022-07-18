@@ -1,15 +1,12 @@
 export default {
   transform: {
-    "\\.[jt]sx?$": "@swc/jest"
+    "\\.[jt]sx?$": "@swc/jest",
   },
-  extensionsToTreatAsEsm: [
-    ".ts",
-    ".mts"
-  ],
+  extensionsToTreatAsEsm: [".ts", ".mts"],
   transformIgnorePatterns: [
     "/node_modules/",
     "\\.pnp\\.[^\\/]+$",
     "fixture-package",
-    "babel-plugin-node-cjs-interop"
-  ]
+    "babel-plugin-node-cjs-interop",
+  ],
 };
