@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_testing::test_fixture;
 use swc_ecma_transforms_typescript::strip;
 use swc_plugin::{ast::as_folder, chain, syntax_pos::Mark};
