@@ -1,4 +1,4 @@
-# `babel-plugin-node-cjs-interop`: fix the default import interoperability issue in Node.js
+# `swc-plugin-node-cjs-interop`: fix the default import interoperability issue in Node.js
 
 ## The problem to solve
 
@@ -67,41 +67,38 @@ TypeError: greet is not a function
 
 The following packages solve the problem:
 
-- `babel-plugin-node-cjs-interop` (this package) / [`swc-plugin-node-cjs-interop`](https://npmjs.com/package/swc-plugin-node-cjs-interop): automatically inserts the compatibility wrapper.
+- [`babel-plugin-node-cjs-interop`](https://npmjs.com/package/babel-plugin-node-cjs-interop) / `swc-plugin-node-cjs-interop` (this package): automatically inserts the compatibility wrapper.
 - [`node-cjs-interop`](https://npmjs.com/package/node-cjs-interop): allows manually wrapping the exported value.
 
 ## Getting started
 
-Install the babel plugin:
+Install the SWC plugin:
 
 ```
-npm install -D babel-plugin-node-cjs-interop
+npm install -D swc-plugin-node-cjs-interop
 # or:
-yarn add -D babel-plugin-node-cjs-interop
+yarn add -D swc-plugin-node-cjs-interop
 ```
 
-Configure it in your Babel configuration:
+Configure it in your SWC configuration:
 
 ```javascript
-// .babelrc.js or babel.config.js
+// .swcrc
 
-export default {
-  presets: [
-    /* ... */
-  ],
-  plugins: [
-    // ...
-    [
-      "babel-plugin-node-cjs-interop",
-      {
-        // List the packages you're experiencing problems
-        // importing from Node.js' native ESM.
-        // I.e. list the packages in the simulated ESM format.
-        packages: ["styled-components", "@babel/helper-plugin-test-runner"],
-      },
-    ],
-  ],
-};
+{
+  "jsc": {
+    "experimental": {
+      "plugins": [
+        ["swc-plugin-node-cjs-interop", {
+          // List the packages you're experiencing problems
+          // importing from Node.js' native ESM.
+          // I.e. list the packages in the simulated ESM format.
+          "packages": ["styled-components", "@babel/helper-plugin-test-runner"]
+        }]
+      ]
+    }
+  }
+}
 ```
 
 If you're unsure what packages to specify in the configuration, [`node-cjs-interop-finder`](https://npmjs.com/package/node-cjs-interop-finder) might be useful:
@@ -239,7 +236,7 @@ function interopImportCJSNamespace(ns) {
 }
 ```
 
-babel-node-cjs-interop first transforms named imports:
+swc-node-cjs-interop first transforms named imports:
 
 ```javascript
 import f, { a } from "mod";

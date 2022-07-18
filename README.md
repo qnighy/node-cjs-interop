@@ -1,4 +1,4 @@
-# `babel-plugin-node-cjs-interop` and `node-cjs-interop`: fix the default import interoperability issue in Node.js
+# `babel-plugin-node-cjs-interop`, `swc-plugin-node-cjs-interop` and `node-cjs-interop`: fix the default import interoperability issue in Node.js
 
 ## The problem to solve
 
@@ -65,7 +65,7 @@ TypeError: greet is not a function
     at async handleMainPromise (node:internal/modules/run_main:65:12)
 ```
 
-## Solution 1: Babel plugin
+## Solution 1: Babel/SWC plugin
 
 Install the babel plugin:
 
@@ -98,6 +98,10 @@ export default {
 ```
 
 See [the package's README](./packages/babel-plugin-node-cjs-interop/README.md) for details.
+
+### SWC version
+
+There is the plugin for SWC too. See [the package's README](./packages/swc-plugin-node-cjs-interop/README.md) for details.
 
 ## Solution 2: manually inserting the wrapper
 
