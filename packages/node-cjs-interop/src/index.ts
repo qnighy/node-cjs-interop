@@ -3,6 +3,9 @@
  * Node.js native ESM and Babel's ESM transpilation.
  *
  * @param ns the namespace object provided by Node.js
+ * @param loose skip checking the existence of `ns.__esModule`.
+ *        This is useful when cjs-module-lexer is unable to detect the
+ *        definition of `__esModule`.
  * @returns the adjusted namespace object
  * @example
  *   ```ts
@@ -11,11 +14,12 @@
  *   console.log([ns.foo, ns.default]);
  *   ```
  */
-export function interopImportCJSNamespace<T>(ns: T): T {
-  return (ns as NamespaceWrapper<T>).__esModule &&
-    (ns as NamespaceWrapper<T>).default &&
-    (ns as NamespaceWrapper<T>).default.__esModule
-    ? (ns as NamespaceWrapper<T>).default
+export function interopImportCJSNamespace<T>(ns: T, loose?: boolean): T {
+  type TT = NamespaceWrapper<T>;
+  return (loose || (ns as TT).__esModule) &&
+    (ns as TT).default &&
+    (ns as TT).default.__esModule
+    ? (ns as TT).default
     : ns;
 }
 

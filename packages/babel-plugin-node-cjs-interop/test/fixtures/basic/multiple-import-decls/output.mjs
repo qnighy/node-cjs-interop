@@ -8,8 +8,8 @@ const _ns2 = _interopImportCJSNamespace(_nsOrig2);
 
 const _ns = _interopImportCJSNamespace(_nsOrig);
 
-function _interopImportCJSNamespace(ns) {
-  return ns.__esModule && ns.default && ns.default.__esModule ? ns.default : ns;
+function _interopImportCJSNamespace(ns, loose) {
+  return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
 }
 
 /*#__CJS__*/
