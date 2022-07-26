@@ -17,6 +17,12 @@ import square3, {
   countUp as countUp3,
   getThis as getThis3,
 } from "fixture-package-pure-cjs";
+import square4, {
+  version as version4,
+  counter as counter4,
+  countUp as countUp4,
+  getThis as getThis4,
+} from "fixture-package-mangled-babel-esm";
 
 describe("Basic CJS usage with named imports", () => {
   describe("Native ESM", () => {
@@ -65,6 +71,22 @@ describe("Basic CJS usage with named imports", () => {
     });
     it("doesn't attach the module as this value", () => {
       expect(getThis3()).toBe(undefined);
+    });
+  });
+  describe("Mangled Babel ESM", () => {
+    it("imports default exports correctly", () => {
+      expect(square4(10)).toBe(100);
+    });
+    it("imports named exports correctly", () => {
+      expect(version4).toBe("0.1.2");
+    });
+    it("references the up-to-date value", () => {
+      const oldValue = counter4;
+      countUp4();
+      expect(counter4).toBe(oldValue + 1);
+    });
+    it("doesn't attach the module as this value", () => {
+      expect(getThis4()).toBe(undefined);
     });
   });
 });

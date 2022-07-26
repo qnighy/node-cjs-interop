@@ -3443,6 +3443,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"fixture-package-mangled-babel-esm@workspace:*, fixture-package-mangled-babel-esm@workspace:e2e/fixture-package-mangled-babel-esm":
+  version: 0.0.0-use.local
+  resolution: "fixture-package-mangled-babel-esm@workspace:e2e/fixture-package-mangled-babel-esm"
+  languageName: unknown
+  linkType: soft
+
 "fixture-package-native-esm@workspace:*, fixture-package-native-esm@workspace:e2e/fixture-package-native-esm":
   version: 0.0.0-use.local
   resolution: "fixture-package-native-esm@workspace:e2e/fixture-package-native-esm"
@@ -5955,6 +5961,7 @@ __metadata:
     eslint-config-prettier: ^8.3.0
     eslint-plugin-jest: ^25.3.0
     fixture-package-babel-esm: "workspace:*"
+    fixture-package-mangled-babel-esm: "workspace:*"
     fixture-package-native-esm: "workspace:*"
     fixture-package-pure-cjs: "workspace:*"
     jest: ^27.4.4

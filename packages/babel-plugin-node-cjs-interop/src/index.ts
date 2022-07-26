@@ -96,6 +96,10 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               nsImport,
               t.callExpression(t.cloneNode(importHelper), [
                 t.cloneNode(importOriginalName),
+                ...(options.loose ?
+                  [t.booleanLiteral(true)] :
+                  []
+                ),
               ])
             ),
           ])
@@ -199,18 +203,19 @@ function getImportHelper(
   }
 
   const ns = t.identifier("ns");
+  const loose = t.identifier("loose");
   const nsDefault = t.memberExpression(
     t.cloneNode(ns),
     t.identifier("default")
   );
-  // function interopImportCJSNamespace(ns) {
-  //   return ns.__esModule && ns.default && ns.default.__esModule ? ns.default : ns;
+  // function interopImportCJSNamespace(ns, loose) {
+  //   return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
   // }
   (scope.path as Babel.NodePath<Program>).unshiftContainer(
     "body",
     t.functionDeclaration(
       t.cloneNode(helper),
-      [t.cloneNode(ns)],
+      [t.cloneNode(ns), t.cloneNode(loose)],
       t.blockStatement([
         t.returnStatement(
           t.conditionalExpression(
@@ -218,7 +223,11 @@ function getImportHelper(
               "&&",
               t.logicalExpression(
                 "&&",
-                t.memberExpression(t.cloneNode(ns), t.identifier("__esModule")),
+                t.logicalExpression(
+                  "||",
+                  t.cloneNode(loose),
+                  t.memberExpression(t.cloneNode(ns), t.identifier("__esModule")),
+                ),
                 t.cloneNode(nsDefault)
               ),
               t.memberExpression(

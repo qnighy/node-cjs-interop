@@ -146,7 +146,14 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: Box::new(Expr::Ident(import_helper)).into(),
-                                args: vec![Expr::Ident(import_original_name.clone()).into()],
+                                args: if self.parent.options.loose {
+                                    vec![
+                                        Expr::Ident(import_original_name.clone()).into(),
+                                        Expr::Lit(Lit::Bool(true.into())).into(),
+                                    ]
+                                } else {
+                                    vec![Expr::Ident(import_original_name.clone()).into()]
+                                },
                                 type_args: None,
                             }
                             .into(),
@@ -203,6 +210,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
 
         let fn_span = DUMMY_SP.apply_mark(Mark::new());
         let ns = Ident::new(JsWord::from("ns"), fn_span);
+        let loose = Ident::new(JsWord::from("loose"), fn_span);
         let ns_default = Expr::Member(MemberExpr {
             span: DUMMY_SP,
             obj: Box::new(ns.clone().into()),
@@ -216,7 +224,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                 ident: helper.clone(),
                 declare: false,
                 function: Function {
-                    params: vec![ns.clone().into()],
+                    params: vec![ns.clone().into(), loose.clone().into()],
                     decorators: vec![],
                     span: Span::dummy_with_cmt(),
                     body: Some(BlockStmt {
@@ -235,14 +243,24 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                                                     span: DUMMY_SP,
                                                     op: BinaryOp::LogicalAnd,
                                                     left: Box::new(
-                                                        MemberExpr {
+                                                        BinExpr {
                                                             span: DUMMY_SP,
-                                                            obj: Box::new(ns.clone().into()),
-                                                            prop: Ident::new(
-                                                                JsWord::from("__esModule"),
-                                                                DUMMY_SP,
-                                                            )
-                                                            .into(),
+                                                            op: BinaryOp::LogicalOr,
+                                                            left: Box::new(loose.clone().into()),
+                                                            right: Box::new(
+                                                                MemberExpr {
+                                                                    span: DUMMY_SP,
+                                                                    obj: Box::new(
+                                                                        ns.clone().into(),
+                                                                    ),
+                                                                    prop: Ident::new(
+                                                                        JsWord::from("__esModule"),
+                                                                        DUMMY_SP,
+                                                                    )
+                                                                    .into(),
+                                                                }
+                                                                .into(),
+                                                            ),
                                                         }
                                                         .into(),
                                                     ),
