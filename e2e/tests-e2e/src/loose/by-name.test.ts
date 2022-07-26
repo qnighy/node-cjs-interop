@@ -24,7 +24,7 @@ import square4, {
   getThis as getThis4,
 } from "fixture-package-mangled-babel-esm";
 
-describe("Basic usage with named imports", () => {
+describe("Basic usage (+loose) with named imports", () => {
   describe("Native ESM", () => {
     it("imports default exports correctly", () => {
       expect(square1(10)).toBe(100);

@@ -4,7 +4,7 @@ import * as ns2 from "fixture-package-babel-esm";
 import * as ns3 from "fixture-package-pure-cjs";
 import * as ns4 from "fixture-package-mangled-babel-esm";
 
-describe("Basic usage with namespace imports", () => {
+describe("Basic usage (+loose) with namespace imports", () => {
   describe("Native ESM", () => {
     it("imports default exports correctly", () => {
       expect(ns1.default(10)).toBe(100);
