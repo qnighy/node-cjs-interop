@@ -193,6 +193,17 @@ You can use [`node-cjs-interop-finder`](https://npmjs.com/package/node-cjs-inter
 npx node-cjs-interop-finder
 ```
 
+### loose
+
+- type: `boolean`
+- default: `false`
+
+Skips check of the `ns.__esModule` export. Note that it still checks
+for `ns.default.__esModule`.
+
+This is useful if a transpiler or a bundler generates a module
+which cjs-module-lexer cannot correctly parse.
+
 ### useRuntime
 
 - type: `boolean`
