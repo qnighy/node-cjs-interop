@@ -96,10 +96,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               nsImport,
               t.callExpression(t.cloneNode(importHelper), [
                 t.cloneNode(importOriginalName),
-                ...(options.loose ?
-                  [t.booleanLiteral(true)] :
-                  []
-                ),
+                ...(options.loose ? [t.booleanLiteral(true)] : []),
               ])
             ),
           ])
@@ -226,7 +223,10 @@ function getImportHelper(
                 t.logicalExpression(
                   "||",
                   t.cloneNode(loose),
-                  t.memberExpression(t.cloneNode(ns), t.identifier("__esModule")),
+                  t.memberExpression(
+                    t.cloneNode(ns),
+                    t.identifier("__esModule")
+                  )
                 ),
                 t.cloneNode(nsDefault)
               ),

@@ -18,10 +18,7 @@ const optionShape = {
 export function validateOptions(options: object): asserts options is Options {
   v.validateTopLevelOptions(options, optionShape);
   validatePackages(options.packages);
-  v.validateBooleanOption(
-    "loose",
-    options.loose as boolean | undefined
-  );
+  v.validateBooleanOption("loose", options.loose as boolean | undefined);
   v.validateBooleanOption(
     "useRuntime",
     options.useRuntime as boolean | undefined

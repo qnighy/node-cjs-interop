@@ -1,5 +1,8 @@
 {
   "plugins": [
-    ["babel-plugin-node-cjs-interop", { "packages": ["mod", "mod1", "mod2"], "loose": true }]
+    [
+      "babel-plugin-node-cjs-interop",
+      { "packages": ["mod", "mod1", "mod2"], "loose": true }
+    ]
   ]
 }
