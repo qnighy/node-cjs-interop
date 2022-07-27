@@ -10,7 +10,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 serde = { version = "1.0.140", default-features = false, features = ["alloc", "derive"] }
 serde_json = { version = "1.0.82", default-features = false, features = ["alloc"] }
-swc_plugin = "0.82.0"
+swc_plugin = "0.88.1"
 
 [dev-dependencies]
 swc_ecma_parser = "0.112.2"
