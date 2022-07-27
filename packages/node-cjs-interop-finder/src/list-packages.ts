@@ -84,7 +84,7 @@ async function classifyPackage(
       packageName,
       {
         basedir: options.basePath,
-        packageFilter(pkg: Record<string, unknown>) {
+        packageFilter(pkg) {
           pkg = { ...pkg };
           for (const mainField of [...options.mainFields].reverse()) {
             if (typeof pkg[mainField] === "string") {
