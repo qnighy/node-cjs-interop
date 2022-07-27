@@ -8,7 +8,7 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-serde = { version = "1.0.139", default-features = false, features = ["alloc", "derive"] }
+serde = { version = "1.0.140", default-features = false, features = ["alloc", "derive"] }
 serde_json = { version = "1.0.82", default-features = false, features = ["alloc"] }
 swc_plugin = "0.82.0"
 
