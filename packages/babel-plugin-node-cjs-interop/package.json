@@ -57,7 +57,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@babel/types": "^7.16.0",
     "@jest/globals": "^27.4.4",
-    "@types/babel__core": "^7.1.17",
+    "@types/babel__core": "^7.1.19",
     "@types/babel__helper-plugin-utils": "^7.10.0",
     "@typescript-eslint/eslint-plugin": "^5.8.0",
     "@typescript-eslint/parser": "^5.8.0",
