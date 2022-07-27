@@ -10,7 +10,7 @@ describe("validateOptions", () => {
   it("forbids unknown option keys", () => {
     const options = { foo: 42 };
     expect(() => validateOptions(options)).toThrow(
-      "babel-plugin-node-cjs-interop: 'foo' is not a valid top-level option.\n- Did you mean 'packages'?"
+      "babel-plugin-node-cjs-interop: 'foo' is not a valid top-level option.\n- Did you mean 'loose'?"
     );
   });
 
@@ -35,6 +35,23 @@ describe("validateOptions", () => {
     const options = { packages: ["foo/bar", "foo"] };
     expect(() => validateOptions(options)).toThrow(
       "babel-plugin-node-cjs-interop: not a package name: foo/bar"
+    );
+  });
+
+  it("allows loose as false", () => {
+    const options = { loose: false };
+    expect(() => validateOptions(options)).not.toThrow();
+  });
+
+  it("allows loose as true", () => {
+    const options = { loose: true };
+    expect(() => validateOptions(options)).not.toThrow();
+  });
+
+  it("forbids invalid loose value", () => {
+    const options = { loose: 10 };
+    expect(() => validateOptions(options)).toThrow(
+      "babel-plugin-node-cjs-interop: 'loose' option must be a boolean."
     );
   });
 

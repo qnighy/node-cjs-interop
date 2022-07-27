@@ -7,6 +7,7 @@ export default {
           "fixture-package-native-esm",
           "fixture-package-babel-esm",
           "fixture-package-pure-cjs",
+          "fixture-package-mangled-babel-esm",
         ],
       },
     ],

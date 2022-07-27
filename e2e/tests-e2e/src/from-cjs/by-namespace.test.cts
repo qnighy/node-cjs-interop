@@ -2,6 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import * as ns1 from "fixture-package-native-esm";
 import * as ns2 from "fixture-package-babel-esm";
 import * as ns3 from "fixture-package-pure-cjs";
+import * as ns4 from "fixture-package-mangled-babel-esm";
 
 describe("Basic CJS usage with namespace imports", () => {
   describe("Native ESM", () => {
@@ -50,6 +51,22 @@ describe("Basic CJS usage with namespace imports", () => {
     });
     it("is not callable by itself", () => {
       expect(typeof ns3).toBe("object");
+    });
+  });
+  describe("Mangled Babel ESM", () => {
+    it("imports default exports correctly", () => {
+      expect(ns4.default(10)).toBe(100);
+    });
+    it("imports named exports correctly", () => {
+      expect(ns4.version).toBe("0.1.2");
+    });
+    it("references the up-to-date value", () => {
+      const oldValue = ns4.counter;
+      ns4.countUp();
+      expect(ns4.counter).toBe(oldValue + 1);
+    });
+    it("is not callable by itself", () => {
+      expect(typeof ns4).toBe("object");
     });
   });
 });

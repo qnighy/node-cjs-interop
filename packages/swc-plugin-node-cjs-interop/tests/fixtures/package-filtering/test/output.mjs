@@ -4,8 +4,8 @@ const _ns2 = _interopImportCJSNamespace(_nsOrig3);
 const _ns3 = _interopImportCJSNamespace(_nsOrig2);
 const _ns4 = _interopImportCJSNamespace(_nsOrig1);
 const _ns5 = _interopImportCJSNamespace(_nsOrig);
-function _interopImportCJSNamespace(ns) {
-    return ns.__esModule && ns.default && ns.default.__esModule ? ns.default : ns;
+function _interopImportCJSNamespace(ns, loose) {
+    return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
 }
 import * as _nsOrig from "foo";
 /*#__CJS__*/ import * as _nsOrig1 from "bar";
