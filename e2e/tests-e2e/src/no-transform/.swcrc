@@ -5,9 +5,12 @@
     },
     "experimental": {
       "plugins": [
-        ["swc-plugin-node-cjs-interop", {
-          "packages": []
-        }]
+        [
+          "swc-plugin-node-cjs-interop",
+          {
+            "packages": []
+          }
+        ]
       ]
     }
   }
