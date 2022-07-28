@@ -2452,7 +2452,7 @@ __metadata:
     jest: ^27.5.1
     jest-resolve: ^27.5.1
     jest-ts-webcompat-resolver: ^1.0.0
-    prettier: ^2.5.1
+    prettier: ^2.7.1
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -4912,7 +4912,7 @@ __metadata:
     jest: ^27.5.1
     jest-resolve: ^27.5.1
     jest-ts-webcompat-resolver: ^1.0.0
-    prettier: ^2.5.1
+    prettier: ^2.7.1
     resolve: ^1.20.0
     typescript: ^4.7.4
   bin:
@@ -4936,7 +4936,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-jest: ^25.7.0
     jest: ^27.5.1
-    prettier: ^2.5.1
+    prettier: ^2.7.1
     typescript: ^4.7.4
   languageName: unknown
   linkType: soft
@@ -5234,12 +5234,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.5.1":
-  version: 2.5.1
-  resolution: "prettier@npm:2.5.1"
+"prettier@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "prettier@npm:2.7.1"
   bin:
     prettier: bin-prettier.js
-  checksum: 21b9408476ea1c544b0e45d51ceb94a84789ff92095abb710942d780c862d0daebdb29972d47f6b4d0f7ebbfb0ffbf56cc2cfa3e3e9d1cca54864af185b15b66
+  checksum: 55a4409182260866ab31284d929b3cb961e5fdb91fe0d2e099dac92eaecec890f36e524b4c19e6ceae839c99c6d7195817579cdffc8e2c80da0cb794463a748b
   languageName: node
   linkType: hard
 
@@ -5868,7 +5868,7 @@ __metadata:
     fixture-package-pure-cjs: "workspace:*"
     jest: ^27.5.1
     node-cjs-interop: "workspace:*"
-    prettier: ^2.5.1
+    prettier: ^2.7.1
     swc-plugin-node-cjs-interop: "workspace:*"
     typescript: ^4.7.4
   languageName: unknown
