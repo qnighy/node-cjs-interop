@@ -16,6 +16,18 @@
       "matchManagers": ["npm"],
       "matchDepTypes": ["devDependencies"],
       "rangeStrategy": "bump"
+    },
+    {
+      "matchSourceUrlPrefixes": [
+        "https://github.com/swc-project/swc"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "patch",
+        "minor",
+        "major"
+      ],
+      "groupName": "swc monorepo"
     }
   ]
 }
