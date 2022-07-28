@@ -2367,7 +2367,7 @@ __metadata:
     babel-plugin-replace-import-extension: ^1.1.2
     eslint: ^8.20.0
     eslint-config-prettier: ^8.3.0
-    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jest: ^25.7.0
     jest: ^27.4.4
     jest-resolve: ^27.4.5
     jest-ts-webcompat-resolver: ^1.0.0
@@ -3036,9 +3036,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jest@npm:^25.3.0":
-  version: 25.3.0
-  resolution: "eslint-plugin-jest@npm:25.3.0"
+"eslint-plugin-jest@npm:^25.7.0":
+  version: 25.7.0
+  resolution: "eslint-plugin-jest@npm:25.7.0"
   dependencies:
     "@typescript-eslint/experimental-utils": ^5.0.0
   peerDependencies:
@@ -3049,7 +3049,7 @@ __metadata:
       optional: true
     jest:
       optional: true
-  checksum: d801c166f528392fbb0234e34b893e97c24a7be049744f2d23b1702bce6202d5f0760886a591f884ffa82c7e01a2b06134e86da991bfa568ca5a90311e5f452e
+  checksum: fc6da96131f4cbf33d15ef911ec8e600ccd71deb97d73c0ca340427cef7b01ff41a797e2e7d1e351abf97321a46ed0c0acff5ee8eeedac94961dd6dad1f718a9
   languageName: node
   linkType: hard
 
@@ -4827,7 +4827,7 @@ __metadata:
     babel-jest: ^27.4.4
     eslint: ^8.20.0
     eslint-config-prettier: ^8.3.0
-    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jest: ^25.7.0
     jest: ^27.4.4
     jest-resolve: ^27.4.5
     jest-ts-webcompat-resolver: ^1.0.0
@@ -4853,7 +4853,7 @@ __metadata:
     babel-jest: ^27.4.4
     eslint: ^8.20.0
     eslint-config-prettier: ^8.3.0
-    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jest: ^25.7.0
     jest: ^27.4.4
     prettier: ^2.5.1
     typescript: ^4.5.3
@@ -5776,7 +5776,7 @@ __metadata:
     babel-plugin-node-cjs-interop: "workspace:*"
     eslint: ^8.20.0
     eslint-config-prettier: ^8.3.0
-    eslint-plugin-jest: ^25.3.0
+    eslint-plugin-jest: ^25.7.0
     fixture-package-babel-esm: "workspace:*"
     fixture-package-mangled-babel-esm: "workspace:*"
     fixture-package-native-esm: "workspace:*"
