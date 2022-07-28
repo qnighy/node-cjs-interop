@@ -2453,7 +2453,7 @@ __metadata:
     jest-resolve: ^27.4.5
     jest-ts-webcompat-resolver: ^1.0.0
     prettier: ^2.5.1
-    typescript: ^4.5.3
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -4904,7 +4904,7 @@ __metadata:
     jest-ts-webcompat-resolver: ^1.0.0
     prettier: ^2.5.1
     resolve: ^1.20.0
-    typescript: ^4.5.3
+    typescript: ^4.7.4
   bin:
     node-cjs-interop-finder: ./bin/node-cjs-interop-finder.js
   languageName: unknown
@@ -4927,7 +4927,7 @@ __metadata:
     eslint-plugin-jest: ^25.7.0
     jest: ^27.4.4
     prettier: ^2.5.1
-    typescript: ^4.5.3
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -5849,7 +5849,7 @@ __metadata:
     node-cjs-interop: "workspace:*"
     prettier: ^2.5.1
     swc-plugin-node-cjs-interop: "workspace:*"
-    typescript: ^4.5.4
+    typescript: ^4.7.4
   languageName: unknown
   linkType: soft
 
@@ -5976,23 +5976,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.3, typescript@npm:^4.5.4":
-  version: 4.5.4
-  resolution: "typescript@npm:4.5.4"
+"typescript@npm:^4.7.4":
+  version: 4.7.4
+  resolution: "typescript@npm:4.7.4"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 59f3243f9cd6fe3161e6150ff6bf795fc843b4234a655dbd938a310515e0d61afd1ac942799e7415e4334255e41c2c49b7dd5d9fd38a17acd25a6779ca7e0961
+  checksum: 5750181b1cd7e6482c4195825547e70f944114fb47e58e4aa7553e62f11b3f3173766aef9c281783edfd881f7b8299cf35e3ca8caebe73d8464528c907a164df
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.5.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.5.4#~builtin<compat/typescript>":
-  version: 4.5.4
-  resolution: "typescript@patch:typescript@npm%3A4.5.4#~builtin<compat/typescript>::version=4.5.4&hash=f456af"
+"typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
+  version: 4.7.4
+  resolution: "typescript@patch:typescript@npm%3A4.7.4#~builtin<compat/typescript>::version=4.7.4&hash=f456af"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: eda87927f9cfb94aca9b5e47842daf37347ad3073133e17f556fbb6c18f3493c5b551eedab0f4b26774235ddb7acbe0087250d5285f72ce6819a0891dd5a74ed
+  checksum: 9096d8f6c16cb80ef3bf96fcbbd055bf1c4a43bd14f3b7be45a9fbe7ada46ec977f604d5feed3263b4f2aa7d4c7477ce5f9cd87de0d6feedec69a983f3a4f93e
   languageName: node
   linkType: hard
 
