@@ -13,9 +13,9 @@ pub use crate::options::Options as TransformOptions;
 use crate::{options::Options, package_name::get_package_name};
 use swc_plugin::ast::*;
 use swc_plugin::comments::{Comment, CommentKind, Comments};
-use swc_plugin::syntax_pos::{Mark, Span, DUMMY_SP};
-use swc_plugin::plugin_transform;
 use swc_plugin::metadata::TransformPluginProgramMetadata;
+use swc_plugin::plugin_transform;
+use swc_plugin::syntax_pos::{Mark, Span, DUMMY_SP};
 
 #[derive(Debug)]
 pub struct TransformVisitor<C: Comments> {
@@ -528,6 +528,11 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     let comments = metadata
         .comments
         .expect("the plugin needs access to comments");
-    let options: Options = serde_json::from_str(&metadata.get_transform_plugin_config().expect("Invalid config")).expect("Invalid config");
+    let options: Options = serde_json::from_str(
+        &metadata
+            .get_transform_plugin_config()
+            .expect("Invalid config"),
+    )
+    .expect("Invalid config");
     program.fold_with(&mut as_folder(TransformVisitor::new(comments, options)))
 }
