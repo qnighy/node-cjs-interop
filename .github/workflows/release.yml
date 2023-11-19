@@ -11,6 +11,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    environment: publish
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -27,15 +28,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: echo publish=true >> $GITHUB_OUTPUT
+          publish: yarn changeset publish
         env:
+          NPM_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    outputs:
-      publish: ${{ steps.changesets.outputs.publish }}
-
-  dispatch_publish:
-    name: Dispatch publish workflow
-    needs: release
-    if: needs.release.outputs.publish == 'true'
-    uses: ./.github/workflows/publish.yml

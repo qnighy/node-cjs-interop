@@ -1,14 +1,13 @@
-name: Release
+name: Manually publish to npm
 
 on:
   workflow_dispatch:
-  workflow_call:
 
 concurrency: ${{ github.workflow }}
 
 jobs:
-  release:
-    name: Release
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
     environment: publish
     steps:
