@@ -8,7 +8,7 @@ describe("classifyModule", () => {
       module.exports = function() {
         console.log("Hello, world!");
       };
-    `)
+    `),
     ).toBe("commonjs");
   });
 
@@ -18,7 +18,7 @@ describe("classifyModule", () => {
       export default function() {
         console.log("Hello, world!");
       }
-    `)
+    `),
     ).toBe("module");
   });
 
@@ -35,7 +35,7 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)
+    `),
     ).toBe("commonjs-babel");
   });
 
@@ -52,7 +52,7 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)
+    `),
     ).toBe("commonjs-babel");
   });
 
@@ -67,7 +67,7 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)
+    `),
     ).toBe("commonjs-babel");
   });
 
@@ -82,7 +82,7 @@ describe("classifyModule", () => {
       function _default() {
         console.log("Hello, world!");
       }
-    `)
+    `),
     ).toBe("commonjs-babel");
   });
 });

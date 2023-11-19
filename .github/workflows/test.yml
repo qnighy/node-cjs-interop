@@ -7,20 +7,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [18.x, 20.x]
 
     steps:
-    - uses: actions/checkout@v3.0.2
-    - uses: actions/setup-node@v3.4.1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-        components: rustfmt, clippy
-        target: wasm32-unknown-unknown
+    - name: set up Rust
+      run: |
+        rustup set profile minimal
+        rustup install stable
+        rustup component add rustfmt clippy
+        rustup target add wasm32-unknown-unknown
     - run: yarn install --immutable
     - run: cargo fetch --locked
     - run: yarn build

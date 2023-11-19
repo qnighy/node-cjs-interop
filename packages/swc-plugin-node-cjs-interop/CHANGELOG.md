@@ -1,3 +1,7 @@
+## Unreleased
+
+- Update dependencies
+
 ## 0.1.1
 
 Add `loose` option to support more libraries.

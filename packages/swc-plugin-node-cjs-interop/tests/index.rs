@@ -1,9 +1,10 @@
 use std::path::PathBuf;
 
+use swc_core::common::{chain, Mark};
+use swc_core::ecma::visit::as_folder;
 use swc_ecma_parser::{EsConfig, Syntax};
-use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::strip;
-use swc_plugin::{ast::as_folder, chain, syntax_pos::Mark};
 use swc_plugin_node_cjs_interop::{TransformOptions, TransformVisitor};
 
 #[testing::fixture("tests/fixtures/basic/*/input.mjs")]
@@ -23,6 +24,7 @@ fn test_basic(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }
 
@@ -43,6 +45,7 @@ fn test_loose(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }
 
@@ -68,6 +71,7 @@ fn test_package_filtering(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }
 
@@ -88,6 +92,7 @@ fn test_use_runtime(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }
 
@@ -111,6 +116,7 @@ fn test_with_react(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }
 
@@ -134,5 +140,6 @@ fn test_with_typescript(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig::default(),
     );
 }

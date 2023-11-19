@@ -73,7 +73,7 @@ describe("interopImportCJSDefault", () => {
   it("Returns the default value for transpiled CJS", () => {
     const wrapped = interopImportCJSDefault(module2.default);
     expect(wrapped).toBe(
-      (module2 as unknown as { default: typeof module2 }).default.default
+      (module2 as unknown as { default: typeof module2 }).default.default,
     );
     expect(wrapped(42)).toBe(1764);
   });
@@ -87,7 +87,7 @@ describe("interopImportCJSDefault", () => {
   it("Returns the default value for poorly-written transpiled CJS", () => {
     const wrapped = interopImportCJSDefault(module4.default);
     expect(wrapped).toBe(
-      (module4 as unknown as { default: typeof module4 }).default.default
+      (module4 as unknown as { default: typeof module4 }).default.default,
     );
     expect(wrapped(42)).toBe(1764);
   });

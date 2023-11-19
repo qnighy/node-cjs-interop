@@ -11,11 +11,13 @@ use std::mem;
 
 pub use crate::options::Options as TransformOptions;
 use crate::{options::Options, package_name::get_package_name};
-use swc_plugin::ast::*;
-use swc_plugin::comments::{Comment, CommentKind, Comments};
-use swc_plugin::metadata::TransformPluginProgramMetadata;
-use swc_plugin::plugin_transform;
-use swc_plugin::syntax_pos::{Mark, Span, DUMMY_SP};
+use swc_core::common::comments::{Comment, CommentKind, Comments};
+use swc_core::common::{Mark, Span, DUMMY_SP};
+use swc_core::ecma::ast::*;
+use swc_core::ecma::atoms::{js_word, JsWord};
+use swc_core::ecma::visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_core::plugin::metadata::TransformPluginProgramMetadata;
+use swc_core::plugin::plugin_transform;
 
 #[derive(Debug)]
 pub struct TransformVisitor<C: Comments> {
@@ -136,7 +138,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             // const module = _interopImportCJSNamespace(moduleOrig);
             let import_original_name = Ident::new(JsWord::from("_nsOrig"), macro_span);
             self.prepend_body.push(
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: Span::dummy_with_cmt(),
                     kind: VarDeclKind::Const,
                     declare: false,
@@ -161,7 +163,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                         )),
                         definite: false,
                     }],
-                }))
+                })))
                 .into(),
             );
 
@@ -198,9 +200,9 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                         is_type_only: false,
                     }
                     .into()],
-                    src: Str::from("node-cjs-interop"),
+                    src: Box::new(Str::from("node-cjs-interop")),
                     type_only: false,
-                    asserts: None,
+                    with: None,
                 })
                 .into(),
             );
@@ -224,7 +226,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             Stmt::Decl(Decl::Fn(FnDecl {
                 ident: helper.clone(),
                 declare: false,
-                function: Function {
+                function: Box::new(Function {
                     params: vec![ns.clone().into(), loose.clone().into()],
                     decorators: vec![],
                     span: Span::dummy_with_cmt(),
@@ -296,7 +298,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                     is_async: false,
                     type_params: None,
                     return_type: None,
-                },
+                }),
             }))
             .into(),
         );

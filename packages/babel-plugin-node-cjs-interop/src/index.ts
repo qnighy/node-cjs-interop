@@ -35,7 +35,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
         const replaceMap = new Map<string, Replacement>();
 
         const existingNsImport = path.node.specifiers.find(
-          (specifier) => specifier.type === "ImportNamespaceSpecifier"
+          (specifier) => specifier.type === "ImportNamespaceSpecifier",
         )?.local;
 
         const nsImport =
@@ -47,7 +47,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
             // ns.defalut
             expr = t.memberExpression(
               t.cloneNode(nsImport),
-              t.identifier("default")
+              t.identifier("default"),
             );
           } else if (specifier.type === "ImportSpecifier") {
             if (specifier.imported.type === "StringLiteral") {
@@ -55,13 +55,13 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               expr = t.memberExpression(
                 t.cloneNode(nsImport),
                 t.cloneNode(specifier.imported),
-                true
+                true,
               );
             } else {
               // ns.named
               expr = t.memberExpression(
                 t.cloneNode(nsImport),
-                t.cloneNode(specifier.imported)
+                t.cloneNode(specifier.imported),
               );
             }
           } else if (specifier.type === "ImportNamespaceSpecifier") {
@@ -79,7 +79,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           t,
           path,
           state,
-          options.useRuntime ?? false
+          options.useRuntime ?? false,
         );
 
         // import ... from "source";
@@ -97,9 +97,9 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               t.callExpression(t.cloneNode(importHelper), [
                 t.cloneNode(importOriginalName),
                 ...(options.loose ? [t.booleanLiteral(true)] : []),
-              ])
+              ]),
             ),
-          ])
+          ]),
         );
 
         const newImport = t.cloneNode(path.node);
@@ -143,7 +143,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
         if (path.node.specifiers.length === 0) return;
 
         throw path.buildCodeFrameError(
-          "babel-plugin-node-cjs-interop: cannot transform export declarations"
+          "babel-plugin-node-cjs-interop: cannot transform export declarations",
         );
       },
       ExportAllDeclaration(path) {
@@ -154,7 +154,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
         if (isCjsAnnotated(path.node)) return;
 
         throw path.buildCodeFrameError(
-          "babel-plugin-node-cjs-interop: cannot transform export declarations"
+          "babel-plugin-node-cjs-interop: cannot transform export declarations",
         );
       },
     },
@@ -170,7 +170,7 @@ function getImportHelper(
   t: typeof Babel.types,
   path: Babel.NodePath,
   state: Babel.PluginPass,
-  useRuntime: boolean
+  useRuntime: boolean,
 ): Identifier {
   const key = `${statePrefix}/importHelper`;
   let helper = state.get(key) as Identifier | undefined;
@@ -189,11 +189,11 @@ function getImportHelper(
         [
           t.importSpecifier(
             t.cloneNode(helper),
-            t.identifier("interopImportCJSNamespace")
+            t.identifier("interopImportCJSNamespace"),
           ),
         ],
-        t.stringLiteral("node-cjs-interop")
-      )
+        t.stringLiteral("node-cjs-interop"),
+      ),
     );
     state.set(key, helper);
     return helper;
@@ -203,7 +203,7 @@ function getImportHelper(
   const loose = t.identifier("loose");
   const nsDefault = t.memberExpression(
     t.cloneNode(ns),
-    t.identifier("default")
+    t.identifier("default"),
   );
   // function interopImportCJSNamespace(ns, loose) {
   //   return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
@@ -225,22 +225,22 @@ function getImportHelper(
                   t.cloneNode(loose),
                   t.memberExpression(
                     t.cloneNode(ns),
-                    t.identifier("__esModule")
-                  )
+                    t.identifier("__esModule"),
+                  ),
                 ),
-                t.cloneNode(nsDefault)
+                t.cloneNode(nsDefault),
               ),
               t.memberExpression(
                 t.cloneNode(nsDefault),
-                t.identifier("__esModule")
-              )
+                t.identifier("__esModule"),
+              ),
             ),
             t.cloneNode(nsDefault),
-            t.cloneNode(ns)
-          )
+            t.cloneNode(ns),
+          ),
         ),
-      ])
-    )
+      ]),
+    ),
   );
   state.set(key, helper);
   return helper;
@@ -271,7 +271,7 @@ function hasApplicableSource(source: string, options: Options): boolean {
 function replaceIdentifier(
   t: typeof Babel.types,
   path: Babel.NodePath<Identifier> | Babel.NodePath<JSXIdentifier>,
-  replacement: Expression
+  replacement: Expression,
 ) {
   if (path.isJSXIdentifier()) {
     path.replaceWith(toJSXReference(t, replacement));
@@ -292,7 +292,7 @@ function replaceIdentifier(
 
 function toJSXReference(
   t: typeof Babel.types,
-  expr: Expression
+  expr: Expression,
 ): JSXIdentifier | JSXMemberExpression {
   if (t.isIdentifier(expr)) {
     return t.inherits(t.jsxIdentifier(expr.name), expr);
@@ -301,11 +301,11 @@ function toJSXReference(
       throw new Error("Not an identifier reference");
     const property = t.inherits(
       t.jsxIdentifier(expr.property.name),
-      expr.property
+      expr.property,
     );
     return t.inherits(
       t.jsxMemberExpression(toJSXReference(t, expr.object), property),
-      expr
+      expr,
     );
   } else {
     throw new Error("Not a chain of identifiers");
@@ -313,7 +313,7 @@ function toJSXReference(
 }
 
 function isReferencedValueIdentifier<T>(
-  path: Babel.NodePath<T>
+  path: Babel.NodePath<T>,
 ): path is Babel.NodePath<T> & Babel.NodePath<Identifier | JSXIdentifier> {
   if (!path.isReferencedIdentifier()) return false;
 

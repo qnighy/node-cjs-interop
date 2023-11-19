@@ -1,7 +1,7 @@
 {
   "plugins": [
     [
-      "babel-plugin-node-cjs-interop",
+      "../../../dist/index.js",
       {
         "packages": ["foo", "bar", "@scoped/foo", "@scoped/bar"]
       }

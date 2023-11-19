@@ -12,7 +12,7 @@ function filePath(url: string) {
 
 const fixtures = path.resolve(
   path.dirname(filePath(import.meta.url)),
-  "./__fixtures__"
+  "./__fixtures__",
 );
 
 const consoleError: typeof console.error = (message) => {

@@ -33,7 +33,7 @@ async function findPackageJson(basePath: string): Promise<unknown> {
     const pjsonPath = path.resolve(currentPath, "package.json");
     if (fs.existsSync(pjsonPath)) {
       return JSON.parse(
-        await fs.promises.readFile(pjsonPath, { encoding: "utf-8" })
+        await fs.promises.readFile(pjsonPath, { encoding: "utf-8" }),
       ) as unknown;
     }
 
@@ -46,7 +46,7 @@ async function findPackageJson(basePath: string): Promise<unknown> {
 
 export async function listTargetPackagesFrom(
   options: Options,
-  packageNames: string[]
+  packageNames: string[],
 ): Promise<string[]> {
   const ret: string[] = [];
   for (const packageName of packageNames) {
@@ -69,13 +69,13 @@ function isNonJSPackage(packageName: string) {
   return NON_JS_PACKAGES.some((condition) =>
     typeof condition === "string"
       ? packageName === condition
-      : condition.test(packageName)
+      : condition.test(packageName),
   );
 }
 
 async function classifyPackage(
   options: Options,
-  packageName: string
+  packageName: string,
 ): Promise<ModuleType> {
   const [spec] = await new Promise<
     [string | undefined, PackageMeta | undefined]
@@ -102,7 +102,7 @@ async function classifyPackage(
       (err, spec, meta) => {
         if (err) reject(err);
         else resolvePromise([spec, meta]);
-      }
+      },
     );
   });
   if (!spec)
