@@ -1,7 +1,7 @@
 {
   "plugins": [
     [
-      "babel-plugin-node-cjs-interop",
+      "../../../dist/index.js",
       { "packages": ["mod", "mod1", "mod2"], "loose": true }
     ]
   ]
