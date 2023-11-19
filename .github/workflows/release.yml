@@ -30,7 +30,6 @@ jobs:
           publish: echo publish=true >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.PUBLISH_NPM_TOKEN }}
 
     outputs:
       publish: ${{ steps.changesets.outputs.publish }}
