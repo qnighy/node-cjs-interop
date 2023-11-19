@@ -22,7 +22,6 @@ jobs:
         rustup component add rustfmt clippy
         rustup target add wasm32-unknown-unknown
     - run: yarn install --immutable
-    - run: cargo fetch --locked
     - run: yarn build
     - run: yarn test
     - run: yarn lint
