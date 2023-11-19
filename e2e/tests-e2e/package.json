@@ -1,6 +1,7 @@
 {
   "private": true,
   "name": "tests-e2e",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "fmt": "prettier -w .",
