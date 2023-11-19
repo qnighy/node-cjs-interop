@@ -1,3 +1,7 @@
+## Unreleased
+
+- Update dependencies
+
 ## 0.1.1
 
 - Add executable entrypoint. Fixes https://github.com/qnighy/node-cjs-interop/issues/1
