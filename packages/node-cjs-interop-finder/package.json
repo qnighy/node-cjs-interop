@@ -31,12 +31,12 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "$npm_execpath build:tsc && $npm_execpath build:babel",
+    "build": "$npm_execpath run build:tsc && $npm_execpath run build:babel",
     "build:babel": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts,src/__fixtures__/**/*.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
-    "prepack": "$npm_execpath build",
+    "prepack": "$npm_execpath run build",
     "lint": "eslint 'src/**/*'",
     "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
   },

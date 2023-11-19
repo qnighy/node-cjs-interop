@@ -30,7 +30,7 @@
     "fmt:check": "cargo fmt --check",
     "lint": "cargo clippy",
     "test": "cargo test",
-    "prepack": "$npm_execpath build:release"
+    "prepack": "$npm_execpath run build:release"
   },
   "files": [
     "./src/**/*.rs",

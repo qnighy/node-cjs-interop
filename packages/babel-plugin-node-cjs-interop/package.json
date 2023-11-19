@@ -35,7 +35,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "$npm_execpath build:tsc && $npm_execpath build:babel:esm && $npm_execpath build:babel:cjs",
+    "build": "$npm_execpath run build:tsc && $npm_execpath run build:babel:esm && $npm_execpath run build:babel:cjs",
     "build:babel:cjs": "BUILD_TARGET=cjs babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
     "build:tsc": "tsc --build",
@@ -43,7 +43,7 @@
     "fmt:check": "prettier -c .",
     "jest": "BUILD_TARGET=cjs jest",
     "lint": "eslint 'src/**/*'",
-    "prepack": "$npm_execpath build",
+    "prepack": "$npm_execpath run build",
     "test": "yarn build:babel:cjs && yarn jest"
   },
   "dependencies": {
