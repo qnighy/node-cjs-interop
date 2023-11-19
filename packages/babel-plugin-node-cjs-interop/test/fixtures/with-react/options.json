@@ -2,5 +2,5 @@
   "parserOpts": {
     "plugins": ["jsx"]
   },
-  "plugins": [["../../../dist/index.js", { "packages": ["mod", "mod2"] }]]
+  "plugins": [["../../../cjs/dist/index.js", { "packages": ["mod", "mod2"] }]]
 }
