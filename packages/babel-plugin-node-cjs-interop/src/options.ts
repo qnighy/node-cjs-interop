@@ -21,24 +21,24 @@ export function validateOptions(options: object): asserts options is Options {
   v.validateBooleanOption("loose", options.loose as boolean | undefined);
   v.validateBooleanOption(
     "useRuntime",
-    options.useRuntime as boolean | undefined
+    options.useRuntime as boolean | undefined,
   );
   validatePackagesSemantics(options.packages ?? []);
 }
 
 function validatePackages(
-  packages: unknown
+  packages: unknown,
 ): asserts packages is string[] | undefined {
   if (packages === undefined) return;
   if (!Array.isArray(packages)) {
     throw new Error(
-      "babel-plugin-node-cjs-interop: packages should be an array"
+      "babel-plugin-node-cjs-interop: packages should be an array",
     );
   }
 
   if (!packages.every((p): p is string => typeof p === "string")) {
     throw new Error(
-      "babel-plugin-node-cjs-interop: packages should be an array of strings"
+      "babel-plugin-node-cjs-interop: packages should be an array of strings",
     );
   }
 }
@@ -47,7 +47,7 @@ function validatePackagesSemantics(packages: string[]) {
   for (const name of packages) {
     if (!isPackageName(name)) {
       throw new Error(
-        `babel-plugin-node-cjs-interop: not a package name: ${name}`
+        `babel-plugin-node-cjs-interop: not a package name: ${name}`,
       );
     }
   }
