@@ -1,15 +1,15 @@
 {
   "private": true,
-  "packageManager": "yarn@3.2.2",
+  "packageManager": "yarn@4.0.2",
   "workspaces": [
     "packages/*",
     "e2e/*"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach -pt run build",
-    "fmt": "yarn workspaces foreach -p run fmt",
-    "fmt:check": "yarn workspaces foreach -p run fmt:check",
-    "lint": "yarn build && yarn workspaces foreach -p run lint",
-    "test": "yarn build && yarn workspaces foreach -p run test"
+    "build": "yarn workspaces foreach -Apt run build",
+    "fmt": "yarn workspaces foreach -Ap run fmt",
+    "fmt:check": "yarn workspaces foreach -Ap run fmt:check",
+    "lint": "yarn build && yarn workspaces foreach -Ap run lint",
+    "test": "yarn build && yarn workspaces foreach -Ap run test"
   }
 }
