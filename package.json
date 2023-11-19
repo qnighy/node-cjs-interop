@@ -7,9 +7,13 @@
   ],
   "scripts": {
     "build": "yarn workspaces foreach -Apt run build",
+    "changeset": "changeset",
     "fmt": "yarn workspaces foreach -Ap run fmt",
     "fmt:check": "yarn workspaces foreach -Ap run fmt:check",
     "lint": "yarn build && yarn workspaces foreach -Ap run lint",
     "test": "yarn build && yarn workspaces foreach -Ap run test"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2"
   }
 }
