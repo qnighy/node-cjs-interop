@@ -10,11 +10,5 @@ exports.createConfig = ({ esm }) => {
       ],
       ["@babel/preset-typescript", { allowDeclareFields: true }],
     ],
-    plugins: [
-      esm && [
-        "babel-plugin-replace-import-extension",
-        { extMapping: { ".js": ".mjs" } },
-      ],
-    ].filter(Boolean),
   };
 };

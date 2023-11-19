@@ -23,19 +23,21 @@
   "license": "MIT",
   "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
   "version": "0.1.3",
-  "main": "./dist/index.js",
+  "type": "module",
+  "main": "./cjs/dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "import": "./dist/index.mjs",
+    "require": "./cjs/dist/index.js",
     "default": "./dist/index.js"
   },
   "files": [
+    "cjs/**/*",
     "dist/**/*"
   ],
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel:esm && $npm_execpath build:babel:cjs",
-    "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
-    "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts' --out-file-extension .mjs",
+    "build:babel:cjs": "BUILD_TARGET=cjs babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
+    "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --ignore '**/*.d.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
@@ -62,7 +64,6 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "babel-jest": "^29.7.0",
-    "babel-plugin-replace-import-extension": "^1.1.3",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.6.0",

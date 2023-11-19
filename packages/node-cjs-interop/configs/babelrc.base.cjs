@@ -8,11 +8,5 @@ exports.createConfig = function ({ cjs }) {
       ],
       ["@babel/preset-typescript", { allowDeclareFields: true }],
     ],
-    plugins: [
-      cjs && [
-        "babel-plugin-replace-import-extension",
-        { extMapping: { ".js": ".cjs" } },
-      ],
-    ].filter(Boolean),
   };
 };
