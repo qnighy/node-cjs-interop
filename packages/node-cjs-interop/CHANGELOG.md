@@ -1,5 +1,11 @@
 # node-cjs-interop
 
+## 0.1.3
+
+### Patch Changes
+
+- 54b33bb: Change how dual packages are configured
+
 ## 0.1.2
 
 - Update dependencies
