@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Create Release Pull Request or prepare publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: echo publish=true >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      publish: ${{ steps.changesets.outputs.publish }}
+
+  dispatch_publish:
+    name: Dispatch publish workflow
+    needs: release
+    if: needs.release.outputs.publish == 'true'
+    uses: ./.github/workflows/publish.yml
