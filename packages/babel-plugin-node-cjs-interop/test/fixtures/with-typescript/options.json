@@ -1,5 +1,5 @@
 {
   "sourceType": "unambiguous",
   "presets": ["@babel/preset-typescript"],
-  "plugins": [["../../../dist/index.js", { "packages": ["mod"] }]]
+  "plugins": [["../../../cjs/dist/index.js", { "packages": ["mod"] }]]
 }

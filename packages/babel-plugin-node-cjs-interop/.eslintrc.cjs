@@ -41,7 +41,7 @@ module.exports = {
       },
     },
     {
-      files: [".eslintrc.js"],
+      files: [".eslintrc.cjs"],
       parserOptions: {
         sourceType: "script",
       },

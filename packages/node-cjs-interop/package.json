@@ -26,15 +26,16 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
+    "require": "./cjs/dist/index.js",
     "default": "./dist/index.js"
   },
   "files": [
+    "cjs/**/*",
     "dist/**/*"
   ],
   "scripts": {
     "build": "$npm_execpath build:tsc && $npm_execpath build:babel:cjs && $npm_execpath build:babel:esm",
-    "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .cjs",
+    "build:babel:cjs": "BUILD_TARGET=cjs babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",

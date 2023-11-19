@@ -2989,7 +2989,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.11.0"
     "@typescript-eslint/parser": "npm:^6.11.0"
     babel-jest: "npm:^29.7.0"
-    babel-plugin-replace-import-extension: "npm:^1.1.3"
     eslint: "npm:^8.54.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-jest: "npm:^27.6.0"
@@ -3034,13 +3033,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
   checksum: cc32313b9ebbf1d7bedc33524a861136b9e5d3b6e9be317ac360a1c2a59ae5ed1b465a6c68b2715cdefb089780ddfb0c11f4a148e49827a947beee76e43da598
-  languageName: node
-  linkType: hard
-
-"babel-plugin-replace-import-extension@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "babel-plugin-replace-import-extension@npm:1.1.3"
-  checksum: 420d13b02961789713f918f93d25b9ca773e89871e287390346aa0bc46e20db4112da4398200ceaf786f8009fbeb6e9f5f8ca5a45242bc6d3104a0b37192da3f
   languageName: node
   linkType: hard
 
