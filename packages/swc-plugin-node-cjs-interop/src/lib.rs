@@ -45,6 +45,7 @@ struct ModuleVisitor<'a, C: Comments> {
     parent: &'a TransformVisitor<C>,
     replace_map: HashMap<Id, PseudoImport>,
     import_helper_name: Option<Ident>,
+    import_helper_name_t: Option<Ident>,
     prepend_body: Vec<ModuleItem>,
 }
 
@@ -54,6 +55,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             parent,
             replace_map: HashMap::new(),
             import_helper_name: None,
+            import_helper_name_t: None,
             prepend_body: Vec::new(),
         }
     }
@@ -74,9 +76,9 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
 
     fn process_module_item(&mut self, stmt: &mut ModuleItem) {
         if let ModuleItem::ModuleDecl(ModuleDecl::Import(stmt)) = stmt {
-            if !self.parent.options.has_applicable_source(&stmt.src.value) {
+            let Some(pkg_type) = self.parent.options.applicable_source_type(&stmt.src.value) else {
                 return;
-            }
+            };
             // Should have been removed by transform-typescript. Just in case.
             if stmt.type_only {
                 return;
@@ -130,7 +132,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                 self.replace_map.insert(local_id, expr);
             }
 
-            let import_helper = self.get_import_helper();
+            let import_helper = self.get_import_helper(pkg_type);
 
             // import ... from "source";
             // ->
@@ -176,13 +178,22 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
         }
     }
 
-    fn get_import_helper(&mut self) -> Ident {
-        if let Some(helper) = &self.import_helper_name {
+    fn get_import_helper(&mut self, pkg_type: PackageType) -> Ident {
+        if let Some(helper) = match pkg_type {
+            PackageType::Normal => &self.import_helper_name,
+            PackageType::TsTwisted => &self.import_helper_name_t,
+        } {
             return helper.clone();
         }
 
         let macro_span = DUMMY_SP.apply_mark(Mark::new());
-        let helper = { Ident::new(JsWord::from("_interopImportCJSNamespace"), macro_span) };
+        let helper = Ident::new(
+            JsWord::from(match pkg_type {
+                PackageType::Normal => "_interopImportCJSNamespace",
+                PackageType::TsTwisted => "_interopImportCJSNamespaceT",
+            }),
+            macro_span,
+        );
 
         if self.parent.options.use_runtime {
             // import {
@@ -207,7 +218,10 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                 .into(),
             );
 
-            self.import_helper_name = Some(helper.clone());
+            *match pkg_type {
+                PackageType::Normal => &mut self.import_helper_name,
+                PackageType::TsTwisted => &mut self.import_helper_name_t,
+            } = Some(helper.clone());
             return helper;
         }
 
@@ -219,89 +233,177 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             obj: Box::new(ns.clone().into()),
             prop: Ident::new(js_word!("default"), DUMMY_SP).into(),
         });
-        // function interopImportCJSNamespace(ns) {
-        //   return ns.__esModule && ns.default && ns.default.__esModule ? ns.default : ns;
-        // }
-        self.prepend_body.push(
-            Stmt::Decl(Decl::Fn(FnDecl {
-                ident: helper.clone(),
-                declare: false,
-                function: Box::new(Function {
-                    params: vec![ns.clone().into(), loose.clone().into()],
-                    decorators: vec![],
-                    span: Span::dummy_with_cmt(),
-                    body: Some(BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(Box::new(
-                                CondExpr {
+        match pkg_type {
+            PackageType::TsTwisted => {
+                // function interopImportCJSNamespaceT(ns) {
+                //   return ns.default && ns.default.__esModule ? ns : {
+                //     ...ns,
+                //     default: ns
+                //   };
+                // }
+                self.prepend_body.push(
+                    Stmt::Decl(Decl::Fn(FnDecl {
+                        ident: helper.clone(),
+                        declare: false,
+                        function: Box::new(Function {
+                            params: vec![ns.clone().into()],
+                            decorators: vec![],
+                            span: Span::dummy_with_cmt(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![ReturnStmt {
                                     span: DUMMY_SP,
-                                    test: Box::new(
-                                        BinExpr {
+                                    arg: Some(Box::new(
+                                        CondExpr {
                                             span: DUMMY_SP,
-                                            op: BinaryOp::LogicalAnd,
-                                            left: Box::new(
+                                            test: Box::new(
+                                                BinExpr {
+                                                    span: DUMMY_SP,
+                                                    op: BinaryOp::LogicalAnd,
+                                                    left: Box::new(ns_default.clone()),
+                                                    right: Box::new(
+                                                        MemberExpr {
+                                                            span: DUMMY_SP,
+                                                            obj: Box::new(ns_default.clone()),
+                                                            prop: Ident::new(
+                                                                JsWord::from("__esModule"),
+                                                                DUMMY_SP,
+                                                            )
+                                                            .into(),
+                                                        }
+                                                        .into(),
+                                                    ),
+                                                }
+                                                .into(),
+                                            ),
+                                            cons: Box::new(ns.clone().into()),
+                                            alt: Box::new(
+                                                ObjectLit {
+                                                    span: DUMMY_SP,
+                                                    props: vec![
+                                                        PropOrSpread::Spread(SpreadElement {
+                                                            dot3_token: DUMMY_SP,
+                                                            expr: Box::new(ns.clone().into()),
+                                                        }),
+                                                        PropOrSpread::Prop(Box::new(
+                                                            KeyValueProp {
+                                                                key: PropName::Ident(Ident::new(
+                                                                    JsWord::from("default"),
+                                                                    DUMMY_SP,
+                                                                )),
+                                                                value: Box::new(ns.clone().into()),
+                                                            }
+                                                            .into(),
+                                                        )),
+                                                    ],
+                                                }
+                                                .into(),
+                                            ),
+                                        }
+                                        .into(),
+                                    )),
+                                }
+                                .into()],
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        }),
+                    }))
+                    .into(),
+                );
+            }
+            PackageType::Normal => {
+                // function interopImportCJSNamespace(ns, loose) {
+                //   return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
+                // }
+                self.prepend_body.push(
+                    Stmt::Decl(Decl::Fn(FnDecl {
+                        ident: helper.clone(),
+                        declare: false,
+                        function: Box::new(Function {
+                            params: vec![ns.clone().into(), loose.clone().into()],
+                            decorators: vec![],
+                            span: Span::dummy_with_cmt(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(Box::new(
+                                        CondExpr {
+                                            span: DUMMY_SP,
+                                            test: Box::new(
                                                 BinExpr {
                                                     span: DUMMY_SP,
                                                     op: BinaryOp::LogicalAnd,
                                                     left: Box::new(
                                                         BinExpr {
                                                             span: DUMMY_SP,
-                                                            op: BinaryOp::LogicalOr,
-                                                            left: Box::new(loose.clone().into()),
-                                                            right: Box::new(
-                                                                MemberExpr {
+                                                            op: BinaryOp::LogicalAnd,
+                                                            left: Box::new(
+                                                                BinExpr {
                                                                     span: DUMMY_SP,
-                                                                    obj: Box::new(
-                                                                        ns.clone().into(),
+                                                                    op: BinaryOp::LogicalOr,
+                                                                    left: Box::new(
+                                                                        loose.clone().into(),
                                                                     ),
-                                                                    prop: Ident::new(
-                                                                        JsWord::from("__esModule"),
-                                                                        DUMMY_SP,
-                                                                    )
-                                                                    .into(),
+                                                                    right: Box::new(
+                                                                        MemberExpr {
+                                                                            span: DUMMY_SP,
+                                                                            obj: Box::new(
+                                                                                ns.clone().into(),
+                                                                            ),
+                                                                            prop: Ident::new(
+                                                                                JsWord::from(
+                                                                                    "__esModule",
+                                                                                ),
+                                                                                DUMMY_SP,
+                                                                            )
+                                                                            .into(),
+                                                                        }
+                                                                        .into(),
+                                                                    ),
                                                                 }
                                                                 .into(),
                                                             ),
+                                                            right: Box::new(ns_default.clone()),
                                                         }
                                                         .into(),
                                                     ),
-                                                    right: Box::new(ns_default.clone()),
+                                                    right: Box::new(
+                                                        MemberExpr {
+                                                            span: DUMMY_SP,
+                                                            obj: Box::new(ns_default.clone()),
+                                                            prop: Ident::new(
+                                                                JsWord::from("__esModule"),
+                                                                DUMMY_SP,
+                                                            )
+                                                            .into(),
+                                                        }
+                                                        .into(),
+                                                    ),
                                                 }
                                                 .into(),
                                             ),
-                                            right: Box::new(
-                                                MemberExpr {
-                                                    span: DUMMY_SP,
-                                                    obj: Box::new(ns_default.clone()),
-                                                    prop: Ident::new(
-                                                        JsWord::from("__esModule"),
-                                                        DUMMY_SP,
-                                                    )
-                                                    .into(),
-                                                }
-                                                .into(),
-                                            ),
+                                            cons: Box::new(ns_default),
+                                            alt: Box::new(ns.into()),
                                         }
                                         .into(),
-                                    ),
-                                    cons: Box::new(ns_default),
-                                    alt: Box::new(ns.into()),
+                                    )),
                                 }
-                                .into(),
-                            )),
-                        }
-                        .into()],
-                    }),
-                    is_generator: false,
-                    is_async: false,
-                    type_params: None,
-                    return_type: None,
-                }),
-            }))
-            .into(),
-        );
+                                .into()],
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        }),
+                    }))
+                    .into(),
+                );
+            }
+        }
         self.import_helper_name = Some(helper.clone());
         helper
     }
@@ -514,13 +616,25 @@ fn annotate_as_cjs<C: Comments>(stmt: &ImportDecl, comments: &C) {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+enum PackageType {
+    Normal,
+    TsTwisted,
+}
+
 impl Options {
-    fn has_applicable_source(&self, source: &str) -> bool {
+    fn applicable_source_type(&self, source: &str) -> Option<PackageType> {
         let source_package = get_package_name(source);
         if let Some(source_package) = source_package {
-            self.packages.iter().any(|pkg| pkg == source_package)
+            if self.packages.iter().any(|pkg| pkg == source_package) {
+                Some(PackageType::Normal)
+            } else if self.packages_t.iter().any(|pkg| pkg == source_package) {
+                Some(PackageType::TsTwisted)
+            } else {
+                None
+            }
         } else {
-            false
+            None
         }
     }
 }
