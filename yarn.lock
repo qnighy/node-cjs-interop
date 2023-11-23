@@ -2530,10 +2530,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/resolve@npm:^1.20.5":
-  version: 1.20.5
-  resolution: "@types/resolve@npm:1.20.5"
-  checksum: ff6a53de46aa811521ab34b84a7ee2779414a7eef24d70805856e1ed37ced7fd28cb2d7501f76b7305e3acc204c27f23b63572c7ad8228f0f044149a1690abdf
+"@types/resolve@npm:^1.20.6":
+  version: 1.20.6
+  resolution: "@types/resolve@npm:1.20.6"
+  checksum: a9b0549d816ff2c353077365d865a33655a141d066d0f5a3ba6fd4b28bc2f4188a510079f7c1f715b3e7af505a27374adce2a5140a3ece2a059aab3d6e1a4244
   languageName: node
   linkType: hard
 
@@ -6013,7 +6013,7 @@ __metadata:
     "@babel/types": "npm:^7.23.3"
     "@jest/globals": "npm:^29.7.0"
     "@types/node": "npm:^20.9.4"
-    "@types/resolve": "npm:^1.20.5"
+    "@types/resolve": "npm:^1.20.6"
     babel-jest: "npm:^29.7.0"
     eslint: "npm:^8.54.0"
     jest: "npm:^29.7.0"
