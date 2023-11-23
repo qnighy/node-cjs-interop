@@ -6,6 +6,10 @@
   "postUpdateOptions": [
     "yarnDedupeHighest"
   ],
+  "schedule": [
+    "on the 1st day of February",
+    "on the 1st day of August"
+  ],
   "packageRules": [
     {
       "matchManagers": ["npm"],
@@ -27,7 +31,9 @@
         "minor",
         "major"
       ],
-      "groupName": "swc monorepo"
+      "schedule": [
+        "on the 1st day of the month"
+      ]
     }
   ]
 }
