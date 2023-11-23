@@ -1,5 +1,11 @@
 # node-cjs-interop-finder
 
+## 0.1.3
+
+### Patch Changes
+
+- fb98f16: Internally improve Babel config
+
 ## 0.1.2
 
 - Update dependencies

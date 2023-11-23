@@ -1,5 +1,11 @@
 # babel-plugin-node-cjs-interop
 
+## 0.1.6
+
+### Patch Changes
+
+- fb98f16: Internally improve Babel config
+
 ## 0.1.5
 
 ### Patch Changes
