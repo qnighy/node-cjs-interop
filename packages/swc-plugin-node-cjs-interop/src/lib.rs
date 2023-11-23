@@ -1,8 +1,3 @@
-// For #[plugin_transform]
-#![allow(clippy::not_unsafe_ptr_arg_deref)]
-// For #[plugin_transform]
-#![allow(clippy::too_many_arguments)]
-
 mod options;
 mod package_name;
 
