@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: 20.x
 
+      - name: set up Rust
+        run: |
+          rustup set profile minimal
+          rustup install stable
+          rustup component add rustfmt clippy
+          rustup target add wasm32-unknown-unknown
+
       - name: Install Dependencies
         run: yarn
 
