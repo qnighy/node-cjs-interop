@@ -51,12 +51,12 @@
     "@babel/helper-validator-option": "^7.22.15"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.0",
+    "@babel/cli": "^7.23.4",
     "@babel/core": "^7.23.3",
     "@babel/helper-plugin-test-runner": "^7.22.5",
     "@babel/preset-env": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
-    "@babel/types": "^7.23.3",
+    "@babel/types": "^7.23.4",
     "@jest/globals": "^29.7.0",
     "@types/babel__core": "^7.20.5",
     "@types/babel__helper-plugin-utils": "^7.10.3",
