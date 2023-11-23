@@ -20,6 +20,7 @@ module.exports = {
     "no-redeclare": "off",
     "@typescript-eslint/no-redeclare": "error",
   },
+  ignorePatterns: ["dist/**/*", "cjs/dist/**/*"],
   overrides: [
     {
       files: ["src/**/*.ts", "test/**/*.ts"],
