@@ -6,7 +6,7 @@
   "scripts": {
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
-    "lint": "eslint 'src/**/*'",
+    "lint": "eslint .",
     "test": "yarn test:babel && yarn test:swc",
     "test:babel": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:swc": "NODE_OPTIONS=--experimental-vm-modules jest --config jest-swc.config.js",

@@ -42,7 +42,7 @@
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
     "jest": "NODE_OPTIONS='--experimental-vm-modules' jest",
-    "lint": "eslint 'src/**/*'",
+    "lint": "eslint .",
     "prepack": "$npm_execpath run build",
     "test": "yarn build:babel:cjs && yarn jest"
   },

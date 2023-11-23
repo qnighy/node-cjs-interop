@@ -16,6 +16,7 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint", "jest", "@babel/development"],
+  ignorePatterns: ["dist/**/*", "cjs/dist/**/*", "test/fixtures/**/output.*"],
   rules: {
     "@babel/development/no-deprecated-clone": "error",
     "@babel/development/no-undefined-identifier": "error",
@@ -47,6 +48,12 @@ module.exports = {
       },
       rules: {
         "@typescript-eslint/no-var-requires": "off",
+      },
+    },
+    {
+      files: ["test/fixtures/**/input.*"],
+      rules: {
+        "@typescript-eslint/ban-ts-comment": "off",
       },
     },
   ],

@@ -37,7 +37,7 @@
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
     "prepack": "$npm_execpath run build",
-    "lint": "eslint 'src/**/*'",
+    "lint": "eslint .",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {

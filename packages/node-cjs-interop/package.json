@@ -40,7 +40,7 @@
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
-    "lint": "eslint 'src/**/*'",
+    "lint": "eslint .",
     "prepack": "$npm_execpath run build",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },

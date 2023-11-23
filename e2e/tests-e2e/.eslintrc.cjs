@@ -16,6 +16,7 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["@typescript-eslint", "jest"],
+  ignorePatterns: ["dist/**/*", "cjs/dist/**/*"],
   rules: {
     "no-redeclare": "off",
     "@typescript-eslint/no-redeclare": "error",
