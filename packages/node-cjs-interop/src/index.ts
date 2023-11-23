@@ -24,6 +24,40 @@ export function interopImportCJSNamespace<T>(ns: T, loose?: boolean): T {
 }
 
 /**
+ * Adjusts a namespace object to allow interoperation between
+ * Node.js native ESM and Babel's ESM transpilation.
+ *
+ * This is an alternative to {@link interopImportCJSNamespace} that
+ * aligns with skew default-import mode. This is useful when all of
+ * the following conditions are met:
+ *
+ * - You have "module" or "moduleResolution" set to "node16" or "nodenext"
+ * - Your source code is in ESM mode. That is:
+ *   - The extension is ".mjs" or ".mts"
+ *   - or the extension is ".js", ".ts", ".jsx", or ".tsx" and you have
+ *     "type": "module" in your package.json
+ * - The module you are importing is in CJS mode. That is:
+ *   - The extension is ".cjs" or ".cts"
+ *   - or the extension is ".js", ".ts", ".jsx", or ".tsx" and you have
+ *     "type": "commonjs" in your package.json
+ *
+ * @param ns the namespace object provided by Node.js
+ * @returns the adjusted namespace object
+ * @example
+ *   ```ts
+ *   import * as nsOrig from "mod";
+ *   const ns = interopImportCJSNamespaceT(nsOrig);
+ *   console.log([ns.default.foo, ns.default.default]);
+ *   ```
+ */
+export function interopImportCJSNamespaceT<T>(ns: T): T {
+  type TT = NamespaceWrapper<T>;
+  return (ns as TT).default && (ns as TT).default.__esModule
+    ? ns
+    : { ...ns, default: ns };
+}
+
+/**
  * Adjusts a default imported object to allow interoperation between
  * Node.js native ESM and Babel's ESM transpilation.
  *

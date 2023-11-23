@@ -193,6 +193,18 @@ You can use [`node-cjs-interop-finder`](https://npmjs.com/package/node-cjs-inter
 npx node-cjs-interop-finder
 ```
 
+### packagesT
+
+- type: `string[]`
+- default: `[]`
+
+Similar to `packages`, but applies the "twisted" variant instead. In this mode, the imported `default` value
+would be the namespace object rather than the proper default export.
+
+This is useful when you have `"module"` or `"moduleResolution"` set to `"nodenext"` or `"node16"`
+in your `tsconfig.json` and you need to import `default` from a "dual package" in which the
+type definitions are recognized in the `.cts` mode.
+
 ### loose
 
 - type: `boolean`

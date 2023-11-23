@@ -1,5 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
-import { interopImportCJSNamespace, interopImportCJSDefault } from ".";
+import {
+  interopImportCJSNamespace,
+  interopImportCJSNamespaceT,
+  interopImportCJSDefault,
+} from ".";
 import * as module1 from "./__fixtures__/module1.cjs";
 import * as module2 from "./__fixtures__/module2.cjs";
 import * as module3 from "./__fixtures__/module3.mjs";
@@ -59,6 +63,28 @@ describe("interopImportCJSNamespace with loose = true", () => {
     const wrapped = interopImportCJSNamespace(module4, true);
     expect(wrapped).toBe(module4.default);
     expect(wrapped.default(42)).toBe(1764);
+    expect(wrapped.version).toBe("0.1.2");
+  });
+});
+
+describe("interopImportCJSNamespaceT", () => {
+  it("Returns a wrapped value for transpiled CJS", () => {
+    const wrapped = interopImportCJSNamespaceT(
+      // Reinterpret type to simulate "module": "nodenext" behavior
+      module2 as typeof module2 & { default: typeof module2 },
+    );
+    expect(wrapped.default).toBe(module2.default);
+    expect(wrapped.default.default(42)).toBe(1764);
+    expect(wrapped.version).toBe("0.1.2");
+  });
+
+  it("Returns the default value for poorly-written transpiled CJS", () => {
+    const wrapped = interopImportCJSNamespaceT(
+      // Reinterpret type to simulate "module": "nodenext" behavior
+      module4 as typeof module4 & { default: typeof module4 },
+    );
+    expect(wrapped.default).toBe(module4.default);
+    expect(wrapped.default.default(42)).toBe(1764);
     expect(wrapped.version).toBe("0.1.2");
   });
 });
