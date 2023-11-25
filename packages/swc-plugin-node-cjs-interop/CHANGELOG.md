@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.5
+
+### Patch Changes
+
+- 37a65b0: Support dynamic imports
+
 ## 0.1.4
 
 ### Patch Changes

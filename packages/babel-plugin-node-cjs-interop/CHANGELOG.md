@@ -1,5 +1,11 @@
 # babel-plugin-node-cjs-interop
 
+## 0.1.7
+
+### Patch Changes
+
+- 37a65b0: Support dynamic imports
+
 ## 0.1.6
 
 ### Patch Changes
