@@ -1,7 +1,9 @@
 import type * as Babel from "@babel/core";
 import type {
+  CallExpression,
   Expression,
   Identifier,
+  ImportExpression,
   JSXIdentifier,
   JSXMemberExpression,
   Node,
@@ -163,8 +165,105 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           "babel-plugin-node-cjs-interop: cannot transform export declarations",
         );
       },
+      // createImportExpressions === false; Babel 7 default
+      CallExpression(path, state) {
+        if (path.node.callee.type === "Import") {
+          processImportExpression(
+            path,
+            path.get("arguments")[0] as Babel.NodePath<Expression>,
+            state,
+          );
+        }
+      },
+      // createImportExpressions === true; Babel 8 default
+      ImportExpression(path, state) {
+        processImportExpression(path, path.get("source"), state);
+      },
     },
   };
+
+  function processImportExpression(
+    path: Babel.NodePath<CallExpression | ImportExpression>,
+    sourcePath: Babel.NodePath<Expression>,
+    state: Babel.PluginPass,
+  ) {
+    if (sourcePath.node.type !== "StringLiteral") return;
+    const pkgType = applicableSourceType(sourcePath.node.value, options);
+    if (!pkgType) return;
+    if (isCjsAnnotated(path.node)) return;
+
+    const awaitPath = path.parentPath;
+    if (
+      awaitPath.isAwaitExpression() &&
+      awaitPath.node.argument === path.node
+    ) {
+      if (isCjsAnnotated(awaitPath.node)) return;
+
+      const importHelper = getImportHelper(
+        t,
+        path,
+        state,
+        pkgType,
+        options.useRuntime ?? false,
+      );
+
+      const origNode = awaitPath.node;
+      // await import("source")
+      // -> _interopImportCJSNamespace(await import("source"))
+      awaitPath.replaceWith(
+        t.callExpression(t.cloneNode(importHelper), [
+          awaitPath.node,
+          ...(pkgType !== "ts-twisted" && options.loose
+            ? [t.booleanLiteral(true)]
+            : []),
+        ]),
+      );
+      annotateAsCjs(t, origNode);
+      return;
+    } else {
+      const importHelper = getImportHelper(
+        t,
+        path,
+        state,
+        pkgType,
+        options.useRuntime ?? false,
+      );
+
+      const origNode = path.node;
+      // import("source")
+      // -> import("source").then((ns) => _interopImportCJSNamespace(ns))
+      // NOTE: strictly speaking, it does not preserve scheduling semantics of the Promise;
+      //       the transform delays the execution by one cycle of microtask queue.
+      //       We could add other heuristics for cases like import("source").then(...)
+      //       but ultimately we cannot do so when we are not sure where the Promise goes to.
+      //       As the effect is fairly minor (do not depend on microtask cycle count!),
+      //       we just leave it as is for now.
+      path.replaceWith(
+        t.callExpression(
+          t.memberExpression(
+            // Explicit parentheses to get room for the #__CJS__ comment
+            t.parenthesizedExpression(path.node),
+            t.identifier("then"),
+            false,
+            false,
+          ),
+          [
+            t.arrowFunctionExpression(
+              [t.identifier("ns")],
+              t.callExpression(t.cloneNode(importHelper), [
+                t.identifier("ns"),
+                ...(pkgType !== "ts-twisted" && options.loose
+                  ? [t.booleanLiteral(true)]
+                  : []),
+              ]),
+            ),
+          ],
+        ),
+      );
+      annotateAsCjs(t, origNode);
+      return;
+    }
+  }
 });
 
 type Replacement = {
