@@ -7,7 +7,7 @@ use std::mem;
 pub use crate::options::Options as TransformOptions;
 use crate::{options::Options, package_name::get_package_name};
 use swc_core::common::comments::{Comment, CommentKind, Comments};
-use swc_core::common::{Mark, Span, DUMMY_SP};
+use swc_core::common::{Mark, Span, Spanned, DUMMY_SP};
 use swc_core::ecma::ast::*;
 use swc_core::ecma::atoms::{js_word, JsWord};
 use swc_core::ecma::visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
@@ -59,6 +59,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
         for stmt in &mut module.body {
             self.process_module_item(stmt);
         }
+        self.visit_mut_module(module);
         if !self.replace_map.is_empty() {
             module.visit_mut_with(&mut ModuleRefRewriter {
                 replace_map: &self.replace_map,
@@ -170,6 +171,101 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             }
             .into()];
             annotate_as_cjs(stmt, &self.parent.comments);
+        }
+    }
+
+    fn process_dynamic_import(&mut self, mut call: ImportExprCtx<'_>) {
+        let Some(source) = call.as_call().args[0].expr.as_lit().and_then(|lit| {
+            if let Lit::Str(s) = lit {
+                Some(s)
+            } else {
+                None
+            }
+        }) else {
+            return;
+        };
+        let Some(pkg_type) = self.parent.options.applicable_source_type(&source.value) else {
+            return;
+        };
+        let import_helper = self.get_import_helper(pkg_type);
+
+        if is_cjs_annotated(call.as_call_wrapper(), &self.parent.comments) {
+            return;
+        }
+        match &mut call {
+            ImportExprCtx::AwaitImport(awaiter_path) => {
+                if is_cjs_annotated(*awaiter_path, &self.parent.comments) {
+                    return;
+                }
+                // await import("source")
+                // -> _interopImportCJSNamespace(await import("source"))
+                let awaiter =
+                    mem::replace(*awaiter_path, Expr::Invalid(Invalid { span: DUMMY_SP }));
+                annotate_as_cjs(&awaiter, &self.parent.comments);
+                **awaiter_path = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Callee::Expr(Box::new(Expr::Ident(import_helper.clone()))),
+                    args: if pkg_type != PackageType::TsTwisted && self.parent.options.loose {
+                        vec![awaiter.into(), Expr::Lit(Lit::Bool(true.into())).into()]
+                    } else {
+                        vec![awaiter.into()]
+                    },
+                    type_args: None,
+                });
+            }
+            ImportExprCtx::Import(call_path) => {
+                // import("source")
+                // -> import("source").then((ns) => _interopImportCJSNamespace(ns))
+                // NOTE: strictly speaking, it does not preserve scheduling semantics of the Promise;
+                //       the transform delays the execution by one cycle of microtask queue.
+                //       We could add other heuristics for cases like import("source").then(...)
+                //       but ultimately we cannot do so when we are not sure where the Promise goes to.
+                //       As the effect is fairly minor (do not depend on microtask cycle count!),
+                //       we just leave it as is for now.
+                let ns = Ident::new(JsWord::from("ns"), DUMMY_SP);
+                let call = mem::replace(*call_path, Expr::Invalid(Invalid { span: DUMMY_SP }));
+                annotate_as_cjs(&call, &self.parent.comments);
+                **call_path = Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                        span: DUMMY_SP,
+                        // Explicit parentheses to get room for the #__CJS__ comment -- but seems not working
+                        obj: Box::new(Expr::Paren(ParenExpr {
+                            span: DUMMY_SP,
+                            expr: Box::new(call),
+                        })),
+                        prop: MemberProp::Ident(Ident::new(JsWord::from("then"), DUMMY_SP)),
+                    }))),
+                    args: vec![Expr::Arrow(ArrowExpr {
+                        span: DUMMY_SP,
+                        params: vec![Pat::Ident(ns.clone().into())],
+                        body: Box::new(BlockStmtOrExpr::Expr(Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: Callee::Expr(Box::new(Expr::Ident(import_helper.clone()))),
+                                args: if pkg_type != PackageType::TsTwisted
+                                    && self.parent.options.loose
+                                {
+                                    vec![
+                                        Expr::Ident(ns.clone()).into(),
+                                        Expr::Lit(Lit::Bool(true.into())).into(),
+                                    ]
+                                } else {
+                                    vec![Expr::Ident(ns.clone()).into()]
+                                },
+                                type_args: None,
+                            }
+                            .into(),
+                        ))),
+                        is_async: false,
+                        is_generator: false,
+                        type_params: None,
+                        return_type: None,
+                    })
+                    .into()],
+                    type_args: None,
+                });
+            }
         }
     }
 
@@ -404,6 +500,59 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
     }
 }
 
+enum ImportExprCtx<'a> {
+    Import(&'a mut Expr),
+    AwaitImport(&'a mut Expr),
+}
+
+impl<'a> ImportExprCtx<'a> {
+    fn as_call(&self) -> &CallExpr {
+        self.as_call_wrapper().as_call().unwrap()
+    }
+    fn as_call_wrapper(&self) -> &Expr {
+        match self {
+            ImportExprCtx::Import(call) => call,
+            ImportExprCtx::AwaitImport(awaiter) => &awaiter.as_await_expr().unwrap().arg,
+        }
+    }
+    // fn as_mut_call(&mut self) -> &mut CallExpr {
+    //     self.as_mut_call_wrapper().as_mut_call().unwrap()
+    // }
+    // fn as_mut_call_wrapper(&mut self) -> &mut Expr {
+    //     match self {
+    //         ImportExprCtx::Import(call) => call,
+    //         ImportExprCtx::AwaitImport(awaiter) => &mut awaiter.as_mut_await_expr().unwrap().arg,
+    //     }
+    // }
+}
+
+impl<'a, C: Comments> VisitMut for ModuleVisitor<'a, C> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if let Some(awaiter) = n.as_mut_await_expr() {
+            if let Some(call) = awaiter.arg.as_mut_call() {
+                if is_import_expr(call) {
+                    // Skip processing the call expression
+                    call.visit_mut_children_with(self);
+                    self.process_dynamic_import(ImportExprCtx::AwaitImport(n));
+                    return;
+                }
+            }
+        }
+        n.visit_mut_children_with(self);
+        if let Some(call) = n.as_mut_call() {
+            if is_import_expr(call) {
+                self.process_dynamic_import(ImportExprCtx::Import(n));
+            }
+        }
+    }
+}
+
+fn is_import_expr(expr: &CallExpr) -> bool {
+    expr.callee.is_import() && !expr.args.is_empty() && expr.args[0].spread.is_none()
+}
+
 #[derive(Debug, Clone)]
 enum PseudoImport {
     #[allow(dead_code)]
@@ -587,8 +736,8 @@ impl<'a> ModuleRefRewriter<'a> {
     }
 }
 
-fn is_cjs_annotated<C: Comments>(stmt: &ImportDecl, comments: &C) -> bool {
-    let leading_comments = comments.get_leading(stmt.span.lo());
+fn is_cjs_annotated<N: Spanned, C: Comments>(node: &N, comments: &C) -> bool {
+    let leading_comments = comments.get_leading(node.span().lo());
     if let Some(leading_comments) = leading_comments {
         leading_comments
             .iter()
@@ -598,10 +747,10 @@ fn is_cjs_annotated<C: Comments>(stmt: &ImportDecl, comments: &C) -> bool {
     }
 }
 
-fn annotate_as_cjs<C: Comments>(stmt: &ImportDecl, comments: &C) {
-    if !is_cjs_annotated(stmt, comments) {
+fn annotate_as_cjs<N: Spanned, C: Comments>(node: &N, comments: &C) {
+    if !is_cjs_annotated(node, comments) {
         comments.add_leading(
-            stmt.span.lo(),
+            node.span().lo(),
             Comment {
                 kind: CommentKind::Block,
                 span: DUMMY_SP,
