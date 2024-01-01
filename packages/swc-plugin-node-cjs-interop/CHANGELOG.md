@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.7
+
+### Patch Changes
+
+- 9437e69: Bump swc_core to 0.87
+
 ## 0.1.6
 
 ### Patch Changes
