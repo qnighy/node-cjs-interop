@@ -1741,6 +1741,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@eslint/eslintrc@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@eslint/eslintrc@npm:3.0.0"
+  dependencies:
+    ajv: "npm:^6.12.4"
+    debug: "npm:^4.3.2"
+    espree: "npm:^9.6.0"
+    globals: "npm:^13.19.0"
+    ignore: "npm:^5.2.0"
+    import-fresh: "npm:^3.2.1"
+    js-yaml: "npm:^4.1.0"
+    minimatch: "npm:^3.1.2"
+    strip-json-comments: "npm:^3.1.1"
+  checksum: 10c0/b90d30d0001d8141549e5763349c80efd72d91e50066d4a2378d4887a34b61008f28e65c49875ab48e56ae1a61d9596ec13826ca6095c95cb5238a6467acc207
+  languageName: node
+  linkType: hard
+
 "@eslint/js@npm:8.56.0, @eslint/js@npm:^8.56.0":
   version: 8.56.0
   resolution: "@eslint/js@npm:8.56.0"
@@ -6658,7 +6675,7 @@ __metadata:
   dependencies:
     "@babel/eslint-plugin-development": "npm:^7.22.10"
     "@changesets/cli": "npm:^2.27.1"
-    "@eslint/eslintrc": "npm:^2.1.4"
+    "@eslint/eslintrc": "npm:^3.0.0"
     "@eslint/js": "npm:^8.56.0"
     "@types/eslint": "npm:^8.56.2"
     "@types/eslint-config-prettier": "npm:^6.11.3"

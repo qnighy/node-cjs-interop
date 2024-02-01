@@ -17,7 +17,7 @@
   "devDependencies": {
     "@babel/eslint-plugin-development": "^7.22.10",
     "@changesets/cli": "^2.27.1",
-    "@eslint/eslintrc": "^2.1.4",
+    "@eslint/eslintrc": "^3.0.0",
     "@eslint/js": "^8.56.0",
     "@types/eslint": "^8.56.2",
     "@types/eslint-config-prettier": "^6.11.3",
