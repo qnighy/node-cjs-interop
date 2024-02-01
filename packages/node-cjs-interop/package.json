@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

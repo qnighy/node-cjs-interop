@@ -1,5 +1,12 @@
 # node-cjs-interop
 
+## 0.1.6
+
+### Patch Changes
+
+- 95bef4e: Update typescript
+- a6b57a9: Update Babel
+
 ## 0.1.5
 
 ### Patch Changes
