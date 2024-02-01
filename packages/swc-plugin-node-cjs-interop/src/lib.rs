@@ -305,6 +305,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                     src: Box::new(Str::from("node-cjs-interop")),
                     type_only: false,
                     with: None,
+                    phase: ImportPhase::Evaluation,
                 })
                 .into(),
             );
