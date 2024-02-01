@@ -1,5 +1,13 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.8
+
+### Patch Changes
+
+- be3d9ec: Update swc monorepo
+- a696577: Update serde
+- bcdc489: Update serde_json
+
 ## 0.1.7
 
 ### Patch Changes

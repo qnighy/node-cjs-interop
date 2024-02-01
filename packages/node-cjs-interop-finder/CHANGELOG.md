@@ -1,5 +1,12 @@
 # node-cjs-interop-finder
 
+## 0.1.4
+
+### Patch Changes
+
+- 95bef4e: Update typescript
+- a6b57a9: Update Babel
+
 ## 0.1.3
 
 ### Patch Changes
