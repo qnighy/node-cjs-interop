@@ -1741,10 +1741,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.54.0, @eslint/js@npm:^8.54.0":
+"@eslint/js@npm:8.54.0":
   version: 8.54.0
   resolution: "@eslint/js@npm:8.54.0"
   checksum: d61fb4a0be6af2d8cb290121c329697664a75d6255a29926d5454fb02aeb02b87112f67fdf218d10abac42f90c570ac366126751baefc5405d0e017ed0c946c5
+  languageName: node
+  linkType: hard
+
+"@eslint/js@npm:^8.56.0":
+  version: 8.56.0
+  resolution: "@eslint/js@npm:8.56.0"
+  checksum: 60b3a1cf240e2479cec9742424224465dc50e46d781da1b7f5ef240501b2d1202c225bd456207faac4b34a64f4765833345bc4ddffd00395e1db40fa8c426f5a
   languageName: node
   linkType: hard
 
@@ -6658,7 +6665,7 @@ __metadata:
     "@babel/eslint-plugin-development": "npm:^7.22.10"
     "@changesets/cli": "npm:^2.27.1"
     "@eslint/eslintrc": "npm:^2.1.4"
-    "@eslint/js": "npm:^8.54.0"
+    "@eslint/js": "npm:^8.56.0"
     "@types/eslint": "npm:^8.44.7"
     "@types/eslint-config-prettier": "npm:^6.11.3"
     "@types/eslint__eslintrc": "npm:^2.1.1"
