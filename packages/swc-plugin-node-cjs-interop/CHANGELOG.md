@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.9
+
+### Patch Changes
+
+- 5c4ec19: Update swc monorepo
+
 ## 0.1.8
 
 ### Patch Changes
