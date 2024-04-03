@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.10
+
+### Patch Changes
+
+- a5beaff: chore(deps): update swc monorepo
+
 ## 0.1.9
 
 ### Patch Changes
