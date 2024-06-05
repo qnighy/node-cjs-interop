@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.12
+
+### Patch Changes
+
+- 392044a: chore(deps): update swc monorepo
+
 ## 0.1.11
 
 ### Patch Changes
