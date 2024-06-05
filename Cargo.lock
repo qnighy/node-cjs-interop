@@ -1324,9 +1324,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.91.3"
+version = "0.92.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bdbe48c92f6c3dcd5b4c2e8922030237ae243ead9e0376c262dd8e072e363261"
+checksum = "86da1fa18605829228820c41795eb7289eb26542cc62ced2f420bb964d4303ac"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1393,9 +1393,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.144.1"
+version = "0.144.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0499e69683ae5d67a20ff0279b94bc90f29df7922a46331b54d5dd367bf89570"
+checksum = "31adf4599e8de70f3b754dfc34ec2ab09fa6841d79a9f4a888250a404eae7030"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -1725,9 +1725,9 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.35.24"
+version = "0.35.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c71dd5265f4921fe51b386b1496c63ac058589d8cd38de6b61489a98c6019a16"
+checksum = "15028f8ec7f95006f4e00e6c5ab6620f322bc6dc208a6cba09afa36375981cec"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
