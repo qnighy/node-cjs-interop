@@ -2431,12 +2431,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint__eslintrc@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@types/eslint__eslintrc@npm:2.1.1"
+"@types/eslint__eslintrc@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@types/eslint__eslintrc@npm:2.1.2"
   dependencies:
     "@types/eslint": "npm:*"
-  checksum: 10c0/1887208bdd0bf3bce4e2055b2b69178c38b9b29a44aceecffa4942d4ebd7b7fec33cb4a99d8dfc1f1f202208debd308e7b7afc128cfb33ae665d2cc09a6fa378
+  checksum: 10c0/ccbeb74886fbbee1b016ed9c920ad932cb0b970c42eec4cea27e04c2640d5a92c20e44d4610de73551c4c8f658963a769ddc9fd75eac72edf33f035129600637
   languageName: node
   linkType: hard
 
@@ -6682,7 +6682,7 @@ __metadata:
     "@eslint/js": "npm:^8.56.0"
     "@types/eslint": "npm:^8.56.2"
     "@types/eslint-config-prettier": "npm:^6.11.3"
-    "@types/eslint__eslintrc": "npm:^2.1.1"
+    "@types/eslint__eslintrc": "npm:^2.1.2"
     "@types/eslint__js": "npm:^8.42.3"
     "@typescript-eslint/eslint-plugin": "npm:^6.20.0"
     "@typescript-eslint/parser": "npm:^6.20.0"
