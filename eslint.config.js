@@ -1,22 +1,18 @@
 import path from "node:path";
 
-import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import tseslint from "typescript-eslint";
+import jest from "eslint-plugin-jest";
+import babelDevelopment from "@babel/eslint-plugin-development";
 import prettier from "eslint-config-prettier";
-import parser from "@typescript-eslint/parser";
 import globals from "globals";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-/** @type {import("eslint").Linter.FlatConfig[]} */
-export default [
+export default tseslint.config(
   js.configs.recommended,
-  ...compat.extends("plugin:@typescript-eslint/recommended"),
-  ...compat.extends("plugin:jest/recommended"),
+  ...tseslint.configs.recommended,
+  jest.configs["flat/recommended"],
   prettier,
   {
     files: ["**/*.@(?([mc])[jt]s|[jt]sx)"],
@@ -29,7 +25,6 @@ export default [
   },
   {
     languageOptions: {
-      parser,
       globals: {
         console: true,
       },
@@ -119,16 +114,18 @@ export default [
       },
     },
   },
-  ...compat
-    .extends("plugin:@typescript-eslint/recommended-type-checked")
-    .map((c) => ({
-      ...c,
-      files: [
-        "packages/*/@(src|test)/**/*.ts",
-        "e2e/tests-e2e/@(src|test)/**/*.ts",
-      ],
-    })),
-  ...compat.plugins("@babel/development"),
+  ...tseslint.configs.recommendedTypeChecked.map((c) => ({
+    ...c,
+    files: [
+      "packages/*/@(src|test)/**/*.ts",
+      "e2e/tests-e2e/@(src|test)/**/*.ts",
+    ],
+  })),
+  {
+    plugins: {
+      "@babel/development": babelDevelopment,
+    },
+  },
   {
     rules: {
       "@babel/development/no-deprecated-clone": "error",
@@ -148,5 +145,5 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
       "no-import-assign": "off",
     },
-  },
-];
+  }
+);
