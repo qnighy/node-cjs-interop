@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.4.0",
   "workspaces": [
     "packages/*",
     "e2e/*"
