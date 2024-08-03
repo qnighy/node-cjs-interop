@@ -1,8 +1,8 @@
 {
   "extends": "./configs/tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true,
+    "noEmit": true
   },
   "include": ["src/**/*.test.ts"],
-  "references": [{ "path": "./configs/tsconfig.main.json" }],
+  "references": [{ "path": "./configs/tsconfig.main.json" }]
 }
