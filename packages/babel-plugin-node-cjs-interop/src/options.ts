@@ -1,3 +1,4 @@
+/// <reference types="./babel-helper-validator-option" />
 import { OptionValidator } from "@babel/helper-validator-option";
 import { isPackageName } from "./package-name.js";
 
