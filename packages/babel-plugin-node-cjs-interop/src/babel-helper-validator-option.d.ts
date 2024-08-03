@@ -14,9 +14,10 @@ declare module "@babel/helper-validator-option" {
     validateTopLevelOptions<T extends object, U extends object>(
       options: T,
       TopLevelOptionShape: U,
-    ): asserts options is Record<keyof U, unknown> & {
-      [K in keyof T]?: K extends keyof U ? unknown : undefined;
-    };
+    ): asserts options is T &
+      Record<keyof U, unknown> & {
+        [K in keyof T]?: K extends keyof U ? unknown : undefined;
+      };
 
     validateBooleanOption<T>(
       name: string,
