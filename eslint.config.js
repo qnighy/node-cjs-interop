@@ -1,13 +1,9 @@
-import path from "node:path";
-
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import jest from "eslint-plugin-jest";
 import babelDevelopment from "@babel/eslint-plugin-development";
 import prettier from "eslint-config-prettier";
 import globals from "globals";
-
-const __dirname = new URL(".", import.meta.url).pathname;
 
 export default tseslint.config(
   js.configs.recommended,
@@ -56,61 +52,13 @@ export default tseslint.config(
     },
   },
   {
-    files: ["packages/node-cjs-interop/@(src|test)/**/*.ts"],
+    files: [
+      "packages/*/@(src|test)/**/*.ts",
+      "e2e/tests-e2e/@(src|test)/**/*.ts",
+    ],
     languageOptions: {
       parserOptions: {
-        project: [
-          path.resolve(__dirname, "./packages/node-cjs-interop/tsconfig.json"),
-          path.resolve(
-            __dirname,
-            "./packages/node-cjs-interop/configs/tsconfig.main.json"
-          ),
-        ],
-      },
-    },
-  },
-  {
-    files: ["packages/babel-plugin-node-cjs-interop/@(src|test)/**/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: [
-          path.resolve(
-            __dirname,
-            "./packages/babel-plugin-node-cjs-interop/tsconfig.json"
-          ),
-          path.resolve(
-            __dirname,
-            "./packages/babel-plugin-node-cjs-interop/configs/tsconfig.main.json"
-          ),
-        ],
-      },
-    },
-  },
-  {
-    files: ["packages/node-cjs-interop-finder/@(src|test)/**/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: [
-          path.resolve(
-            __dirname,
-            "./packages/node-cjs-interop-finder/tsconfig.json"
-          ),
-          path.resolve(
-            __dirname,
-            "./packages/node-cjs-interop-finder/configs/tsconfig.main.json"
-          ),
-        ],
-      },
-    },
-  },
-  {
-    files: ["e2e/tests-e2e/@(src|test)/**/*.ts"],
-    languageOptions: {
-      parserOptions: {
-        project: [
-          path.resolve(__dirname, "./e2e/tests-e2e/tsconfig.json"),
-          path.resolve(__dirname, "./e2e/tests-e2e/configs/tsconfig.main.json"),
-        ],
+        projectService: true,
       },
     },
   },
