@@ -19,7 +19,7 @@
     "@changesets/cli": "^2.27.7",
     "@eslint/eslintrc": "^3.0.0",
     "@eslint/js": "^8.56.0",
-    "@types/eslint": "^8.56.2",
+    "@types/eslint": "^8.56.11",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/eslint__eslintrc": "^2.1.1",
     "@types/eslint__js": "^8.42.3",
