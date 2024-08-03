@@ -1,5 +1,11 @@
 # node-cjs-interop
 
+## 0.1.7
+
+### Patch Changes
+
+- c75999a: chore(deps): update babel monorepo
+
 ## 0.1.6
 
 ### Patch Changes
