@@ -29,7 +29,7 @@
     "@swc/core": "^1.7.5",
     "@swc/jest": "^0.2.36",
     "babel-jest": "^29.7.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
