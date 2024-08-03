@@ -54,7 +54,7 @@
     "@types/node": "^20.14.14",
     "@types/resolve": "^1.20.6",
     "babel-jest": "^29.7.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.8.0",
     "jest": "^29.7.0",
     "jest-resolve": "^29.7.0",
     "jest-ts-webcompat-resolver": "^1.0.0",
