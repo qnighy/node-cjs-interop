@@ -2515,12 +2515,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.16":
-  version: 20.11.16
-  resolution: "@types/node@npm:20.11.16"
+"@types/node@npm:*, @types/node@npm:^20.14.14":
+  version: 20.14.14
+  resolution: "@types/node@npm:20.14.14"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 10c0/4886b90278e9c877a84efd3edd4667cd990e032d77268d2a798b99ebc1901ea336fa7dfbe9eaf4ad6ad1da9ce2ec31baf300038a3905838692362eb19904ebde
+  checksum: 10c0/4fc8d368df2b6f5497698327b30db68d7d20e32221ce7d057fb15cbd5834685b2fde0440609e4cb2204e5d305b928f008faf41b950a425f3fd55b60cb1b997cf
   languageName: node
   linkType: hard
 
@@ -5425,7 +5425,7 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.24.7"
     "@babel/types": "npm:^7.23.3"
     "@jest/globals": "npm:^29.7.0"
-    "@types/node": "npm:^20.11.16"
+    "@types/node": "npm:^20.14.14"
     "@types/resolve": "npm:^1.20.6"
     babel-jest: "npm:^29.7.0"
     eslint: "npm:^8.56.0"
