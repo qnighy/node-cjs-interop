@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "fixture-package-pure-cjs",
-  "main": "./index.js",
-  "types": "./index.d.ts"
-}

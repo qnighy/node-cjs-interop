@@ -6,8 +6,5 @@
   "linked": [],
   "access": "public",
   "baseBranch": "master",
-  "updateInternalDependencies": "patch",
-  "ignore": [
-    "tests-e2e"
-  ]
+  "updateInternalDependencies": "patch"
 }

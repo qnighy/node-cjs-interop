@@ -2,8 +2,7 @@
   "private": true,
   "packageManager": "yarn@4.4.0",
   "workspaces": [
-    "packages/*",
-    "e2e/*"
+    "packages/*"
   ],
   "type": "module",
   "scripts": {
