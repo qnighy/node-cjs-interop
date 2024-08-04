@@ -1,5 +1,5 @@
 /** @type {import("@babel/core").TransformOptions} */
-module.exports = {
+export default {
   targets: { node: "14" },
   presets: [
     ["@babel/preset-env", { modules: false }],

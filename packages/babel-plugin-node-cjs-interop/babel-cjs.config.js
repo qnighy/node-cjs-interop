@@ -1,5 +1,5 @@
 /** @type {import("@babel/core").TransformOptions} */
-module.exports = {
+export default {
   extends: "./babel.config.cjs",
   presets: [["@babel/preset-env", { modules: "commonjs" }]],
 };
