@@ -15,12 +15,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
-    - name: set up Rust
-      run: |
-        rustup set profile minimal
-        rustup install stable
-        rustup component add rustfmt clippy
-        rustup target add wasm32-unknown-unknown
     - run: yarn install --immutable
     - run: yarn build
     - run: yarn test
