@@ -8,13 +8,12 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-serde = { version = "1.0.192", default-features = false, features = ["alloc", "derive"] }
-serde_json = { version = "1.0.108", default-features = false, features = ["alloc"] }
-swc_core = { version = "0.86.66", features = ["ecma_plugin_transform"] }
-swc_plugin = "0.90.0"
+serde = { version = "1.0.196", default-features = false, features = ["alloc", "derive"] }
+serde_json = { version = "1.0.113", default-features = false, features = ["alloc"] }
+swc_core = { version = "0.99.0", features = ["ecma_plugin_transform"] }
 
 [dev-dependencies]
-swc_ecma_parser = "0.141.23"
-swc_ecma_transforms_testing = "0.137.40"
-swc_ecma_transforms_typescript = "0.185.44"
-testing = "0.35.11"
+swc_ecma_parser = "0.148.0"
+swc_ecma_transforms_testing = "0.146.0"
+swc_ecma_transforms_typescript = "0.194.0"
+testing = "0.38.0"

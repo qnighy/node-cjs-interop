@@ -21,43 +21,40 @@
   },
   "license": "MIT",
   "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
-  "version": "0.1.1",
+  "version": "0.1.7",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "require": "./dist/index.cjs",
+    "require": "./cjs/dist/index.js",
     "default": "./dist/index.js"
   },
   "files": [
+    "cjs/**/*",
     "dist/**/*"
   ],
   "scripts": {
-    "build": "$npm_execpath build:tsc && $npm_execpath build:babel:cjs && $npm_execpath build:babel:esm",
-    "build:babel:cjs": "BUILD_TARGET=cjs babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts' --out-file-extension .cjs",
-    "build:babel:esm": "BUILD_TARGET=esm babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
+    "build": "$npm_execpath run build:tsc && $npm_execpath run build:babel:cjs && $npm_execpath run build:babel:esm",
+    "build:babel:cjs": "babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts' --config-file ./babel-cjs.config.cjs",
+    "build:babel:esm": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
     "fmt:check": "prettier -c .",
-    "lint": "eslint 'src/**/*'",
-    "prepack": "$npm_execpath build",
-    "test": "NODE_OPTIONS=--experimental-vm-modules BUILD_TARGET=esm jest"
+    "lint": "eslint .",
+    "prepack": "$npm_execpath run build",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "devDependencies": {
-    "@babel/cli": "^7.23.0",
-    "@babel/core": "^7.23.3",
-    "@babel/preset-env": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3",
+    "@babel/cli": "^7.24.8",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-typescript": "^7.24.7",
     "@jest/globals": "^29.7.0",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
     "babel-jest": "^29.7.0",
-    "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-jest": "^27.6.0",
+    "eslint": "^9.8.0",
     "jest": "^29.7.0",
-    "prettier": "^3.1.0",
-    "typescript": "^5.2.2"
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
   },
   "jest": {
     "extensionsToTreatAsEsm": [

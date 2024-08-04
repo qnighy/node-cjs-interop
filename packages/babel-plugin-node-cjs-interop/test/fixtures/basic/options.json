@@ -1,5 +1,5 @@
 {
   "plugins": [
-    ["../../../dist/index.js", { "packages": ["mod", "mod1", "mod2"] }]
+    ["../../../cjs/dist/index.js", { "packages": ["mod", "mod1", "mod2"] }]
   ]
 }

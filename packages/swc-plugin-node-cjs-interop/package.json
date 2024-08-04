@@ -21,12 +21,12 @@
   },
   "license": "MIT",
   "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
-  "version": "0.1.1",
+  "version": "0.1.14",
   "main": "./index.wasm",
   "scripts": {
     "build:rust": "cargo build --target wasm32-unknown-unknown && cp ../../target/wasm32-unknown-unknown/debug/swc_plugin_node_cjs_interop.wasm ./index.wasm",
     "build:rust:release": "cargo build --release --target wasm32-unknown-unknown && cp ../../target/wasm32-unknown-unknown/release/swc_plugin_node_cjs_interop.wasm ./index.wasm",
-    "prepack": "$npm_execpath build:rust:release"
+    "prepack": "$npm_execpath run build:rust:release"
   },
   "files": [
     "./src/**/*.rs",

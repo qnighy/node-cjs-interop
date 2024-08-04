@@ -1,7 +1,7 @@
 {
   "plugins": [
     [
-      "../../../dist/index.js",
+      "../../../cjs/dist/index.js",
       {
         "packages": ["foo", "bar", "@scoped/foo", "@scoped/bar"]
       }

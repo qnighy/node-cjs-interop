@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use swc_core::common::{chain, Mark};
 use swc_core::ecma::visit::as_folder;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::strip;
 use swc_plugin_node_cjs_interop::{TransformOptions, TransformVisitor};
@@ -11,12 +11,13 @@ use swc_plugin_node_cjs_interop::{TransformOptions, TransformVisitor};
 fn test_basic(input: PathBuf) {
     let output = input.with_file_name("output.mjs");
     test_fixture(
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
         &|t| {
             as_folder(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
+                    packages_t: vec![],
                     loose: false,
                     use_runtime: false,
                 },
@@ -32,13 +33,36 @@ fn test_basic(input: PathBuf) {
 fn test_loose(input: PathBuf) {
     let output = input.with_file_name("output.mjs");
     test_fixture(
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
         &|t| {
             as_folder(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
+                    packages_t: vec![],
                     loose: true,
+                    use_runtime: false,
+                },
+            ))
+        },
+        &input,
+        &output,
+        FixtureTestConfig::default(),
+    );
+}
+
+#[testing::fixture("tests/fixtures/ts-twisted/*/input.mjs")]
+fn test_ts_twisted(input: PathBuf) {
+    let output = input.with_file_name("output.mjs");
+    test_fixture(
+        Syntax::Es(EsSyntax::default()),
+        &|t| {
+            as_folder(TransformVisitor::new(
+                t.comments.clone(),
+                TransformOptions {
+                    packages: vec![],
+                    packages_t: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
+                    loose: false,
                     use_runtime: false,
                 },
             ))
@@ -53,7 +77,7 @@ fn test_loose(input: PathBuf) {
 fn test_package_filtering(input: PathBuf) {
     let output = input.with_file_name("output.mjs");
     test_fixture(
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
         &|t| {
             as_folder(TransformVisitor::new(
                 t.comments.clone(),
@@ -64,6 +88,7 @@ fn test_package_filtering(input: PathBuf) {
                         "@scoped/foo".to_owned(),
                         "@scoped/bar".to_owned(),
                     ],
+                    packages_t: vec![],
                     loose: false,
                     use_runtime: false,
                 },
@@ -79,12 +104,13 @@ fn test_package_filtering(input: PathBuf) {
 fn test_use_runtime(input: PathBuf) {
     let output = input.with_file_name("output.mjs");
     test_fixture(
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
         &|t| {
             as_folder(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
+                    packages_t: vec![],
                     loose: false,
                     use_runtime: true,
                 },
@@ -100,7 +126,7 @@ fn test_use_runtime(input: PathBuf) {
 fn test_with_react(input: PathBuf) {
     let output = input.with_file_name("output.mjs");
     test_fixture(
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),
@@ -109,6 +135,7 @@ fn test_with_react(input: PathBuf) {
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod2".to_owned()],
+                    packages_t: vec![],
                     loose: false,
                     use_runtime: false,
                 },
@@ -131,11 +158,12 @@ fn test_with_typescript(input: PathBuf) {
                     t.comments.clone(),
                     TransformOptions {
                         packages: vec!["mod".to_owned()],
+                        packages_t: vec![],
                         loose: false,
                         use_runtime: false,
                     },
                 )),
-                strip(Mark::new())
+                strip(Mark::new(), Mark::new())
             )
         },
         &input,

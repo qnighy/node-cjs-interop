@@ -1,3 +1,4 @@
+/// <reference types="./babel-helper-validator-option" />
 import { OptionValidator } from "@babel/helper-validator-option";
 import { isPackageName } from "./package-name.js";
 
@@ -5,12 +6,14 @@ const v: OptionValidator = new OptionValidator("babel-plugin-node-cjs-interop");
 
 export type Options = {
   packages?: string[] | undefined;
+  packagesT?: string[] | undefined;
   loose?: boolean;
   useRuntime?: boolean;
 };
 
 const optionShape = {
   packages: "string[]",
+  packagesT: "string[]",
   loose: "boolean",
   useRuntime: "boolean",
 } as const;
@@ -18,12 +21,14 @@ const optionShape = {
 export function validateOptions(options: object): asserts options is Options {
   v.validateTopLevelOptions(options, optionShape);
   validatePackages(options.packages);
+  validatePackages(options.packagesT);
   v.validateBooleanOption("loose", options.loose as boolean | undefined);
   v.validateBooleanOption(
     "useRuntime",
     options.useRuntime as boolean | undefined,
   );
   validatePackagesSemantics(options.packages ?? []);
+  validatePackagesSemantics(options.packagesT ?? []);
 }
 
 function validatePackages(

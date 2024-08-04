@@ -28,7 +28,6 @@ export async function listTargetPackages(options: Options): Promise<string[]> {
 
 async function findPackageJson(basePath: string): Promise<unknown> {
   let currentPath = basePath;
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     const pjsonPath = path.resolve(currentPath, "package.json");
     if (fs.existsSync(pjsonPath)) {

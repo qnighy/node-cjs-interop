@@ -1,4 +1,25 @@
-## Unreleased
+# node-cjs-interop-finder
+
+## 0.1.5
+
+### Patch Changes
+
+- c75999a: chore(deps): update babel monorepo
+
+## 0.1.4
+
+### Patch Changes
+
+- 95bef4e: Update typescript
+- a6b57a9: Update Babel
+
+## 0.1.3
+
+### Patch Changes
+
+- fb98f16: Internally improve Babel config
+
+## 0.1.2
 
 - Update dependencies
 

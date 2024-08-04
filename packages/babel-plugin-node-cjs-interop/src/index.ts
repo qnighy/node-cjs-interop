@@ -1,7 +1,9 @@
 import type * as Babel from "@babel/core";
 import type {
+  CallExpression,
   Expression,
   Identifier,
+  ImportExpression,
   JSXIdentifier,
   JSXMemberExpression,
   Node,
@@ -26,7 +28,8 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
     name: "babel-plugin-node-cjs-interop",
     visitor: {
       ImportDeclaration(path, state) {
-        if (!hasApplicableSource(path.node.source.value, options)) return;
+        const pkgType = applicableSourceType(path.node.source.value, options);
+        if (!pkgType) return;
         // Should have been removed by transform-typescript. Just in case.
         if (path.node.importKind === "type") return;
         if (isCjsAnnotated(path.node)) return;
@@ -79,6 +82,7 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           t,
           path,
           state,
+          pkgType,
           options.useRuntime ?? false,
         );
 
@@ -96,7 +100,9 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
               nsImport,
               t.callExpression(t.cloneNode(importHelper), [
                 t.cloneNode(importOriginalName),
-                ...(options.loose ? [t.booleanLiteral(true)] : []),
+                ...(pkgType !== "ts-twisted" && options.loose
+                  ? [t.booleanLiteral(true)]
+                  : []),
               ]),
             ),
           ]),
@@ -136,7 +142,8 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
       },
       ExportNamedDeclaration(path) {
         if (!path.node.source) return;
-        if (!hasApplicableSource(path.node.source.value, options)) return;
+        const pkgType = applicableSourceType(path.node.source.value, options);
+        if (!pkgType) return;
         // Should have been removed by transform-typescript. Just in case.
         if (path.node.exportKind === "type") return;
         if (isCjsAnnotated(path.node)) return;
@@ -148,7 +155,8 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
       },
       ExportAllDeclaration(path) {
         if (!path.node.source) return;
-        if (!hasApplicableSource(path.node.source.value, options)) return;
+        const pkgType = applicableSourceType(path.node.source.value, options);
+        if (!pkgType) return;
         // Should have been removed by transform-typescript. Just in case.
         if (path.node.exportKind === "type") return;
         if (isCjsAnnotated(path.node)) return;
@@ -157,8 +165,105 @@ export default declare<Options, Babel.PluginObj>((api, options) => {
           "babel-plugin-node-cjs-interop: cannot transform export declarations",
         );
       },
+      // createImportExpressions === false; Babel 7 default
+      CallExpression(path, state) {
+        if (path.node.callee.type === "Import") {
+          processImportExpression(
+            path,
+            path.get("arguments")[0] as Babel.NodePath<Expression>,
+            state,
+          );
+        }
+      },
+      // createImportExpressions === true; Babel 8 default
+      ImportExpression(path, state) {
+        processImportExpression(path, path.get("source"), state);
+      },
     },
   };
+
+  function processImportExpression(
+    path: Babel.NodePath<CallExpression | ImportExpression>,
+    sourcePath: Babel.NodePath<Expression>,
+    state: Babel.PluginPass,
+  ) {
+    if (sourcePath.node.type !== "StringLiteral") return;
+    const pkgType = applicableSourceType(sourcePath.node.value, options);
+    if (!pkgType) return;
+    if (isCjsAnnotated(path.node)) return;
+
+    const awaitPath = path.parentPath;
+    if (
+      awaitPath.isAwaitExpression() &&
+      awaitPath.node.argument === path.node
+    ) {
+      if (isCjsAnnotated(awaitPath.node)) return;
+
+      const importHelper = getImportHelper(
+        t,
+        path,
+        state,
+        pkgType,
+        options.useRuntime ?? false,
+      );
+
+      const origNode = awaitPath.node;
+      // await import("source")
+      // -> _interopImportCJSNamespace(await import("source"))
+      awaitPath.replaceWith(
+        t.callExpression(t.cloneNode(importHelper), [
+          awaitPath.node,
+          ...(pkgType !== "ts-twisted" && options.loose
+            ? [t.booleanLiteral(true)]
+            : []),
+        ]),
+      );
+      annotateAsCjs(t, origNode);
+      return;
+    } else {
+      const importHelper = getImportHelper(
+        t,
+        path,
+        state,
+        pkgType,
+        options.useRuntime ?? false,
+      );
+
+      const origNode = path.node;
+      // import("source")
+      // -> import("source").then((ns) => _interopImportCJSNamespace(ns))
+      // NOTE: strictly speaking, it does not preserve scheduling semantics of the Promise;
+      //       the transform delays the execution by one cycle of microtask queue.
+      //       We could add other heuristics for cases like import("source").then(...)
+      //       but ultimately we cannot do so when we are not sure where the Promise goes to.
+      //       As the effect is fairly minor (do not depend on microtask cycle count!),
+      //       we just leave it as is for now.
+      path.replaceWith(
+        t.callExpression(
+          t.memberExpression(
+            // Explicit parentheses to get room for the #__CJS__ comment
+            t.parenthesizedExpression(path.node),
+            t.identifier("then"),
+            false,
+            false,
+          ),
+          [
+            t.arrowFunctionExpression(
+              [t.identifier("ns")],
+              t.callExpression(t.cloneNode(importHelper), [
+                t.identifier("ns"),
+                ...(pkgType !== "ts-twisted" && options.loose
+                  ? [t.booleanLiteral(true)]
+                  : []),
+              ]),
+            ),
+          ],
+        ),
+      );
+      annotateAsCjs(t, origNode);
+      return;
+    }
+  }
 });
 
 type Replacement = {
@@ -170,14 +275,22 @@ function getImportHelper(
   t: typeof Babel.types,
   path: Babel.NodePath,
   state: Babel.PluginPass,
+  pkgType: PackageType,
   useRuntime: boolean,
 ): Identifier {
-  const key = `${statePrefix}/importHelper`;
+  const key =
+    pkgType === "ts-twisted"
+      ? `${statePrefix}/importHelperT`
+      : `${statePrefix}/importHelper`;
   let helper = state.get(key) as Identifier | undefined;
   if (helper) return helper;
 
+  const helperName =
+    pkgType === "ts-twisted"
+      ? "interopImportCJSNamespaceT"
+      : "interopImportCJSNamespace";
   const scope = path.scope.getProgramParent();
-  helper = scope.generateUidIdentifier("interopImportCJSNamespace");
+  helper = scope.generateUidIdentifier(helperName);
 
   if (useRuntime) {
     // import {
@@ -186,12 +299,7 @@ function getImportHelper(
     (scope.path as Babel.NodePath<Program>).unshiftContainer(
       "body",
       t.importDeclaration(
-        [
-          t.importSpecifier(
-            t.cloneNode(helper),
-            t.identifier("interopImportCJSNamespace"),
-          ),
-        ],
+        [t.importSpecifier(t.cloneNode(helper), t.identifier(helperName))],
         t.stringLiteral("node-cjs-interop"),
       ),
     );
@@ -205,43 +313,84 @@ function getImportHelper(
     t.cloneNode(ns),
     t.identifier("default"),
   );
-  // function interopImportCJSNamespace(ns, loose) {
-  //   return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
-  // }
-  (scope.path as Babel.NodePath<Program>).unshiftContainer(
-    "body",
-    t.functionDeclaration(
-      t.cloneNode(helper),
-      [t.cloneNode(ns), t.cloneNode(loose)],
-      t.blockStatement([
-        t.returnStatement(
-          t.conditionalExpression(
-            t.logicalExpression(
-              "&&",
+
+  if (pkgType === "ts-twisted") {
+    // function interopImportCJSNamespaceT(ns) {
+    //   return ns.default && ns.default.__esModule ? ns : {
+    //     ...ns,
+    //     default: ns
+    //   };
+    // }
+    (scope.path as Babel.NodePath<Program>).unshiftContainer(
+      "body",
+      t.functionDeclaration(
+        t.cloneNode(helper),
+        [t.cloneNode(ns)],
+        t.blockStatement([
+          t.returnStatement(
+            t.conditionalExpression(
+              t.logicalExpression(
+                "&&",
+                t.cloneNode(nsDefault),
+                t.memberExpression(
+                  t.cloneNode(nsDefault),
+                  t.identifier("__esModule"),
+                ),
+              ),
+              t.cloneNode(ns),
+              t.objectExpression([
+                t.spreadElement(t.cloneNode(ns)),
+                t.objectProperty(
+                  t.identifier("default"),
+                  t.cloneNode(ns),
+                  false,
+                  false,
+                ),
+              ]),
+            ),
+          ),
+        ]),
+      ),
+    );
+  } else {
+    // function interopImportCJSNamespace(ns, loose) {
+    //   return (loose || ns.__esModule) && ns.default && ns.default.__esModule ? ns.default : ns;
+    // }
+    (scope.path as Babel.NodePath<Program>).unshiftContainer(
+      "body",
+      t.functionDeclaration(
+        t.cloneNode(helper),
+        [t.cloneNode(ns), t.cloneNode(loose)],
+        t.blockStatement([
+          t.returnStatement(
+            t.conditionalExpression(
               t.logicalExpression(
                 "&&",
                 t.logicalExpression(
-                  "||",
-                  t.cloneNode(loose),
-                  t.memberExpression(
-                    t.cloneNode(ns),
-                    t.identifier("__esModule"),
+                  "&&",
+                  t.logicalExpression(
+                    "||",
+                    t.cloneNode(loose),
+                    t.memberExpression(
+                      t.cloneNode(ns),
+                      t.identifier("__esModule"),
+                    ),
                   ),
+                  t.cloneNode(nsDefault),
                 ),
-                t.cloneNode(nsDefault),
+                t.memberExpression(
+                  t.cloneNode(nsDefault),
+                  t.identifier("__esModule"),
+                ),
               ),
-              t.memberExpression(
-                t.cloneNode(nsDefault),
-                t.identifier("__esModule"),
-              ),
+              t.cloneNode(nsDefault),
+              t.cloneNode(ns),
             ),
-            t.cloneNode(nsDefault),
-            t.cloneNode(ns),
           ),
-        ),
-      ]),
-    ),
-  );
+        ]),
+      ),
+    );
+  }
   state.set(key, helper);
   return helper;
 }
@@ -259,13 +408,22 @@ function annotateAsCjs(t: typeof Babel.types, node: Node): void {
   t.addComment(node, "leading", CJS_ANNOTATION);
 }
 
-function hasApplicableSource(source: string, options: Options): boolean {
-  const { packages = [] } = options;
+type PackageType = "normal" | "ts-twisted";
+function applicableSourceType(
+  source: string,
+  options: Options,
+): PackageType | undefined {
+  const { packages = [], packagesT = [] } = options;
 
   const sourcePackage = getPackageName(source);
-  if (sourcePackage === undefined) return false;
+  if (sourcePackage === undefined) return undefined;
 
-  return packages.includes(sourcePackage);
+  if (packages.includes(sourcePackage)) {
+    return "normal";
+  } else if (packagesT.includes(sourcePackage)) {
+    return "ts-twisted";
+  }
+  return undefined;
 }
 
 function replaceIdentifier(

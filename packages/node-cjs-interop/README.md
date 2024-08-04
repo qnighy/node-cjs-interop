@@ -117,3 +117,24 @@ const CustomDiv = ns.default.div`...`;
 ```
 
 However, using [`babel-plugin-node-cjs-interop`](https://npmjs.com/package/babel-plugin-node-cjs-interop) is recommend over manual wrapping.
+
+## The "twisted" variant
+
+You can also use the "twisted" variant of the functions:
+
+```javascript
+import { interopImportCJSNamespaceT } from "node-cjs-interop";
+import * as TextareaAutosizeOrig from "react-textarea-autosize";
+
+const {
+  default: { default: TextareaAutosize },
+} = interopImportCJSNamespaceT(TextareaAutosizeOrig);
+```
+
+This is useful when you have `"module"` or `"moduleResolution"` set to `"nodenext"` or `"node16"`
+in your `tsconfig.json` and you need to import `default` from a "dual package" in which the
+type definitions are recognized in the `.cts` mode.
+
+There is no such thing as `interopImportCJSDefaultT` because in this mode, the imported `default` value
+would be the namespace object, and if it was originally the proper default export
+(i.e. in case it was imported like ESM), there is no way to reconstruct the whole namespace object from it.
