@@ -1,15 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
-  "postUpdateOptions": [
-    "yarnDedupeHighest"
-  ],
-  "schedule": [
-    "on the 1st day of February",
-    "on the 1st day of August"
-  ],
+  "extends": ["config:base"],
+  "postUpdateOptions": ["yarnDedupeHighest"],
+  "schedule": ["on the 1st day of February", "on the 1st day of August"],
   "packageRules": [
     {
       "matchManagers": ["npm"],
@@ -22,18 +15,9 @@
       "rangeStrategy": "bump"
     },
     {
-      "matchSourceUrlPrefixes": [
-        "https://github.com/swc-project/swc"
-      ],
-      "matchUpdateTypes": [
-        "digest",
-        "patch",
-        "minor",
-        "major"
-      ],
-      "schedule": [
-        "on the 1st day of the month"
-      ]
+      "matchSourceUrlPrefixes": ["https://github.com/swc-project/swc"],
+      "matchUpdateTypes": ["digest", "patch", "minor", "major"],
+      "schedule": ["on the 1st day of the month"]
     }
   ]
 }

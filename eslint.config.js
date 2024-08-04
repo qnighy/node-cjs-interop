@@ -17,6 +17,7 @@ export default tseslint.config(
     ignores: [
       "**/dist/**/*",
       "packages/babel-plugin-node-cjs-interop/test/fixtures/**/output.*",
+      "packages/swc-plugin-node-cjs-interop/tests/fixtures/**/output.*",
     ],
   },
   {
@@ -81,7 +82,10 @@ export default tseslint.config(
     },
   },
   {
-    files: ["packages/babel-plugin-node-cjs-interop/test/fixtures/**/input.*"],
+    files: [
+      "packages/babel-plugin-node-cjs-interop/test/fixtures/**/input.*",
+      "packages/swc-plugin-node-cjs-interop/tests/fixtures/**/input.*",
+    ],
     rules: {
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-unused-vars": "off",
