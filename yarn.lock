@@ -5740,6 +5740,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-jest: "npm:^28.6.0"
     globals: "npm:^15.9.0"
+    prettier: "npm:^3.3.3"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.0.0"
   languageName: unknown

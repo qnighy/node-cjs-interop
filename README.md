@@ -33,7 +33,7 @@ You can reproduce the above condition by placing the following files:
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+  value: true,
 });
 exports.default = greet;
 
@@ -81,16 +81,15 @@ Configure it in your Babel configuration:
 // .babelrc.js or babel.config.js
 
 export default {
-  presets: [/* ... */],
+  presets: [
+    /* ... */
+  ],
   plugins: [
     // ...
     [
       "babel-plugin-node-cjs-interop",
       {
-        packages: [
-          "styled-components",
-          "@babel/helper-plugin-test-runner",
-        ],
+        packages: ["styled-components", "@babel/helper-plugin-test-runner"],
       },
     ],
   ],

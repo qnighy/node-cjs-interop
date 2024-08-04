@@ -8,10 +8,10 @@
   "scripts": {
     "build": "yarn workspaces foreach -Apt run build",
     "changeset": "changeset",
-    "fmt": "yarn workspaces foreach -Ap run fmt",
-    "fmt:check": "yarn workspaces foreach -Ap run fmt:check",
-    "lint": "yarn build && yarn workspaces foreach -Ap run lint",
-    "test": "yarn build && yarn workspaces foreach -Ap run test"
+    "fmt": "prettier -w .",
+    "fmt:check": "prettier -c .",
+    "lint": "eslint .",
+    "test": "yarn workspaces foreach -Ap run test"
   },
   "devDependencies": {
     "@babel/eslint-plugin-development": "^7.25.1",
@@ -24,6 +24,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jest": "^28.6.0",
     "globals": "^15.9.0",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.0"
   }
