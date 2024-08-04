@@ -1,0 +1,10 @@
+/.yarn/releases
+
+
+# See https://github.com/prettier/prettier/issues/4081 for below
+
+/packages/*/cjs/dist
+/packages/*/dist
+/packages/node-cjs-interop/src/__fixtures__/module2.cjs
+/packages/babel-plugin-node-cjs-interop/test/fixtures/**/output.*
+/packages/swc-plugin-node-cjs-interop/tests/fixtures/**/output.*
