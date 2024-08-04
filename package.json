@@ -9,7 +9,7 @@
     "build": "yarn workspaces foreach -Apt run build",
     "changeset": "changeset",
     "fmt": "prettier -w .",
-    "fmt:check": "pretiter -c .",
+    "fmt:check": "prettier -c .",
     "lint": "eslint .",
     "test": "yarn workspaces foreach -Ap run test"
   },
