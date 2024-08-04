@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "name": "fixture-package-mangled-babel-esm",
-  "main": "./index.js",
-  "types": "./index.d.ts"
-}

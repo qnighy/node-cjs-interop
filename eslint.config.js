@@ -52,10 +52,7 @@ export default tseslint.config(
     },
   },
   {
-    files: [
-      "packages/*/@(src|test)/**/*.ts",
-      "e2e/tests-e2e/@(src|test)/**/*.ts",
-    ],
+    files: ["packages/*/@(src|test)/**/*.ts"],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -64,10 +61,7 @@ export default tseslint.config(
   },
   ...tseslint.configs.recommendedTypeChecked.map((c) => ({
     ...c,
-    files: [
-      "packages/*/@(src|test)/**/*.ts",
-      "e2e/tests-e2e/@(src|test)/**/*.ts",
-    ],
+    files: ["packages/*/@(src|test)/**/*.ts"],
   })),
   {
     plugins: {
