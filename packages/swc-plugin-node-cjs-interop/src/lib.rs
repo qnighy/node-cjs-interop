@@ -10,7 +10,7 @@ use swc_core::common::comments::{Comment, CommentKind, Comments};
 use swc_core::common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_core::ecma::ast::*;
 use swc_core::ecma::atoms::{js_word, JsWord};
-use swc_core::ecma::visit::{as_folder, noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
+use swc_core::ecma::visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_core::plugin::metadata::TransformPluginProgramMetadata;
 use swc_core::plugin::plugin_transform;
 
@@ -813,5 +813,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
             .expect("Invalid config"),
     )
     .expect("Invalid config");
-    program.fold_with(&mut as_folder(TransformVisitor::new(comments, options)))
+    program.apply(&mut visit_mut_pass(TransformVisitor::new(
+        comments, options,
+    )))
 }
