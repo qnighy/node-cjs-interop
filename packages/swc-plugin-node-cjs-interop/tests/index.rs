@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
-use swc_core::common::{chain, Mark};
-use swc_core::ecma::visit::as_folder;
+use swc_core::common::Mark;
+use swc_core::ecma::visit::visit_mut_pass;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_transforms_typescript::strip;
@@ -13,7 +13,7 @@ fn test_basic(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax::default()),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
@@ -35,7 +35,7 @@ fn test_loose(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax::default()),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
@@ -57,7 +57,7 @@ fn test_ts_twisted(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax::default()),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec![],
@@ -79,7 +79,7 @@ fn test_package_filtering(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax::default()),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec![
@@ -106,7 +106,7 @@ fn test_use_runtime(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax::default()),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod1".to_owned(), "mod2".to_owned()],
@@ -131,7 +131,7 @@ fn test_with_react(input: PathBuf) {
             ..Default::default()
         }),
         &|t| {
-            as_folder(TransformVisitor::new(
+            visit_mut_pass(TransformVisitor::new(
                 t.comments.clone(),
                 TransformOptions {
                     packages: vec!["mod".to_owned(), "mod2".to_owned()],
@@ -153,8 +153,8 @@ fn test_with_typescript(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(Default::default()),
         &|t| {
-            chain!(
-                as_folder(TransformVisitor::new(
+            (
+                visit_mut_pass(TransformVisitor::new(
                     t.comments.clone(),
                     TransformOptions {
                         packages: vec!["mod".to_owned()],
@@ -163,7 +163,7 @@ fn test_with_typescript(input: PathBuf) {
                         use_runtime: false,
                     },
                 )),
-                strip(Mark::new(), Mark::new())
+                strip(Mark::new(), Mark::new()),
             )
         },
         &input,
