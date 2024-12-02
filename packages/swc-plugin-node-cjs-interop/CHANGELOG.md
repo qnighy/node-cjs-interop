@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.18
+
+### Patch Changes
+
+- 2088681: fix(deps): update swc monorepo (major)
+
 ## 0.1.17
 
 ### Patch Changes
