@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.17
+
+### Patch Changes
+
+- 89ad992: fix(deps): update rust crate swc_core to v5.0.4
+
 ## 0.1.16
 
 ### Patch Changes
