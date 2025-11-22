@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.32
+
+### Patch Changes
+
+- add79e2: Bump swc_core to v35
+
 ## 0.1.31
 
 ### Patch Changes
