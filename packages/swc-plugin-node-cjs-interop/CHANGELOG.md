@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.23
+
+### Patch Changes
+
+- bdadb24: Bump swc_core to v12
+
 ## 0.1.22
 
 ### Patch Changes
