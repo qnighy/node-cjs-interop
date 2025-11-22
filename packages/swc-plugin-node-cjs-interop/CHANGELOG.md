@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.35
+
+### Patch Changes
+
+- d86125d: Bump swc_core to v46
+
 ## 0.1.34
 
 ### Patch Changes
