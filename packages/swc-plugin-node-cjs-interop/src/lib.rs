@@ -9,7 +9,6 @@ use crate::{options::Options, package_name::get_package_name};
 use swc_core::common::comments::{Comment, CommentKind, Comments};
 use swc_core::common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_core::ecma::ast::*;
-use swc_core::ecma::atoms::{js_word, JsWord};
 use swc_core::ecma::visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_core::plugin::metadata::TransformPluginProgramMetadata;
 use swc_core::plugin::plugin_transform;
@@ -95,7 +94,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             let ns_import = if let Some(ns_import) = existing_ns_import {
                 ns_import
             } else {
-                Ident::new(JsWord::from("_ns"), DUMMY_SP, macro_ctxt)
+                Ident::new("_ns".into(), DUMMY_SP, macro_ctxt)
             };
 
             for specifier in &stmt.specifiers {
@@ -103,7 +102,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                     // ns.default
                     ImportSpecifier::Default(_) => PseudoImport::Member(
                         ns_import.clone(),
-                        IdentName::new(js_word!("default"), DUMMY_SP),
+                        IdentName::new("default".into(), DUMMY_SP),
                     ),
                     ImportSpecifier::Named(specifier) => match &specifier.imported {
                         // ns["named"]
@@ -136,7 +135,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
             // ->
             // import * as moduleOrig from "source";
             // const module = _interopImportCJSNamespace(moduleOrig);
-            let import_original_name = Ident::new(JsWord::from("_nsOrig"), DUMMY_SP, macro_ctxt);
+            let import_original_name = Ident::new("_nsOrig".into(), DUMMY_SP, macro_ctxt);
             self.prepend_body.push(
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: Span::dummy_with_cmt(),
@@ -227,7 +226,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                 //       but ultimately we cannot do so when we are not sure where the Promise goes to.
                 //       As the effect is fairly minor (do not depend on microtask cycle count!),
                 //       we just leave it as is for now.
-                let ns = Ident::new_no_ctxt(JsWord::from("ns"), DUMMY_SP);
+                let ns = Ident::new_no_ctxt("ns".into(), DUMMY_SP);
                 let call = mem::replace(*call_path, Expr::Invalid(Invalid { span: DUMMY_SP }));
                 annotate_as_cjs(&call, &self.parent.comments);
                 **call_path = Expr::Call(CallExpr {
@@ -240,7 +239,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                             span: DUMMY_SP,
                             expr: Box::new(call),
                         })),
-                        prop: MemberProp::Ident(IdentName::new(JsWord::from("then"), DUMMY_SP)),
+                        prop: MemberProp::Ident(IdentName::new("then".into(), DUMMY_SP)),
                     }))),
                     args: vec![Expr::Arrow(ArrowExpr {
                         span: DUMMY_SP,
@@ -287,10 +286,11 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
 
         let macro_ctxt = SyntaxContext::empty().apply_mark(Mark::new());
         let helper = Ident::new(
-            JsWord::from(match pkg_type {
+            match pkg_type {
                 PackageType::Normal => "_interopImportCJSNamespace",
                 PackageType::TsTwisted => "_interopImportCJSNamespaceT",
-            }),
+            }
+            .into(),
             DUMMY_SP,
             macro_ctxt,
         );
@@ -306,8 +306,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                         span: DUMMY_SP,
                         local: helper.clone(),
                         imported: Some(
-                            Ident::new_no_ctxt(JsWord::from("interopImportCJSNamespace"), DUMMY_SP)
-                                .into(),
+                            Ident::new_no_ctxt("interopImportCJSNamespace".into(), DUMMY_SP).into(),
                         ),
                         is_type_only: false,
                     }
@@ -328,12 +327,12 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
         }
 
         let fn_ctxt = SyntaxContext::empty().apply_mark(Mark::new());
-        let ns = Ident::new(JsWord::from("ns"), DUMMY_SP, fn_ctxt);
-        let loose = Ident::new(JsWord::from("loose"), DUMMY_SP, fn_ctxt);
+        let ns = Ident::new("ns".into(), DUMMY_SP, fn_ctxt);
+        let loose = Ident::new("loose".into(), DUMMY_SP, fn_ctxt);
         let ns_default = Expr::Member(MemberExpr {
             span: DUMMY_SP,
             obj: Box::new(ns.clone().into()),
-            prop: IdentName::new(js_word!("default"), DUMMY_SP).into(),
+            prop: IdentName::new("default".into(), DUMMY_SP).into(),
         });
         match pkg_type {
             PackageType::TsTwisted => {
@@ -370,7 +369,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                                                             span: DUMMY_SP,
                                                             obj: Box::new(ns_default.clone()),
                                                             prop: IdentName::new(
-                                                                JsWord::from("__esModule"),
+                                                                "__esModule".into(),
                                                                 DUMMY_SP,
                                                             )
                                                             .into(),
@@ -393,7 +392,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                                                             KeyValueProp {
                                                                 key: PropName::Ident(
                                                                     IdentName::new(
-                                                                        JsWord::from("default"),
+                                                                        "default".into(),
                                                                         DUMMY_SP,
                                                                     ),
                                                                 ),
@@ -463,9 +462,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                                                                                 ns.clone().into(),
                                                                             ),
                                                                             prop: IdentName::new(
-                                                                                JsWord::from(
-                                                                                    "__esModule",
-                                                                                ),
+                                                                                "__esModule".into(),
                                                                                 DUMMY_SP,
                                                                             )
                                                                             .into(),
@@ -484,7 +481,7 @@ impl<'a, C: Comments> ModuleVisitor<'a, C> {
                                                             span: DUMMY_SP,
                                                             obj: Box::new(ns_default.clone()),
                                                             prop: IdentName::new(
-                                                                JsWord::from("__esModule"),
+                                                                "__esModule".into(),
                                                                 DUMMY_SP,
                                                             )
                                                             .into(),
