@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.24
+
+### Patch Changes
+
+- f3c38e2: Bump swc_core to v14
+
 ## 0.1.23
 
 ### Patch Changes
