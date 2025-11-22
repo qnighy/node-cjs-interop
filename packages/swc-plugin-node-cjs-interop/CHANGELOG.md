@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.34
+
+### Patch Changes
+
+- ca0dd60: Bump swc_core to v45
+
 ## 0.1.33
 
 ### Patch Changes
