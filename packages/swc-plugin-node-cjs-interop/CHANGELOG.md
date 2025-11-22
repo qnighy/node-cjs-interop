@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.22
+
+### Patch Changes
+
+- 4055c88: Bump swc_core to v12
+
 ## 0.1.21
 
 ### Patch Changes
