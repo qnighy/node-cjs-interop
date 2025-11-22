@@ -14,7 +14,7 @@
     "test": "yarn workspaces foreach -Ap run test"
   },
   "devDependencies": {
-    "@babel/eslint-plugin-development": "^7.25.1",
+    "@babel/eslint-plugin-development": "^7.27.1",
     "@changesets/cli": "^2.27.12",
     "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
