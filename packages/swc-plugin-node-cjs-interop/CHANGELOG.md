@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.31
+
+### Patch Changes
+
+- 38a8fc6: Bump swc_core to v31
+
 ## 0.1.30
 
 ### Patch Changes
