@@ -8,13 +8,12 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-# Temporarily pin serde, see https://github.com/swc-project/swc/commit/45f17edccc1c3b83e75d42e3459b16c08fd6d76f
-serde = { version = "=1.0.204", default-features = false, features = ["alloc", "derive"] }
+serde = { version = "1.0.204", default-features = false, features = ["alloc", "derive"] }
 serde_json = { version = "1.0.113", default-features = false, features = ["alloc"] }
-swc_core = { version = "35.0.0", features = ["ecma_plugin_transform"] }
+swc_core = { version = "44.0.2", features = ["ecma_plugin_transform"] }
 
 [dev-dependencies]
-swc_ecma_parser = "22.0.3"
-swc_ecma_transforms_testing = "27.0.0"
-swc_ecma_transforms_typescript = "26.0.0"
+swc_ecma_parser = "24.0.3"
+swc_ecma_transforms_testing = "30.0.0"
+swc_ecma_transforms_typescript = "30.0.1"
 testing = "15.0.0"
