@@ -1,4 +1,4 @@
-/*#__CJS__*/ const ns2b = _interopImportCJSNamespaceT(_nsOrig4);
+const ns2b = _interopImportCJSNamespaceT(_nsOrig4);
 function _interopImportCJSNamespaceT(ns) {
     return ns.default && ns.default.__esModule ? ns : {
         ...ns,
@@ -33,7 +33,7 @@ function _interopImportCJSNamespaceT4(ns) {
         default: ns
     };
 }
-import * as _nsOrig from "mod1";
+/*#__CJS__*/ import * as _nsOrig from "mod1";
 /*#__CJS__*/ import * as _nsOrig1 from "mod2";
 import "mod1";
 import "mod1";
