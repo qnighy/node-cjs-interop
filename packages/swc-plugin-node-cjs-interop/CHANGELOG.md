@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.21
+
+### Patch Changes
+
+- d90c0b2: Bump swc_core to v11
+
 ## 0.1.20
 
 ### Patch Changes
