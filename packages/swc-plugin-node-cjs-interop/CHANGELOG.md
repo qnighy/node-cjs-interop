@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.29
+
+### Patch Changes
+
+- 5e3eaac: Bump swc_core to v26
+
 ## 0.1.28
 
 ### Patch Changes
