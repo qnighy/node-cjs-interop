@@ -10,10 +10,10 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 serde = { version = "1.0.196", default-features = false, features = ["alloc", "derive"] }
 serde_json = { version = "1.0.113", default-features = false, features = ["alloc"] }
-swc_core = { version = "10.0.0", features = ["ecma_plugin_transform"] }
+swc_core = { version = "11.0.1", features = ["ecma_plugin_transform"] }
 
 [dev-dependencies]
-swc_ecma_parser = "6.0.0"
-swc_ecma_transforms_testing = "7.0.0"
-swc_ecma_transforms_typescript = "7.0.0"
+swc_ecma_parser = "7.0.0"
+swc_ecma_transforms_testing = "8.0.0"
+swc_ecma_transforms_typescript = "8.0.0"
 testing = "5.0.0"
