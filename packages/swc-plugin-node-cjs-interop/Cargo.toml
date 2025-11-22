@@ -9,7 +9,7 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 # Temporarily pin serde, see https://github.com/swc-project/swc/commit/45f17edccc1c3b83e75d42e3459b16c08fd6d76f
-serde = { version = "=1.0.204", default-features = false, features = ["alloc", "derive"] }
+serde = { version = "=1.0.228", default-features = false, features = ["alloc", "derive"] }
 serde_json = { version = "1.0.113", default-features = false, features = ["alloc"] }
 swc_core = { version = "35.0.0", features = ["ecma_plugin_transform"] }
 
