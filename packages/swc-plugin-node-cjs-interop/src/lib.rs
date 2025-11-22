@@ -6,6 +6,7 @@ use std::mem;
 
 pub use crate::options::Options as TransformOptions;
 use crate::{options::Options, package_name::get_package_name};
+use swc_core::atoms::Wtf8Atom;
 use swc_core::common::comments::{Comment, CommentKind, Comments};
 use swc_core::common::{Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_core::ecma::ast::*;
@@ -783,7 +784,8 @@ enum PackageType {
 }
 
 impl Options {
-    fn applicable_source_type(&self, source: &str) -> Option<PackageType> {
+    fn applicable_source_type(&self, source: &Wtf8Atom) -> Option<PackageType> {
+        let source = source.as_str()?;
         let source_package = get_package_name(source);
         if let Some(source_package) = source_package {
             if self.packages.iter().any(|pkg| pkg == source_package) {
