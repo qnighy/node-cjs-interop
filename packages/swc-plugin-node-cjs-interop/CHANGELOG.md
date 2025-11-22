@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.26
+
+### Patch Changes
+
+- fcf2895: Bump swc_core to v22
+
 ## 0.1.25
 
 ### Patch Changes
