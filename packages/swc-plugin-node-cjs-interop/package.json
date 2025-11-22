@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "author": "Masaki Hara <ackie.h.gmai@gmail.com>",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "main": "./index.wasm",
   "scripts": {
     "build:rust": "cargo build --target wasm32-unknown-unknown && cp ../../target/wasm32-unknown-unknown/debug/swc_plugin_node_cjs_interop.wasm ./index.wasm",
