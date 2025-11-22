@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.36
+
+### Patch Changes
+
+- 5e1d4d6: Update swc_core to v48
+
 ## 0.1.35
 
 ### Patch Changes
