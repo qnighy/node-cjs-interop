@@ -1,5 +1,11 @@
 # swc-plugin-node-cjs-interop
 
+## 0.1.37
+
+### Patch Changes
+
+- dfb6905: Update swc monorepo (major)
+
 ## 0.1.36
 
 ### Patch Changes
