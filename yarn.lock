@@ -2828,7 +2828,7 @@ __metadata:
     eslint: "npm:^9.39.1"
     jest: "npm:^29.7.0"
     jest-resolve: "npm:^29.7.0"
-    jest-ts-webcompat-resolver: "npm:^1.0.0"
+    jest-ts-webcompat-resolver: "npm:^1.0.1"
     prettier: "npm:^3.3.3"
     typescript: "npm:^5.5.4"
   languageName: unknown
@@ -4652,12 +4652,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-ts-webcompat-resolver@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "jest-ts-webcompat-resolver@npm:1.0.0"
+"jest-ts-webcompat-resolver@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "jest-ts-webcompat-resolver@npm:1.0.1"
   peerDependencies:
     jest-resolve: "*"
-  checksum: 10c0/0567766de8fc25a9b87fedfdafc3bee093ff09020b1f564fbf8eb5e324c77afee4f43c3bbfe36e09a08526bd5daed4697098192a9815fea09a263a473b9627b4
+  checksum: 10c0/841cdd7881bf54d63051793980964d701a22647574c96683a353cc1c6d50970d82ac77224b11db58f9cadafaf03928b32201d35cd40d8434cd3bf0e9dc70766c
   languageName: node
   linkType: hard
 
@@ -5164,7 +5164,7 @@ __metadata:
     eslint: "npm:^9.39.1"
     jest: "npm:^29.7.0"
     jest-resolve: "npm:^29.7.0"
-    jest-ts-webcompat-resolver: "npm:^1.0.0"
+    jest-ts-webcompat-resolver: "npm:^1.0.1"
     prettier: "npm:^3.3.3"
     resolve: "npm:^1.22.8"
     typescript: "npm:^5.5.4"
