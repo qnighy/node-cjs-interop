@@ -3906,10 +3906,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.9.0":
-  version: 15.9.0
-  resolution: "globals@npm:15.9.0"
-  checksum: 10c0/de4b553e412e7e830998578d51b605c492256fb2a9273eaeec6ec9ee519f1c5aa50de57e3979911607fd7593a4066420e01d8c3d551e7a6a236e96c521aee36c
+"globals@npm:^15.15.0":
+  version: 15.15.0
+  resolution: "globals@npm:15.15.0"
+  checksum: 10c0/f9ae80996392ca71316495a39bec88ac43ae3525a438b5626cd9d5ce9d5500d0a98a266409605f8cd7241c7acf57c354a48111ea02a767ba4f374b806d6861fe
   languageName: node
   linkType: hard
 
@@ -5734,7 +5734,7 @@ __metadata:
     eslint: "npm:^9.39.1"
     eslint-config-prettier: "npm:^9.1.2"
     eslint-plugin-jest: "npm:^28.6.0"
-    globals: "npm:^15.9.0"
+    globals: "npm:^15.15.0"
     prettier: "npm:^3.3.3"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.47.0"
