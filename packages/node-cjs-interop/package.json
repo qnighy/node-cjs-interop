@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "build": "$npm_execpath run build:tsc && $npm_execpath run build:babel:cjs && $npm_execpath run build:babel:esm",
-    "build:babel:cjs": "babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts' --config-file ./babel-cjs.config.cjs",
+    "build:babel:cjs": "babel -d cjs/dist src -x '.ts' --ignore 'src/**/*.test.ts' --config-file ./babel-cjs.config.js",
     "build:babel:esm": "babel -d dist src -x '.ts' --ignore 'src/**/*.test.ts'",
     "build:tsc": "tsc --build",
     "fmt": "prettier -w .",
