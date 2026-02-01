@@ -2830,7 +2830,7 @@ __metadata:
     jest-resolve: "npm:^29.7.0"
     jest-ts-webcompat-resolver: "npm:^1.0.0"
     prettier: "npm:^3.3.3"
-    typescript: "npm:^5.5.4"
+    typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
@@ -5167,7 +5167,7 @@ __metadata:
     jest-ts-webcompat-resolver: "npm:^1.0.0"
     prettier: "npm:^3.3.3"
     resolve: "npm:^1.22.8"
-    typescript: "npm:^5.5.4"
+    typescript: "npm:^5.9.3"
   bin:
     node-cjs-interop-finder: ./bin/node-cjs-interop-finder.js
   languageName: unknown
@@ -5186,7 +5186,7 @@ __metadata:
     eslint: "npm:^9.39.1"
     jest: "npm:^29.7.0"
     prettier: "npm:^3.3.3"
-    typescript: "npm:^5.5.4"
+    typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 
@@ -5736,7 +5736,7 @@ __metadata:
     eslint-plugin-jest: "npm:^28.6.0"
     globals: "npm:^15.9.0"
     prettier: "npm:^3.3.3"
-    typescript: "npm:^5.5.4"
+    typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.47.0"
   languageName: unknown
   linkType: soft
@@ -6153,23 +6153,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.5.4":
-  version: 5.5.4
-  resolution: "typescript@npm:5.5.4"
+"typescript@npm:^5.9.3":
+  version: 5.9.3
+  resolution: "typescript@npm:5.9.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/422be60f89e661eab29ac488c974b6cc0a660fb2228003b297c3d10c32c90f3bcffc1009b43876a082515a3c376b1eefcce823d6e78982e6878408b9a923199c
+  checksum: 10c0/6bd7552ce39f97e711db5aa048f6f9995b53f1c52f7d8667c1abdc1700c68a76a308f579cd309ce6b53646deb4e9a1be7c813a93baaf0a28ccd536a30270e1c5
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
-  version: 5.5.4
-  resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"
+"typescript@patch:typescript@npm%3A^5.9.3#optional!builtin<compat/typescript>":
+  version: 5.9.3
+  resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=74658d"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/73409d7b9196a5a1217b3aaad929bf76294d3ce7d6e9766dd880ece296ee91cf7d7db6b16c6c6c630ee5096eccde726c0ef17c7dfa52b01a243e57ae1f09ef07
+  checksum: 10c0/6f7e53bf0d9702350deeb6f35e08b69cbc8b958c33e0ec77bdc0ad6a6c8e280f3959dcbfde6f5b0848bece57810696489deaaa53d75de3578ff255d168c1efbd
   languageName: node
   linkType: hard
 
