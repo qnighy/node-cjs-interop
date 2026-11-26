@@ -22,7 +22,7 @@
     "@types/eslint__js": "^8.42.3",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^9.1.2",
-    "eslint-plugin-jest": "^28.6.0",
+    "eslint-plugin-jest": "^28.14.0",
     "globals": "^15.9.0",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
